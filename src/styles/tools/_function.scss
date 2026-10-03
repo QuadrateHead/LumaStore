@@ -1,0 +1,20 @@
+@use 'sass:math';
+
+$base-font-size: 16; // 1. Put the variable declaration back here
+
+@function toRem($px) {
+   @return math.div($px, $base-font-size) * 1rem; // 2. Pass it cleanly without the colon
+}
+// I don't know for that this function
+@function hex-to-hsl($hex) {
+  @if type-of($hex) != 'color' {
+    @error "hex-to-hsl() expects a valid color value.";
+  }
+
+  @return hsl(
+    hue($hex),
+    saturation($hex),
+    lightness($hex)
+  );
+}
+

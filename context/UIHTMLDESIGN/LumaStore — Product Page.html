@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sony WH-1000XM5 Wireless Headphones — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 40px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+.pd-wrap{padding-top:32px;padding-bottom:32px}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:24px}
+.breadcrumb a:hover{color:var(--primary)}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+
+.gallery-main{height:380px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--text-muted);margin-bottom:12px}
+.gallery-main .icon{width:64px;height:64px}
+.gallery-thumbs{display:flex;gap:10px}
+.gallery-thumbs .thumb{width:64px;height:64px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);cursor:pointer}
+.gallery-thumbs .thumb.active{border-color:var(--primary)}
+.gallery-thumbs .icon{width:24px;height:24px}
+
+.pd-brand{font-size:13px;color:var(--text-muted);margin-bottom:4px}
+.pd-title{font-size:28px;margin-bottom:4px}
+.pd-rating{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);margin-bottom:16px}
+.pd-rating svg{width:14px;height:14px;color:var(--accent)}
+.pd-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
+.pd-price{font-size:30px;font-weight:800}
+.pd-price-old{font-size:15px;color:var(--text-muted);text-decoration:line-through}
+.pd-off{background:var(--accent);color:var(--on-accent);font-size:11px;font-weight:700;padding:3px 8px;border-radius:7px}
+.pd-desc{color:var(--text-muted);font-size:14px;margin-bottom:20px;max-width:52ch}
+.pd-stock{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:24px}
+.pd-stock .dot{width:8px;height:8px;border-radius:99px;background:var(--success)}
+
+.pd-variant{margin-bottom:22px}
+.pd-variant strong{display:block;font-size:13px;margin-bottom:10px}
+.swatch{display:flex;gap:10px}
+.swatch button{width:32px;height:32px;border-radius:99px;border:2px solid transparent;padding:2px;cursor:pointer}
+.swatch button.active{border-color:var(--primary)}
+.swatch i{display:block;width:100%;height:100%;border-radius:99px;border:1px solid var(--border)}
+
+.qty{display:flex;align-items:center;border:1px solid var(--border);border-radius:var(--radius);width:fit-content;margin-bottom:20px}
+.qty button{width:38px;height:38px;background:none;border:none;font-size:16px;cursor:pointer;color:var(--text);font-family:inherit}
+.qty span{width:40px;text-align:center;font-weight:700}
+.pd-actions{display:flex;gap:10px;margin-bottom:24px}
+.pd-actions .btn{flex:1}
+.pd-delivery{display:flex;flex-direction:column;gap:10px;padding:18px;background:var(--surface-2);border-radius:var(--radius);font-size:13px;color:var(--text-muted)}
+.pd-delivery div{display:flex;align-items:center;gap:10px}
+.pd-delivery .icon{width:18px;height:18px;color:var(--primary)}
+
+.tabs{display:flex;gap:28px;border-bottom:1px solid var(--border);margin:56px 0 28px}
+.tab-btn{background:none;border:none;padding:0 0 14px;font-family:inherit;font-size:14px;font-weight:700;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent}
+.tab-btn.active{color:var(--text);border-color:var(--primary)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.spec-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 32px}
+.spec-row{display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:10px;font-size:14px}
+.spec-row span:first-child{color:var(--text-muted)}
+.faq details{border-bottom:1px solid var(--border);padding:14px 0}
+.faq summary{cursor:pointer;font-weight:700;font-size:14px}
+.faq p{margin-top:10px;color:var(--text-muted);font-size:14px}
+
+.reviews{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.review-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.review-card .stars{display:flex;gap:2px;color:var(--accent);margin-bottom:10px}
+.review-card .stars svg{width:14px;height:14px}
+.review-card p{font-size:14px;margin-bottom:14px}
+.review-card .who{font-size:13px;font-weight:700}
+.review-card .who span{font-weight:500;color:var(--text-muted)}
+
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px}
+.section-head h2{font-size:24px;font-weight:800;letter-spacing:-0.02em}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.p-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.p-card .imgph{height:140px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted)}
+.p-card .imgph .icon{width:34px;height:34px}
+.p-card .body{padding:14px 16px 16px}
+.p-card .name{font-weight:700;font-size:14px;display:block;margin-bottom:6px}
+.p-card .price{font-size:16px;font-weight:800;margin-bottom:12px}
+.p-card .btn{width:100%}
+
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:860px){
+  .nav-links,.search{display:none}
+  .pd-grid{grid-template-columns:1fr}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .spec-list{grid-template-columns:1fr}
+  .reviews{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <span class="logo">LumaStore</span>
+    <nav class="nav-links">
+      <a href="#">New arrivals</a>
+      <a href="#">Best sellers</a>
+      <a href="#">Categories</a>
+      <a href="#">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <label class="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search products">
+      </label>
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+        <span class="badge">2</span>
+      </button>
+      <button class="btn btn-primary btn-sm">Sign in</button>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap pd-wrap">
+    <div class="breadcrumb"><a href="#">Home</a> / <a href="#">Audio</a> / Sony WH-1000XM5</div>
+
+    <div class="pd-grid">
+      <div>
+        <div class="gallery-main">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg>
+        </div>
+        <div class="gallery-thumbs">
+          <div class="thumb active"><svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg></div>
+          <div class="thumb"><svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg></div>
+          <div class="thumb"><svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg></div>
+          <div class="thumb"><svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="pd-brand">Sony</div>
+        <h1 class="pd-title">WH-1000XM5 Wireless Headphones</h1>
+        <div class="pd-rating">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+          4.8 · 1,204 reviews
+        </div>
+        <div class="pd-price-row">
+          <span class="pd-price">$349</span>
+          <span class="pd-price-old">$399</span>
+          <span class="pd-off">-13%</span>
+        </div>
+        <p class="pd-desc">Industry-leading noise cancellation meets all-day comfort. Precision-tuned 30mm drivers and adaptive ambient sound control keep studio-quality audio with you from the desk to the commute.</p>
+        <div class="pd-stock"><span class="dot"></span> In stock — 14 available</div>
+
+        <div class="pd-variant">
+          <strong>Color: Black</strong>
+          <div class="swatch">
+            <button class="active" aria-label="Black"><i style="background:#18181B"></i></button>
+            <button aria-label="Silver"><i style="background:#C4C4C8"></i></button>
+            <button aria-label="Blue"><i style="background:#3B4A6B"></i></button>
+          </div>
+        </div>
+
+        <div class="qty">
+          <button aria-label="Decrease quantity">−</button>
+          <span>1</span>
+          <button aria-label="Increase quantity">+</button>
+        </div>
+
+        <div class="pd-actions">
+          <button class="btn btn-primary">Add to cart</button>
+          <button class="btn btn-ghost">Buy now</button>
+          <button class="icon-btn" aria-label="Add to wishlist" style="width:48px;height:48px">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+          </button>
+        </div>
+
+        <div class="pd-delivery">
+          <div><svg class="icon" viewBox="0 0 24 24"><rect x="1" y="7" width="13" height="9" rx="1"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="6" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg> Free shipping, estimated delivery 2–4 business days</div>
+          <div><svg class="icon" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.6 6.1"/><path d="M20 5v6h-6"/></svg> 30-day return policy</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('desc',this)">Description</button>
+      <button class="tab-btn" onclick="showTab('specs',this)">Specifications</button>
+      <button class="tab-btn" onclick="showTab('rev',this)">Reviews</button>
+      <button class="tab-btn" onclick="showTab('faq',this)">FAQ</button>
+    </div>
+
+    <div id="desc" class="tab-panel active">
+      <p class="pd-desc" style="max-width:70ch">The WH-1000XM5 refines Sony's flagship noise cancellation with two processors controlling eight microphones, adapting to your surroundings in real time. Multipoint connection lets you switch between devices instantly, and a lightweight, cushioned build makes long listening sessions disappear.</p>
+    </div>
+    <div id="specs" class="tab-panel">
+      <div class="spec-list">
+        <div class="spec-row"><span>Battery life</span><span>30 hours</span></div>
+        <div class="spec-row"><span>Weight</span><span>250g</span></div>
+        <div class="spec-row"><span>Bluetooth</span><span>5.2</span></div>
+        <div class="spec-row"><span>Noise cancellation</span><span>Yes</span></div>
+        <div class="spec-row"><span>Warranty</span><span>2 years</span></div>
+      </div>
+    </div>
+    <div id="rev" class="tab-panel">
+      <div class="reviews">
+        <div class="review-card">
+          <div class="stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+          </div>
+          <p>"The noise cancellation is no joke — my open-plan office basically disappears the moment these go on."</p>
+          <div class="who">Sam O. <span>· Verified purchase</span></div>
+        </div>
+        <div class="review-card">
+          <div class="stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" style="opacity:.25"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+          </div>
+          <p>"Battery life easily gets me through a full work week. A little snug out of the box but breaks in fast."</p>
+          <div class="who">Priya M. <span>· Verified purchase</span></div>
+        </div>
+      </div>
+    </div>
+    <div id="faq" class="tab-panel">
+      <div class="faq">
+        <details open>
+          <summary>Does this product support fast charging?</summary>
+          <p>Yes — a 3-minute charge gives roughly 3 hours of playback.</p>
+        </details>
+        <details>
+          <summary>Is it compatible with iPhone?</summary>
+          <p>Yes, it pairs over standard Bluetooth with iOS, Android, and most Bluetooth-enabled devices.</p>
+        </details>
+        <details>
+          <summary>What is included in the box?</summary>
+          <p>Headphones, carrying case, USB-C cable, and a 3.5mm audio cable for wired listening.</p>
+        </details>
+      </div>
+    </div>
+
+    <div style="margin-top:60px">
+      <div class="section-head"><h2>You may also like</h2></div>
+      <div class="grid-4">
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg></div>
+          <div class="body"><span class="name">Portable charger</span><div class="price">$39</div><button class="btn btn-primary btn-sm">Add to cart</button></div>
+        </div>
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg></div>
+          <div class="body"><span class="name">4K webcam</span><div class="price">$69</div><button class="btn btn-primary btn-sm">Add to cart</button></div>
+        </div>
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg></div>
+          <div class="body"><span class="name">Desk lamp</span><div class="price">$59</div><button class="btn btn-primary btn-sm">Add to cart</button></div>
+        </div>
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg></div>
+          <div class="body"><span class="name">Mechanical keyboard</span><div class="price">$129</div><button class="btn btn-primary btn-sm">Add to cart</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="logo">LumaStore</span>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Shop</h4><a href="#">New arrivals</a><a href="#">Best sellers</a><a href="#">Deals</a></div>
+        <div class="foot-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a></div>
+        <div class="foot-col"><h4>Support</h4><a href="#">Shipping and returns</a><a href="#">FAQ</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet & Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+document.querySelectorAll('.qty button').forEach((b,i)=>{
+  b.addEventListener('click',()=>{
+    const span=b.parentElement.querySelector('span');
+    let v=parseInt(span.textContent);
+    v=i===0?Math.max(1,v-1):Math.min(14,v+1);
+    span.textContent=v;
+  });
+});
+document.querySelectorAll('.swatch button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.swatch button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelector('.pd-variant strong').textContent='Color: '+b.getAttribute('aria-label');
+  });
+});
+</script>
+</body>
+</html>

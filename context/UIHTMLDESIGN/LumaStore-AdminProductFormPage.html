@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Product — Admin — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.icon{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9px;font-weight:700;font-size:13px;padding:9px 16px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+
+.shell{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+.side{background:var(--surface);border-right:1px solid var(--border);padding-top:24px;padding-bottom:24px;padding-left:16px;padding-right:16px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em;padding-left:10px;padding-right:10px}
+.side small{color:var(--text-muted);font-size:12px;padding-left:10px;margin-bottom:18px}
+.nav-btn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;color:var(--text-muted);font-size:14px;font-weight:700;width:100%}
+.nav-btn:hover{color:var(--text)}
+.nav-btn.active{background:var(--surface-2);color:var(--text)}
+.nav-btn.active .icon{color:var(--primary)}
+.side-foot{margin-top:auto}
+
+.main{min-width:0;padding-top:28px;padding-bottom:64px;padding-left:32px;padding-right:32px}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:14px}
+.breadcrumb a:hover{color:var(--primary)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.top h1{font-size:28px;font-weight:800;letter-spacing:-0.02em}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);cursor:pointer;color:var(--text)}
+
+.layout{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:20px}
+.panel h2{font-size:16px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f{display:flex;flex-direction:column;gap:6px}
+.f.full{grid-column:1/-1}
+.f label{font-size:13px;font-weight:700}
+.f input,.f select,.f textarea{border:1px solid var(--border);border-radius:9px;padding:10px 12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:14px;width:100%}
+.f input:focus,.f select:focus,.f textarea:focus{outline:2px solid var(--primary);outline-offset:1px}
+.f textarea{min-height:110px;resize:vertical}
+.f .err{font-size:12px;color:var(--danger);display:none}
+.f.invalid input,.f.invalid select,.f.invalid textarea{border-color:var(--danger)}
+.f.invalid .err{display:block}
+.f .help{font-size:12px;color:var(--text-muted)}
+.list{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;gap:10px;align-items:flex-start}
+.item .f{flex:1}
+.item .grid{flex:1}
+.rm{border:1px solid var(--border);background:none;color:var(--text-muted);border-radius:9px;width:40px;height:40px;cursor:pointer;flex-shrink:0;font-size:16px}
+.rm:hover{color:var(--danger);border-color:var(--danger)}
+.add{margin-top:12px}
+.checks{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.checks label{display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer}
+.checks input{accent-color:var(--primary);width:16px;height:16px}
+.side-col{position:sticky;top:20px}
+.stack{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.stack .btn{width:100%}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--text);color:var(--bg);font-size:13px;font-weight:700;padding:11px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:40}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:1000px){.layout{grid-template-columns:1fr}.side-col{position:static}}
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;border-right:none;border-bottom:1px solid var(--border);padding-top:14px;padding-bottom:14px}
+  .side small,.side-foot{display:none}
+  .logo{width:100%}
+  .nav-btn{width:auto}
+  .main{padding-left:24px;padding-right:24px}
+  .grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="logo" href="LumaStore___Upgrade_your_everyday_tech__1_.html">LumaStore</a>
+    <small>Admin</small>
+    <a class="nav-btn" href="LumaStore-AdminPage.html"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Overview</a>
+    <a class="nav-btn active" href="LumaStore-AdminPage.html#products"><svg class="icon" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Products</a>
+    <a class="nav-btn" href="LumaStore-AdminPage.html#orders"><svg class="icon" viewBox="0 0 24 24"><path d="M4 20V9a2 2 0 0 1 2-2h1l1-3h8l1 3h1a2 2 0 0 1 2 2v11"/><path d="M4 20h16"/></svg>Orders</a>
+    <div class="side-foot"><a class="nav-btn" href="LumaStore___Upgrade_your_everyday_tech__1_.html"><svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>Back to store</a></div>
+  </aside>
+
+  <main class="main">
+    <div class="breadcrumb"><a href="LumaStore-AdminPage.html">Admin</a> / <a href="LumaStore-AdminPage.html#products">Products</a> / <span id="crumb">New product</span></div>
+    <div class="top">
+      <h1 id="title">New product</h1>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+
+    <form id="form" novalidate>
+      <div class="layout">
+        <div>
+          <section class="panel">
+            <h2>Basic information</h2>
+            <div class="grid">
+              <div class="f full"><label for="name">Product name</label><input id="name" required minlength="3" maxlength="100" placeholder="Sony WH-1000XM5 Headphones"><span class="err">Enter a name of 3 to 100 characters.</span></div>
+              <div class="f"><label for="slug">Slug</label><input id="slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="sony-wh1000xm5-headphones"><span class="err">Use lowercase letters, numbers and hyphens.</span></div>
+              <div class="f"><label for="brand">Brand</label><input id="brand" placeholder="Sony"></div>
+              <div class="f"><label for="cat">Category</label><select id="cat" required><option value="">Select a category</option><option>Audio</option><option>Keyboards</option><option>Smart watches</option><option>Desk setup</option><option>Bags</option><option>Phone accessories</option></select><span class="err">Choose a category.</span></div>
+              <div class="f"><label for="short">Short description</label><input id="short" maxlength="140" placeholder="One line shown on product cards"></div>
+              <div class="f full"><label for="desc">Full description</label><textarea id="desc" required minlength="10" maxlength="2000"></textarea><span class="err">Write at least 10 characters.</span></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h2>Pricing and inventory</h2>
+            <div class="grid">
+              <div class="f"><label for="price">Price ($)</label><input id="price" type="number" step="0.01" required placeholder="349"><span class="err">Price must be greater than 0.</span></div>
+              <div class="f"><label for="old">Old price ($)</label><input id="old" type="number" step="0.01" placeholder="399"><span class="err">Old price must be higher than the price.</span><span class="help" id="off"></span></div>
+              <div class="f"><label for="sku">SKU</label><input id="sku" required placeholder="AUD-1001"><span class="err">SKU is required.</span></div>
+              <div class="f"><label for="stock">Stock quantity</label><input id="stock" type="number" step="1" required placeholder="14"><span class="err">Stock must be 0 or more.</span></div>
+              <div class="f"><label for="low">Low stock threshold</label><input id="low" type="number" step="1" min="0" value="5"><span class="help">Shows on the dashboard at or below this number.</span></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h2>Images</h2>
+            <div class="list" id="images"></div>
+            <span class="f"><span class="err" id="img-err" style="display:none">Add at least one valid image URL (https://…).</span></span>
+            <button type="button" class="btn btn-ghost add" id="add-img">+ Add image URL</button>
+            <p class="help" style="margin-top:8px;font-size:12px;color:var(--text-muted)">The first image is the main one.</p>
+          </section>
+
+          <section class="panel">
+            <h2>Specifications</h2>
+            <div class="list" id="specs"></div>
+            <button type="button" class="btn btn-ghost add" id="add-spec">+ Add specification</button>
+          </section>
+        </div>
+
+        <aside class="side-col">
+          <section class="panel">
+            <h2>Publish settings</h2>
+            <div class="f"><label for="status">Status</label><select id="status"><option>Draft</option><option>Published</option><option>Archived</option></select></div>
+            <div class="checks">
+              <label><input type="checkbox" id="featured"> Featured product</label>
+              <label><input type="checkbox" id="best"> Best seller</label>
+              <label><input type="checkbox" id="isnew"> New arrival</label>
+            </div>
+            <div class="stack">
+              <button type="submit" class="btn btn-primary" id="save">Publish product</button>
+              <button type="button" class="btn btn-ghost" id="draft">Save as draft</button>
+              <a class="btn btn-ghost" href="LumaStore-AdminPage.html#products">Cancel</a>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </form>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const DATA={
+ 1:{n:'Sony WH-1000XM5',slug:'sony-wh1000xm5-headphones',b:'Sony',c:'Audio',p:349,o:399,sku:'AUD-1001',s:2,st:'Published',d:'Industry-leading noise cancellation meets all-day comfort.',imgs:['https://example.com/xm5-1.jpg'],specs:[['Battery life','30 hours'],['Weight','250g'],['Bluetooth','5.2']]},
+ 2:{n:'Keychron K2 Keyboard',slug:'keychron-k2-keyboard',b:'Keychron',c:'Keyboards',p:129,sku:'KEY-2040',s:3,st:'Published',d:'Compact wireless mechanical keyboard with hot-swappable keys.',imgs:['https://example.com/k2.jpg'],specs:[['Layout','75%']]},
+ 3:{n:'Logitech MX Master 3S',slug:'logitech-mx-master-3s',b:'Logitech',c:'Desk setup',p:76,o:89,sku:'DSK-3012',s:48,st:'Published',d:'Ergonomic wireless mouse with a quiet scroll wheel.',imgs:['https://example.com/mx3s.jpg'],specs:[]}
+};
+const id=new URLSearchParams(location.search).get('id'),rec=DATA[id];
+let toastT;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200)}
+const slugify=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+let slugTouched=false;
+
+function imgRow(v){const d=document.createElement('div');d.className='item';d.innerHTML='<div class="f"><input type="url" placeholder="https://…" aria-label="Image URL" value="'+(v||'')+'"></div><button type="button" class="rm" aria-label="Remove image">×</button>';return d}
+function specRow(k,v){const d=document.createElement('div');d.className='item';d.innerHTML='<div class="grid"><div class="f"><input placeholder="Battery life" aria-label="Specification name" value="'+(k||'')+'"></div><div class="f"><input placeholder="30 hours" aria-label="Specification value" value="'+(v||'')+'"></div></div><button type="button" class="rm" aria-label="Remove specification">×</button>';return d}
+$('add-img').onclick=()=>$('images').appendChild(imgRow());
+$('add-spec').onclick=()=>$('specs').appendChild(specRow());
+document.addEventListener('click',e=>{const r=e.target.closest('.rm');if(r){if(r.closest('#images')&&$('images').children.length===1){r.parentElement.querySelector('input').value='';return}r.parentElement.remove()}});
+
+if(rec){
+  document.title='Edit '+rec.n+' — Admin — LumaStore';
+  $('title').textContent='Edit product';$('crumb').textContent=rec.n;
+  $('name').value=rec.n;$('slug').value=rec.slug;$('brand').value=rec.b||'';$('cat').value=rec.c;$('desc').value=rec.d;
+  $('price').value=rec.p;$('old').value=rec.o||'';$('sku').value=rec.sku;$('stock').value=rec.s;$('status').value=rec.st;
+  rec.imgs.forEach(u=>$('images').appendChild(imgRow(u)));rec.specs.forEach(s=>$('specs').appendChild(specRow(s[0],s[1])));
+  $('save').textContent='Save changes';slugTouched=true;
+}
+if(!$('images').children.length)$('images').appendChild(imgRow());
+$('name').oninput=()=>{if(!slugTouched)$('slug').value=slugify($('name').value)};
+$('slug').oninput=()=>slugTouched=true;
+function off(){const p=+$('price').value,o=+$('old').value;$('off').textContent=o>p&&p>0?Math.round((1-p/o)*100)+'% discount shown on the store':''}
+$('price').oninput=$('old').oninput=off;off();
+
+function check(el,ok){el.closest('.f').classList.toggle('invalid',!ok);return ok}
+function validate(){
+  let ok=true;
+  ['name','slug','cat','desc','sku'].forEach(k=>{ok=check($(k),$(k).checkValidity())&&ok});
+  ok=check($('price'),+$('price').value>0)&&ok;
+  const o=$('old').value;ok=check($('old'),!o||+o>+$('price').value)&&ok;
+  const s=$('stock').value;ok=check($('stock'),s!==''&&Number.isInteger(+s)&&+s>=0)&&ok;
+  const urls=[...document.querySelectorAll('#images input')].map(i=>i.value.trim()).filter(Boolean);
+  const imgOk=urls.length>0&&urls.every(u=>/^https?:\/\/\S+$/.test(u));
+  $('img-err').style.display=imgOk?'none':'block';
+  return ok&&imgOk;
+}
+function save(status){
+  $('status').value=status;
+  if(!validate()){toast('Fix the highlighted fields');const e=document.querySelector('.invalid,#img-err[style*="block"]');if(e)e.scrollIntoView({block:'center',behavior:'smooth'});return}
+  toast(status==='Published'?'Published':'Saved as draft');
+  setTimeout(()=>location.href='LumaStore-AdminPage.html#products',900);
+}
+$('form').onsubmit=e=>{e.preventDefault();save('Published')};
+$('draft').onclick=()=>save('Draft');
+</script>
+</body>
+</html>

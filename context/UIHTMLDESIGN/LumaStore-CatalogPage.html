@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>All Products — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+.pc-wrap{padding-top:28px;padding-bottom:60px}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.breadcrumb a:hover{color:var(--primary)}
+.pc-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+.pc-head h1{font-size:28px;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px}
+.pc-count{font-size:13px;color:var(--text-muted)}
+
+.shop-layout{display:grid;grid-template-columns:240px 1fr;gap:36px;align-items:start}
+
+.filters{display:flex;flex-direction:column;gap:22px;position:sticky;top:88px}
+.filter-block{border-bottom:1px solid var(--border);padding-bottom:18px}
+.filter-block:last-child{border-bottom:none}
+.filter-title{font-weight:700;font-size:13px;margin-bottom:12px}
+.filter-list{display:flex;flex-direction:column;gap:9px}
+.filter-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-muted);cursor:pointer}
+.filter-item input{accent-color:var(--primary);width:15px;height:15px}
+.filter-item span.count{margin-left:auto;color:var(--text-muted);opacity:.7}
+.price-inputs{display:flex;align-items:center;gap:8px}
+.price-inputs input{width:100%;border:1px solid var(--border);border-radius:9px;padding:8px 10px;background:var(--surface);color:var(--text);font-family:inherit;font-size:13px}
+.price-inputs span{color:var(--text-muted);font-size:13px}
+.color-swatches{display:flex;gap:8px;flex-wrap:wrap}
+.color-swatches button{width:26px;height:26px;border-radius:99px;border:2px solid transparent;padding:2px;cursor:pointer}
+.color-swatches button.active{border-color:var(--primary)}
+.color-swatches i{display:block;width:100%;height:100%;border-radius:99px;border:1px solid var(--border)}
+.clear-filters{font-size:13px;font-weight:700;color:var(--primary);cursor:pointer;background:none;border:none;font-family:inherit;padding:0}
+
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.toolbar-left{display:flex;align-items:center;gap:10px}
+.select{border:1px solid var(--border);border-radius:9px;padding:9px 12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:13px}
+.filter-toggle{display:none}
+
+.grid-4{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.p-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.p-card .imgph{height:150px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);position:relative}
+.p-card .imgph .icon{width:34px;height:34px}
+.p-card .sale{position:absolute;top:10px;left:10px;background:var(--accent);color:var(--on-accent);font-size:11px;font-weight:700;padding:3px 8px;border-radius:7px}
+.p-card .wish{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:99px;background:var(--surface);display:flex;align-items:center;justify-content:center;border:1px solid var(--border)}
+.p-card .body{padding:14px 16px 16px}
+.p-card .brand{font-size:11px;color:var(--text-muted);margin-bottom:2px}
+.p-card .name{font-weight:700;font-size:14px;display:block;margin-bottom:6px}
+.p-card .rating{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.p-card .rating svg{width:12px;height:12px;color:var(--accent)}
+.p-card .price{font-size:16px;font-weight:800;margin-bottom:12px}
+.p-card .price small{font-size:12px;color:var(--text-muted);text-decoration:line-through;font-weight:500;margin-left:4px}
+.p-card .btn{width:100%}
+
+.pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:36px}
+.pagination button{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.pagination button.active{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.pagination button.arrow{color:var(--text-muted)}
+
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:860px){
+  .nav-links,.search{display:none}
+  .shop-layout{grid-template-columns:1fr}
+  .filters{position:static;border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:none}
+  .filters.open{display:flex}
+  .filter-toggle{display:inline-flex}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <span class="logo">LumaStore</span>
+    <nav class="nav-links">
+      <a href="#">New arrivals</a>
+      <a href="#">Best sellers</a>
+      <a href="#">Categories</a>
+      <a href="#">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <label class="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search products">
+      </label>
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+        <span class="badge">2</span>
+      </button>
+      <button class="btn btn-primary btn-sm">Sign in</button>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap pc-wrap">
+    <div class="breadcrumb"><a href="#">Home</a> / Products</div>
+
+    <div class="pc-head">
+      <div>
+        <h1>All products</h1>
+        <div class="pc-count">128 products found</div>
+      </div>
+      <button class="btn btn-ghost btn-sm filter-toggle" onclick="document.querySelector('.filters').classList.toggle('open')">Filters</button>
+    </div>
+
+    <div class="shop-layout">
+      <aside class="filters">
+        <div class="filter-block">
+          <div class="filter-title">Category</div>
+          <div class="filter-list">
+            <label class="filter-item"><input type="checkbox" checked> Audio <span class="count">128</span></label>
+            <label class="filter-item"><input type="checkbox"> Keyboards <span class="count">64</span></label>
+            <label class="filter-item"><input type="checkbox"> Smart watches <span class="count">42</span></label>
+            <label class="filter-item"><input type="checkbox"> Desk setup <span class="count">96</span></label>
+            <label class="filter-item"><input type="checkbox"> Bags <span class="count">37</span></label>
+            <label class="filter-item"><input type="checkbox"> Phone accessories <span class="count">53</span></label>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-title">Price</div>
+          <div class="price-inputs">
+            <input type="number" placeholder="Min">
+            <span>—</span>
+            <input type="number" placeholder="Max">
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-title">Brand</div>
+          <div class="filter-list">
+            <label class="filter-item"><input type="checkbox"> Sony</label>
+            <label class="filter-item"><input type="checkbox"> Logitech</label>
+            <label class="filter-item"><input type="checkbox"> Keychron</label>
+            <label class="filter-item"><input type="checkbox"> Anker</label>
+            <label class="filter-item"><input type="checkbox"> Samsung</label>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-title">Rating</div>
+          <div class="filter-list">
+            <label class="filter-item"><input type="checkbox"> 4 stars &amp; up</label>
+            <label class="filter-item"><input type="checkbox"> 3 stars &amp; up</label>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-title">Availability</div>
+          <div class="filter-list">
+            <label class="filter-item"><input type="checkbox" checked> In stock</label>
+            <label class="filter-item"><input type="checkbox"> Out of stock</label>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-title">Color</div>
+          <div class="color-swatches">
+            <button class="active" aria-label="Black"><i style="background:#18181B"></i></button>
+            <button aria-label="White"><i style="background:#FAFAFA"></i></button>
+            <button aria-label="Silver"><i style="background:#C4C4C8"></i></button>
+            <button aria-label="Blue"><i style="background:#3B4A6B"></i></button>
+            <button aria-label="Green"><i style="background:#3F6B4A"></i></button>
+          </div>
+        </div>
+
+        <button class="clear-filters">Clear all filters</button>
+      </aside>
+
+      <div>
+        <div class="toolbar">
+          <div class="toolbar-left"><span class="pc-count">Showing 1–9 of 128</span></div>
+          <select class="select" aria-label="Sort products">
+            <option>Newest</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+            <option>Best rated</option>
+            <option>Biggest discount</option>
+          </select>
+        </div>
+
+        <div class="grid-4">
+          <div class="p-card">
+            <div class="imgph"><span class="sale">-20%</span><svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body">
+              <div class="brand">Sony</div>
+              <span class="name">WH-1000XM5 headphones</span>
+              <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.8 (1,204)</div>
+              <div class="price">$349<small>$399</small></div>
+              <button class="btn btn-primary btn-sm">Add to cart</button>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body">
+              <div class="brand">Keychron</div>
+              <span class="name">K2 mechanical keyboard</span>
+              <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.7 (398)</div>
+              <div class="price">$129</div>
+              <button class="btn btn-primary btn-sm">Add to cart</button>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="11" rx="2"/><path d="M8 20h8"/><path d="M12 17v3"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body">
+              <div class="brand">Samsung</div>
+              <span class="name">Galaxy Watch 6</span>
+              <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.6 (512)</div>
+              <div class="price">$249</div>
+              <button class="btn btn-primary btn-sm">Add to cart</button>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="imgph"><span class="sale">-15%</span><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="4" rx="1"/><path d="M6 14v3M18 14v3M4 10l2-4h12l2 4"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body">
+              <div class="brand">Logitech</div>
+              <span class="name">MX Master 3S mouse</span>
+              <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.9 (1,204)</div>
+              <div class="price">$76<small>$89</small></div>
+              <button class="btn btn-primary btn-sm">Add to cart</button>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body">
+              <div class="brand">LumaStore</div>
+              <span class="name">27&Prime; 4K monitor</span>
+              <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.5 (167)</div>
+              <div class="price">$329</div>
+              <button class="btn btn-primary btn-sm">Add to cart</button>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><path d="M4 20V9a2 2 0 0 1 2-2h1l1-3h8l1 3h1a2 2 0 0 1 2 2v11"/><path d="M4 20h16"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body">
+              <div class="brand">Anker</div>
+              <span class="name">Everyday backpack 20L</span>
+              <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.7 (289)</div>
+              <div class="price">$68</div>
+              <button class="btn btn-primary btn-sm">Add to cart</button>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="1" y="7" width="13" height="9" rx="1"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="6" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body">
+              <div class="brand">Anker</div>
+              <span class="name">PowerCore 20K charger</span>
+              <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.8 (632)</div>
+              <div class="price">$39</div>
+              <button class="btn btn-primary btn-sm">Add to cart</button>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body">
+              <div class="brand">LumaStore</div>
+              <span class="name">4K webcam</span>
+              <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.6 (215)</div>
+              <div class="price">$69</div>
+              <button class="btn btn-primary btn-sm">Add to cart</button>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><circle cx="12" cy="18" r="1"/></svg><span class="sale" style="left:auto;right:44px">New</span><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body">
+              <div class="brand">Apple</div>
+              <span class="name">MagSafe charging stand</span>
+              <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.4 (94)</div>
+              <div class="price">$49</div>
+              <button class="btn btn-primary btn-sm">Add to cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pagination">
+          <button class="arrow" aria-label="Previous page">‹</button>
+          <button class="active">1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>4</button>
+          <button class="arrow" aria-label="Next page">›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="logo">LumaStore</span>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Shop</h4><a href="#">New arrivals</a><a href="#">Best sellers</a><a href="#">Deals</a></div>
+        <div class="foot-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a></div>
+        <div class="foot-col"><h4>Support</h4><a href="#">Shipping and returns</a><a href="#">FAQ</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet &amp; Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.color-swatches button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.color-swatches button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
+document.querySelectorAll('.pagination button:not(.arrow)').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.pagination button:not(.arrow)').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

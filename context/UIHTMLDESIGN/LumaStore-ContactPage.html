@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact Us — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+/* Side gutter comes from .wrap — this wrapper sets only top/bottom padding */
+.page-wrap{padding-top:28px;padding-bottom:64px}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.breadcrumb a:hover{color:var(--primary)}
+.page-head{max-width:64ch;margin-bottom:36px}
+.page-head h1{font-size:36px;font-weight:800;letter-spacing:-0.02em;line-height:1.15;margin-bottom:12px}
+.page-head p{color:var(--text-muted);font-size:16px}
+
+.contact-layout{display:grid;grid-template-columns:1fr 340px;gap:36px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+.panel h2{font-size:18px;margin-bottom:20px}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;font-weight:700}
+.field input,.field textarea{border:1px solid var(--border);border-radius:9px;padding:10px 12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:14px;width:100%}
+.field input:focus,.field textarea:focus{outline:2px solid var(--primary);outline-offset:1px}
+.field textarea{min-height:150px;resize:vertical}
+.field .err{font-size:12px;color:var(--danger);display:none}
+.field.invalid input,.field.invalid textarea{border-color:var(--danger)}
+.field.invalid .err{display:block}
+.form-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px}
+.form-ok{display:none;font-size:13px;color:var(--success);font-weight:700}
+.form-ok.show{display:block}
+
+.info-panel{display:flex;flex-direction:column;gap:18px}
+.info-item{display:flex;gap:14px;font-size:14px}
+.info-item .icon{color:var(--primary);flex-shrink:0;margin-top:2px}
+.info-item strong{display:block}
+.info-item span{color:var(--text-muted)}
+.info-divider{border:none;border-top:1px solid var(--border)}
+.info-note{font-size:13px;color:var(--text-muted)}
+
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.foot-col a:hover,.foot-col a[aria-current]{color:var(--primary)}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:860px){
+  .nav-links,.search{display:none}
+  .page-head h1{font-size:28px}
+  .contact-layout{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .panel{padding:22px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+    <nav class="nav-links">
+      <a href="LumaStore-CatalogPage.html">New arrivals</a>
+      <a href="LumaStore-CatalogPage.html">Best sellers</a>
+      <a href="LumaStore-CatalogPage.html">Categories</a>
+      <a href="LumaStore-CatalogPage.html">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <label class="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search products">
+      </label>
+      <a class="icon-btn" href="LumaStore-WishlistPage.html" aria-label="Wishlist">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+      </a>
+      <a class="icon-btn" href="LumaStore___Cart_Page.html" aria-label="Cart">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+        <span class="badge">2</span>
+      </a>
+      <a class="btn btn-primary btn-sm" href="LumaStore-LoginPage.html">Sign in</a>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap page-wrap">
+    <div class="breadcrumb"><a href="LumaStore___Upgrade_your_everyday_tech__1_.html">Home</a> / Contact</div>
+
+    <div class="page-head">
+      <h1>Contact us</h1>
+      <p>Questions about an order or a product? Send us a message and we will reply within one business day.</p>
+    </div>
+
+    <div class="contact-layout">
+      <div class="panel">
+        <h2>Send a message</h2>
+        <form id="contact-form" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="c-name">Name</label>
+              <input id="c-name" name="name" required minlength="2" placeholder="Jordan Casey">
+              <span class="err">Enter your name (at least 2 characters).</span>
+            </div>
+            <div class="field">
+              <label for="c-email">Email</label>
+              <input id="c-email" name="email" type="email" required placeholder="you@email.com">
+              <span class="err">Enter a valid email address.</span>
+            </div>
+            <div class="field full">
+              <label for="c-subject">Subject</label>
+              <input id="c-subject" name="subject" required minlength="3" placeholder="Where is my order?">
+              <span class="err">Add a subject (at least 3 characters).</span>
+            </div>
+            <div class="field full">
+              <label for="c-message">Message</label>
+              <textarea id="c-message" name="message" required minlength="10" placeholder="Tell us how we can help"></textarea>
+              <span class="err">Write a message of at least 10 characters.</span>
+            </div>
+          </div>
+          <div class="form-foot">
+            <button type="submit" class="btn btn-primary" id="c-btn">Send message</button>
+            <span class="form-ok" id="c-ok" role="status">Message sent. We will reply within one business day.</span>
+          </div>
+        </form>
+      </div>
+
+      <aside class="panel info-panel">
+        <div class="info-item">
+          <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          <div><strong>Email</strong><span>support@lumastore.com</span></div>
+        </div>
+        <div class="info-item">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          <div><strong>Phone</strong><span>+1 555 010 2030</span></div>
+        </div>
+        <div class="info-item">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
+          <div><strong>Address</strong><span>12 Market Street, Suite 4<br>Belgrade, 11000, Serbia</span></div>
+        </div>
+        <div class="info-item">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <div><strong>Support hours</strong><span>Mon–Fri, 9:00–18:00 CET</span></div>
+        </div>
+        <hr class="info-divider">
+        <p class="info-note">Looking for a quick answer? Most questions about delivery, returns, and coupons are covered in our FAQ.</p>
+        <a class="btn btn-ghost btn-sm" href="LumaStore-FaqPage.html">Read the FAQ</a>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Shop</h4><a href="LumaStore-CatalogPage.html">New arrivals</a><a href="LumaStore-CatalogPage.html">Best sellers</a><a href="LumaStore-CatalogPage.html">Deals</a></div>
+        <div class="foot-col"><h4>Company</h4><a href="LumaStore-AboutPage.html">About</a><a href="LumaStore-ContactPage.html" aria-current="page">Contact</a></div>
+        <div class="foot-col"><h4>Support</h4><a href="LumaStore-ShippingReturnsPage.html">Shipping and returns</a><a href="LumaStore-FaqPage.html">FAQ</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet &amp; Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  const form = e.target;
+  let valid = true;
+  form.querySelectorAll('input,textarea').forEach(el=>{
+    const ok = el.checkValidity();
+    el.closest('.field').classList.toggle('invalid', !ok);
+    if(!ok) valid = false;
+  });
+  const ok = document.getElementById('c-ok');
+  ok.classList.remove('show');
+  if(!valid) return;
+  const btn = document.getElementById('c-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  setTimeout(()=>{
+    btn.disabled = false;
+    btn.textContent = 'Send message';
+    form.reset();
+    ok.classList.add('show');
+  }, 700);
+});
+</script>
+</body>
+</html>

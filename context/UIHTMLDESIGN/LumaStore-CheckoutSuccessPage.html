@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Order confirmed — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em;flex-shrink:0}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.breadcrumb a:hover{color:var(--primary)}
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.foot-col a:hover{color:var(--primary)}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media (max-width:860px){.nav-links,.search{display:none}}
+
+/* Side gutter comes from .wrap — this wrapper sets only top/bottom padding */
+.page-wrap{padding-top:28px;padding-bottom:72px}
+.stepper{display:flex;align-items:center;max-width:720px;margin:0 auto 40px}
+.step{display:flex;align-items:center;gap:10px}
+.step-circle{width:30px;height:30px;border-radius:99px;background:var(--success);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-circle .icon{width:14px;height:14px;stroke-width:2.6}
+.step-label{font-size:13px;font-weight:700;white-space:nowrap}
+.step-line{flex:1;height:1px;background:var(--success);margin:0 14px}
+.confirm{max-width:560px;margin:0 auto;text-align:center}
+.confirm-icon{width:60px;height:60px;border-radius:99px;background:var(--success);display:flex;align-items:center;justify-content:center;margin:0 auto 22px}
+.confirm-icon .icon{width:28px;height:28px;stroke:#fff;stroke-width:2.4}
+.confirm h1{font-size:28px;font-weight:800;letter-spacing:-0.02em;margin-bottom:8px}
+.confirm .lead{color:var(--text-muted);font-size:14px}
+.order-no{font-weight:800;font-size:19px;margin:20px 0 4px}
+.eta{color:var(--text-muted);font-size:14px}
+.panel{text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin:28px 0}
+.panel h2{font-size:15px;margin-bottom:14px}
+.line{display:flex;justify-content:space-between;gap:12px;font-size:13px;margin-bottom:8px}
+.line span:last-child{color:var(--text-muted);flex-shrink:0}
+.rows{display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:14px;margin-top:14px}
+.row{display:flex;justify-content:space-between}
+.row.total{font-size:17px;font-weight:800;color:var(--text);border-top:1px solid var(--border);padding-top:12px}
+.info{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;border-top:1px solid var(--border);padding-top:16px;margin-top:16px;font-size:13px;color:var(--text-muted)}
+.info h3{font-size:13px;color:var(--text);margin-bottom:4px}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.help{margin-top:22px;font-size:13px;color:var(--text-muted)}
+.help a{color:var(--primary);font-weight:700}
+@media (max-width:860px){
+  .step-label{display:none}
+  .step-line{margin:0 6px}
+  .info{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+    <nav class="nav-links">
+      <a href="LumaStore-CatalogPage.html">New arrivals</a>
+      <a href="LumaStore-CatalogPage.html">Best sellers</a>
+      <a href="LumaStore-CategoryPage.html">Categories</a>
+      <a href="LumaStore-CatalogPage.html">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <form class="search" action="LumaStore-SearchPage.html" method="get" role="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" name="q" id="hdr-q" placeholder="Search products" aria-label="Search products">
+      </form>
+      <a class="icon-btn" href="LumaStore-WishlistPage.html" aria-label="Wishlist"><svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></a>
+      <a class="icon-btn" href="LumaStore___Cart_Page.html" aria-label="Cart"><svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg><span class="badge">0</span></a>
+      <a class="btn btn-primary btn-sm" href="LumaStore-LoginPage.html">Sign in</a>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap page-wrap">
+    <div class="breadcrumb"><a href="LumaStore___Upgrade_your_everyday_tech__1_.html">Home</a> / <a href="LumaStore___Cart_Page.html">Cart</a> / Checkout / Confirmation</div>
+    <div class="stepper" aria-label="Checkout progress: all steps complete"><div class="step"><span class="step-circle"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span class="step-label">Shipping</span></div><div class="step-line"></div><div class="step"><span class="step-circle"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span class="step-label">Delivery</span></div><div class="step-line"></div><div class="step"><span class="step-circle"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span class="step-label">Payment</span></div><div class="step-line"></div><div class="step"><span class="step-circle"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span class="step-label">Review</span></div><div class="step-line"></div><div class="step"><span class="step-circle"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span class="step-label">Confirmation</span></div></div>
+    <div class="confirm">
+      <div class="confirm-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <h1>Thank you for your order!</h1>
+      <p class="lead">A confirmation has been sent to your email.</p>
+      <div class="order-no" id="order-no">Order number: LUMA-10483</div>
+      <p class="eta">Estimated delivery: March 18–20</p>
+      <section class="panel">
+        <h2>Order summary</h2>
+        <div class="line"><span>Sony WH-1000XM5 Headphones × 1</span><span>$349.00</span></div>
+        <div class="line"><span>Keychron K2 Keyboard × 1</span><span>$129.00</span></div>
+        <div class="line"><span>Logitech MX Master 3S Mouse × 2</span><span>$152.00</span></div>
+        <div class="rows">
+          <div class="row"><span>Subtotal</span><span>$630.00</span></div>
+          <div class="row"><span>Shipping</span><span>Free</span></div>
+          <div class="row"><span>Tax</span><span>$50.40</span></div>
+          <div class="row total"><span>Total paid</span><span>$680.40</span></div>
+        </div>
+        <div class="info">
+          <div><h3>Shipping to</h3>Jordan Casey<br>Bulevar Mihajla Pupina 10<br>Novi Beograd, 11070, Serbia</div>
+          <div><h3>Delivery</h3>Standard delivery<br>3–5 business days</div>
+          <div><h3>Payment</h3>Visa ending in 4242</div>
+        </div>
+      </section>
+      <div class="actions">
+        <a class="btn btn-ghost" href="LumaStore-OrderDetailsPage.html">View order</a>
+        <a class="btn btn-primary" href="LumaStore-CatalogPage.html">Continue shopping</a>
+      </div>
+      <p class="help">Questions about your order? <a href="LumaStore-ContactPage.html">Contact support</a></p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Shop</h4><a href="LumaStore-CatalogPage.html">New arrivals</a><a href="LumaStore-CatalogPage.html">Best sellers</a><a href="LumaStore-CatalogPage.html">Deals</a></div>
+        <div class="foot-col"><h4>Company</h4><a href="LumaStore-AboutPage.html">About</a><a href="LumaStore-ContactPage.html">Contact</a></div>
+        <div class="foot-col"><h4>Support</h4><a href="LumaStore-ShippingReturnsPage.html">Shipping and returns</a><a href="LumaStore-FaqPage.html">FAQ</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet &amp; Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+<script>
+
+const o=new URLSearchParams(location.search).get('order');
+if(o&&/^LUMA-\d+$/.test(o)) document.getElementById('order-no').textContent='Order number: '+o;
+document.getElementById('hdr-q').value='';
+
+</script>
+</body>
+</html>

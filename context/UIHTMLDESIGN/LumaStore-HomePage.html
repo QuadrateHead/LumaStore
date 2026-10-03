@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LumaStore — Upgrade your everyday tech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+section{padding:20px 0}
+h1,h2,h3{font-weight:800;letter-spacing:-0.02em}
+.eyebrow-none{color:var(--text-muted)}
+
+.hero{padding:16px 0 22px}
+.hero-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:10px;align-items:center}
+.hero h1{font-size:44px;line-height:1.12;margin-bottom:18px}
+.hero p{color:var(--text-muted);font-size:17px;max-width:46ch;margin-bottom:28px}
+.hero-actions{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.hero-trust{font-size:13px;color:var(--text-muted)}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px}
+.feature-card .imgph{height:180px;border-radius:14px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);margin-bottom:18px}
+.feature-card .imgph .icon{width:44px;height:44px}
+.fc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.fc-name{font-weight:700;font-size:16px}
+.fc-badge{background:var(--accent);color:var(--on-accent);font-size:11px;font-weight:700;padding:3px 8px;border-radius:7px}
+.fc-price{font-size:20px;font-weight:800}
+.fc-price small{font-size:13px;color:var(--text-muted);text-decoration:line-through;font-weight:500;margin-left:6px}
+
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px}
+.section-head h2{font-size:26px}
+
+.cat-strip{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.cat-item{flex:1;padding:20px;border-right:1px solid var(--border);text-align:left}
+.cat-item:last-child{border-right:none}
+.cat-item:nth-child(odd){background:var(--surface-2)}
+.cat-item strong{display:block;font-size:15px;margin-bottom:4px}
+.cat-item span{font-size:13px;color:var(--text-muted)}
+
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.p-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.p-card .imgph{height:140px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);position:relative}
+.p-card .imgph .icon{width:34px;height:34px}
+.p-card .wish{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:99px;background:var(--surface);display:flex;align-items:center;justify-content:center;border:1px solid var(--border)}
+.p-card .body{padding:14px 16px 16px}
+.p-card .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;gap:8px}
+.p-card .name{font-weight:700;font-size:14px}
+.p-card .price{font-size:16px;font-weight:800;margin-bottom:12px}
+.p-card .price small{font-size:12px;color:var(--text-muted);text-decoration:line-through;font-weight:500;margin-left:4px}
+.p-card .rating{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.p-card .rating svg{width:12px;height:12px;color:var(--accent)}
+.p-card .btn{width:100%}
+
+.promo{background:var(--primary);color:var(--on-primary);border-radius:20px;padding:48px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.promo h3{font-size:26px;max-width:34ch}
+.promo .btn-primary{background:var(--accent);color:var(--on-accent)}
+
+.benefits{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.benefit{display:flex;align-items:center;gap:14px;flex:1;min-width:220px}
+.benefit .icon{width:26px;height:26px;color:var(--primary);flex-shrink:0}
+.benefit strong{display:block;font-size:14px}
+.benefit span{font-size:13px;color:var(--text-muted)}
+
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.review-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.review-card .stars{display:flex;gap:2px;color:var(--accent);margin-bottom:10px}
+.review-card .stars svg{width:14px;height:14px}
+.review-card p{font-size:14px;margin-bottom:14px}
+.review-card .who{font-size:13px;font-weight:700}
+.review-card .who span{font-weight:500;color:var(--text-muted)}
+
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.newsletter{display:flex;gap:8px;margin-top:14px}
+.newsletter input{border:1px solid var(--border);border-radius:9px;padding:9px 12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:13px;width:220px}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:860px){
+  .nav-links,.search{display:none}
+  .hero-grid{grid-template-columns:1fr}
+  .hero h1{font-size:32px}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .cat-strip{flex-wrap:wrap}
+  .cat-item{flex:1 1 50%;border-bottom:1px solid var(--border)}
+  .reviews{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <span class="logo">LumaStore</span>
+    <nav class="nav-links">
+      <a href="#">New arrivals</a>
+      <a href="#">Best sellers</a>
+      <a href="#">Categories</a>
+      <a href="#">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <label class="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search products">
+      </label>
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+        <span class="badge">2</span>
+      </button>
+      <button class="btn btn-primary btn-sm">Sign in</button>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>The upgrade your desk has been asking for.</h1>
+        <p>Premium audio, keyboards, and workspace essentials, chosen for people who notice the details.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary">Shop new arrivals</button>
+          <button class="btn btn-ghost">See today's deals</button>
+        </div>
+        <p class="hero-trust">Free shipping over $100 and 30-day returns.</p>
+      </div>
+      <div class="feature-card">
+        <div class="imgph">
+          <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg>
+        </div>
+        <div class="fc-top">
+          <span class="fc-name">Sony WH-1000XM5</span>
+          <span class="fc-badge">-20%</span>
+        </div>
+        <div class="fc-price">$349<small>$399</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head"><h2>Shop by category</h2></div>
+      <div class="cat-strip">
+        <div class="cat-item"><strong>Audio</strong><span>128 products</span></div>
+        <div class="cat-item"><strong>Keyboards</strong><span>64 products</span></div>
+        <div class="cat-item"><strong>Smart watches</strong><span>42 products</span></div>
+        <div class="cat-item"><strong>Desk setup</strong><span>96 products</span></div>
+        <div class="cat-item"><strong>Bags</strong><span>37 products</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head"><h2>New arrivals</h2><a href="#" style="font-weight:700;font-size:14px">View all</a></div>
+      <div class="grid-4">
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+          <div class="body">
+            <div class="top"><span class="name">Wireless headphones</span></div>
+            <div class="price">$199<small>$249</small></div>
+            <button class="btn btn-primary btn-sm">Add to cart</button>
+          </div>
+        </div>
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+          <div class="body">
+            <div class="top"><span class="name">Mechanical keyboard</span></div>
+            <div class="price">$129</div>
+            <button class="btn btn-primary btn-sm">Add to cart</button>
+          </div>
+        </div>
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+          <div class="body">
+            <div class="top"><span class="name">Smart watch</span></div>
+            <div class="price">$249</div>
+            <button class="btn btn-primary btn-sm">Add to cart</button>
+          </div>
+        </div>
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+          <div class="body">
+            <div class="top"><span class="name">Desk lamp</span></div>
+            <div class="price">$59</div>
+            <button class="btn btn-primary btn-sm">Add to cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head"><h2>Best sellers</h2><a href="#" style="font-weight:700;font-size:14px">View all</a></div>
+      <div class="grid-4">
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+          <div class="body">
+            <div class="top"><span class="name">Portable charger</span></div>
+            <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.8 (632)</div>
+            <div class="price">$39</div>
+            <button class="btn btn-primary btn-sm">Add to cart</button>
+          </div>
+        </div>
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+          <div class="body">
+            <div class="top"><span class="name">Ergonomic mouse</span></div>
+            <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.9 (1,204)</div>
+            <div class="price">$89</div>
+            <button class="btn btn-primary btn-sm">Add to cart</button>
+          </div>
+        </div>
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+          <div class="body">
+            <div class="top"><span class="name">Standing desk converter</span></div>
+            <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.7 (398)</div>
+            <div class="price">$179</div>
+            <button class="btn btn-primary btn-sm">Add to cart</button>
+          </div>
+        </div>
+        <div class="p-card">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+          <div class="body">
+            <div class="top"><span class="name">4K webcam</span></div>
+            <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.6 (215)</div>
+            <div class="price">$69</div>
+            <button class="btn btn-primary btn-sm">Add to cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="promo">
+        <h3>Summer desk setup sale — up to 25% off monitors, lamps, and keyboards.</h3>
+        <button class="btn btn-primary">Shop the sale</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap benefits">
+      <div class="benefit">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="1" y="7" width="13" height="9" rx="1"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="6" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>
+        <div><strong>Free shipping</strong><span>On orders over $100</span></div>
+      </div>
+      <div class="benefit">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.6 6.1"/><path d="M20 5v6h-6"/></svg>
+        <div><strong>30-day returns</strong><span>No questions asked</span></div>
+      </div>
+      <div class="benefit">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <div><strong>Secure checkout</strong><span>Encrypted payments</span></div>
+      </div>
+      <div class="benefit">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/><path d="M20 20a4 4 0 0 1-4 4h-2"/></svg>
+        <div><strong>24/7 support</strong><span>Real humans, always</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head"><h2>What customers say</h2></div>
+      <div class="reviews">
+        <div class="review-card">
+          <div class="stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+          </div>
+          <p>"Fast delivery and genuinely nice packaging — my desk finally looks like one cohesive thing instead of five."</p>
+          <div class="who">Priya M. <span>· Verified buyer</span></div>
+        </div>
+        <div class="review-card">
+          <div class="stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+          </div>
+          <p>"Switched from a budget keyboard to the Keychron here and typing feels like a different job. Wish I'd done it sooner."</p>
+          <div class="who">Daniel R. <span>· Verified buyer</span></div>
+        </div>
+        <div class="review-card">
+          <div class="stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>
+          </div>
+          <p>"The headphones arrived a day early and the noise cancellation is no joke. Already recommended it to two coworkers."</p>
+          <div class="who">Sam O. <span>· Verified buyer</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="logo">LumaStore</span>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+        <div class="newsletter">
+          <input type="email" placeholder="you@email.com">
+          <button class="btn btn-primary btn-sm">Get updates</button>
+        </div>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Shop</h4>
+          <a href="#">New arrivals</a>
+          <a href="#">Best sellers</a>
+          <a href="#">Deals</a>
+        </div>
+        <div class="foot-col">
+          <h4>Company</h4>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="foot-col">
+          <h4>Support</h4>
+          <a href="#">Shipping and returns</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet & Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

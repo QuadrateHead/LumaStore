@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Checkout — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+/* ---- checkout ---- */
+.checkout-wrap{padding-top:28px;padding-bottom:64px}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.breadcrumb a:hover{color:var(--primary)}
+.checkout-wrap > h1{font-size:28px;font-weight:800;letter-spacing:-0.02em;margin-bottom:28px}
+
+.stepper{display:flex;align-items:center;margin-bottom:36px}
+.step{display:flex;align-items:center;gap:10px}
+.step-circle{width:30px;height:30px;border-radius:99px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--text-muted);flex-shrink:0}
+.step-label{font-size:13px;font-weight:700;color:var(--text-muted);white-space:nowrap}
+.step.active .step-circle{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.step.active .step-label{color:var(--text)}
+.step.done .step-circle{background:var(--success);border-color:var(--success);color:#fff}
+.step.done .step-label{color:var(--text)}
+.step-line{flex:1;height:1px;background:var(--border);margin:0 14px}
+.step-line.done{background:var(--success)}
+
+.checkout-layout{display:grid;grid-template-columns:1fr 340px;gap:36px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+.panel h2{font-size:18px;margin-bottom:20px}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;font-weight:700}
+.field input,.field select{border:1px solid var(--border);border-radius:9px;padding:10px 12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:14px;width:100%}
+.field input:focus,.field select:focus{outline:2px solid var(--primary);outline-offset:1px}
+.field .err{font-size:12px;color:var(--danger);display:none}
+.field.invalid input{border-color:var(--danger)}
+.field.invalid .err{display:block}
+
+.delivery-option{display:flex;align-items:center;gap:14px;border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;margin-bottom:12px}
+.delivery-option.selected{border-color:var(--primary);background:var(--surface-2)}
+.delivery-option input{accent-color:var(--primary);width:18px;height:18px;flex-shrink:0}
+.delivery-info{flex:1}
+.delivery-info strong{display:block;font-size:14px;margin-bottom:2px}
+.delivery-info span{font-size:13px;color:var(--text-muted)}
+.delivery-price{font-weight:800;font-size:14px;flex-shrink:0}
+
+.card-preview{background:linear-gradient(135deg,var(--primary),var(--primary-hover));color:#fff;border-radius:16px;padding:22px 24px;margin-bottom:22px;min-height:140px;display:flex;flex-direction:column;justify-content:space-between}
+.card-preview .cp-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;opacity:.85;letter-spacing:.04em}
+.card-preview .cp-num{font-size:19px;letter-spacing:2.5px;font-weight:700;margin:14px 0}
+.card-preview .cp-row{display:flex;justify-content:space-between;font-size:11px;opacity:.85}
+.card-preview .cp-row div span{display:block;font-size:13px;opacity:1;font-weight:700;margin-top:2px;letter-spacing:.03em}
+
+.review-block{border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px}
+.review-block-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.review-block-head h3{font-size:13px}
+.review-edit{font-size:12px;font-weight:700;color:var(--primary);cursor:pointer;background:none;border:none;font-family:inherit;padding:0}
+.review-row{display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-bottom:5px}
+.review-item-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.review-item-row span:first-child{color:var(--text)}
+.review-item-row span:last-child{color:var(--text-muted)}
+
+.step-actions{display:flex;justify-content:space-between;margin-top:26px}
+.step-actions .spacer{width:1px}
+
+.summary-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;position:sticky;top:88px;display:flex;flex-direction:column;gap:16px}
+.summary-card h3{font-size:14px}
+.mini-item{display:flex;gap:12px;align-items:center;font-size:13px}
+.mini-item .imgph{width:44px;height:44px;flex-shrink:0;background:var(--surface-2);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-muted)}
+.mini-item .imgph .icon{width:18px;height:18px}
+.mini-item .mi-info{flex:1;min-width:0}
+.mini-item .mi-name{font-weight:700;font-size:13px}
+.mini-item .mi-qty{font-size:12px;color:var(--text-muted)}
+.mini-item .mi-price{font-weight:700;font-size:13px;flex-shrink:0}
+.summary-rows{display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--text-muted)}
+.summary-row{display:flex;justify-content:space-between}
+.summary-total{display:flex;justify-content:space-between;font-size:17px;font-weight:800;border-top:1px solid var(--border);padding-top:14px}
+
+.confirm-wrap{display:none;text-align:center;padding:60px 20px;max-width:520px;margin:0 auto}
+.confirm-icon{width:60px;height:60px;border-radius:99px;background:var(--success);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 22px}
+.confirm-icon .icon{width:28px;height:28px;stroke:#fff}
+.confirm-wrap h2{font-size:24px;margin-bottom:8px}
+.confirm-wrap p{color:var(--text-muted);font-size:14px;margin-bottom:4px}
+.confirm-order{font-weight:800;font-size:19px;margin:18px 0 6px}
+.confirm-summary{text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin:24px 0}
+.confirm-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:860px){
+  .nav-links,.search{display:none}
+  .checkout-layout{grid-template-columns:1fr}
+  .summary-card{position:static}
+  .form-grid{grid-template-columns:1fr}
+  .step-label{display:none}
+  .step-line{margin:0 6px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <span class="logo">LumaStore</span>
+    <nav class="nav-links">
+      <a href="#">New arrivals</a>
+      <a href="#">Best sellers</a>
+      <a href="#">Categories</a>
+      <a href="#">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <label class="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search products">
+      </label>
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+        <span class="badge">4</span>
+      </button>
+      <button class="btn btn-primary btn-sm">Sign in</button>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap checkout-wrap">
+    <div class="breadcrumb"><a href="#">Home</a> / <a href="#">Cart</a> / Checkout</div>
+    <h1>Checkout</h1>
+
+    <div id="stepper" class="stepper">
+      <div class="step active" data-step="1"><span class="step-circle">1</span><span class="step-label">Shipping</span></div>
+      <div class="step-line"></div>
+      <div class="step" data-step="2"><span class="step-circle">2</span><span class="step-label">Delivery</span></div>
+      <div class="step-line"></div>
+      <div class="step" data-step="3"><span class="step-circle">3</span><span class="step-label">Payment</span></div>
+      <div class="step-line"></div>
+      <div class="step" data-step="4"><span class="step-circle">4</span><span class="step-label">Review</span></div>
+      <div class="step-line"></div>
+      <div class="step" data-step="5"><span class="step-circle">5</span><span class="step-label">Confirmation</span></div>
+    </div>
+
+    <div id="checkout-layout" class="checkout-layout">
+      <div class="panel">
+
+        <!-- Step 1: Shipping -->
+        <section class="step-panel active" id="panel-1">
+          <h2>Shipping information</h2>
+          <form id="form-shipping" novalidate>
+            <div class="form-grid">
+              <div class="field full"><label>Full name</label><input required minlength="2" name="fullName" placeholder="Jordan Casey"><span class="err">Enter your full name.</span></div>
+              <div class="field"><label>Email</label><input required type="email" name="email" placeholder="you@email.com"><span class="err">Enter a valid email.</span></div>
+              <div class="field"><label>Phone</label><input required name="phone" placeholder="+1 555 123 4567"><span class="err">Enter a valid phone number.</span></div>
+              <div class="field full"><label>Address</label><input required minlength="5" name="address" placeholder="221B Baker Street"><span class="err">Enter your street address.</span></div>
+              <div class="field"><label>City</label><input required name="city" placeholder="Belgrade"><span class="err">Enter your city.</span></div>
+              <div class="field"><label>Zip code</label><input required name="zip" placeholder="11000"><span class="err">Enter a valid zip code.</span></div>
+              <div class="field"><label>State / Region</label><input name="state" placeholder="Central Serbia"></div>
+              <div class="field"><label>Country</label>
+                <select name="country">
+                  <option>Serbia</option><option>United States</option><option>Germany</option><option>United Kingdom</option><option>Other</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <div class="step-actions"><span class="spacer"></span><button class="btn btn-primary" onclick="nextStep(1)">Continue to delivery</button></div>
+        </section>
+
+        <!-- Step 2: Delivery -->
+        <section class="step-panel" id="panel-2">
+          <h2>Delivery method</h2>
+          <label class="delivery-option selected" data-cost="0">
+            <input type="radio" name="delivery" value="standard" checked>
+            <div class="delivery-info"><strong>Standard delivery</strong><span>3–5 business days</span></div>
+            <div class="delivery-price">Free</div>
+          </label>
+          <label class="delivery-option" data-cost="14.99">
+            <input type="radio" name="delivery" value="express">
+            <div class="delivery-info"><strong>Express delivery</strong><span>1–2 business days</span></div>
+            <div class="delivery-price">$14.99</div>
+          </label>
+          <label class="delivery-option" data-cost="4.99">
+            <input type="radio" name="delivery" value="pickup">
+            <div class="delivery-info"><strong>Pickup point</strong><span>2–3 business days</span></div>
+            <div class="delivery-price">$4.99</div>
+          </label>
+          <div class="step-actions"><button class="btn btn-ghost" onclick="prevStep(2)">Back</button><button class="btn btn-primary" onclick="nextStep(2)">Continue to payment</button></div>
+        </section>
+
+        <!-- Step 3: Payment -->
+        <section class="step-panel" id="panel-3">
+          <h2>Payment</h2>
+          <div class="card-preview">
+            <div class="cp-top"><span>LumaStore Card</span><span>◈</span></div>
+            <div class="cp-num" id="cp-num">•••• •••• •••• ••••</div>
+            <div class="cp-row">
+              <div>Cardholder<span id="cp-name">Full name</span></div>
+              <div>Expires<span id="cp-exp">MM/YY</span></div>
+            </div>
+          </div>
+          <form id="form-payment" novalidate>
+            <div class="form-grid">
+              <div class="field full"><label>Cardholder name</label><input required minlength="2" name="cardName" placeholder="Jordan Casey"><span class="err">Enter the name on the card.</span></div>
+              <div class="field full"><label>Card number</label><input required inputmode="numeric" maxlength="19" name="cardNumber" placeholder="4242 4242 4242 4242"><span class="err">Enter a 16-digit card number.</span></div>
+              <div class="field"><label>Expiry (MM/YY)</label><input required maxlength="5" name="expiry" placeholder="09/29"><span class="err">Use MM/YY format.</span></div>
+              <div class="field"><label>CVV</label><input required inputmode="numeric" maxlength="4" name="cvv" placeholder="123"><span class="err">Enter a valid CVV.</span></div>
+            </div>
+          </form>
+          <div class="step-actions"><button class="btn btn-ghost" onclick="prevStep(3)">Back</button><button class="btn btn-primary" onclick="nextStep(3)">Review order</button></div>
+        </section>
+
+        <!-- Step 4: Review -->
+        <section class="step-panel" id="panel-4">
+          <h2>Review your order</h2>
+
+          <div class="review-block">
+            <div class="review-block-head"><h3>Shipping to</h3><button class="review-edit" onclick="goToStep(1)">Edit</button></div>
+            <div class="review-row" id="rev-shipping">—</div>
+          </div>
+
+          <div class="review-block">
+            <div class="review-block-head"><h3>Delivery method</h3><button class="review-edit" onclick="goToStep(2)">Edit</button></div>
+            <div class="review-row" id="rev-delivery">—</div>
+          </div>
+
+          <div class="review-block">
+            <div class="review-block-head"><h3>Payment</h3><button class="review-edit" onclick="goToStep(3)">Edit</button></div>
+            <div class="review-row" id="rev-payment">—</div>
+          </div>
+
+          <div class="review-block">
+            <h3 style="margin-bottom:12px">Items</h3>
+            <div class="review-item-row"><span>Sony WH-1000XM5 Headphones × 1</span><span>$349</span></div>
+            <div class="review-item-row"><span>Keychron K2 Keyboard × 1</span><span>$129</span></div>
+            <div class="review-item-row"><span>Logitech MX Master 3S Mouse × 2</span><span>$152</span></div>
+          </div>
+
+          <div class="step-actions"><button class="btn btn-ghost" onclick="prevStep(4)">Back</button><button class="btn btn-primary" id="place-order-btn" onclick="placeOrder()">Place order</button></div>
+        </section>
+      </div>
+
+      <aside class="summary-card">
+        <h3>Order summary</h3>
+        <div class="mini-item">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg></div>
+          <div class="mi-info"><div class="mi-name">Sony WH-1000XM5</div><div class="mi-qty">Qty 1</div></div>
+          <div class="mi-price">$349</div>
+        </div>
+        <div class="mini-item">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="4" rx="1"/><path d="M6 14v3M18 14v3M4 10l2-4h12l2 4"/></svg></div>
+          <div class="mi-info"><div class="mi-name">Keychron K2 Keyboard</div><div class="mi-qty">Qty 1</div></div>
+          <div class="mi-price">$129</div>
+        </div>
+        <div class="mini-item">
+          <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg></div>
+          <div class="mi-info"><div class="mi-name">Logitech MX Master 3S</div><div class="mi-qty">Qty 2</div></div>
+          <div class="mi-price">$152</div>
+        </div>
+        <div class="summary-rows">
+          <div class="summary-row"><span>Subtotal</span><span>$630.00</span></div>
+          <div class="summary-row"><span>Shipping</span><span id="sum-shipping">Free</span></div>
+          <div class="summary-row"><span>Tax</span><span>$50.40</span></div>
+        </div>
+        <div class="summary-total"><span>Total</span><span id="sum-total">$680.40</span></div>
+      </aside>
+    </div>
+
+    <!-- Confirmation -->
+    <div class="confirm-wrap" id="confirm-wrap">
+      <div class="confirm-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <h2>Thank you for your order!</h2>
+      <p>A confirmation has been sent to your email.</p>
+      <div class="confirm-order" id="confirm-order-number">Order LUMA-10482</div>
+      <p id="confirm-delivery">Estimated delivery: 3–5 business days</p>
+      <div class="confirm-summary">
+        <div class="review-item-row"><span>Sony WH-1000XM5 Headphones × 1</span><span>$349</span></div>
+        <div class="review-item-row"><span>Keychron K2 Keyboard × 1</span><span>$129</span></div>
+        <div class="review-item-row"><span>Logitech MX Master 3S Mouse × 2</span><span>$152</span></div>
+        <div class="review-item-row" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-weight:800"><span>Total paid</span><span id="confirm-total">$680.40</span></div>
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-ghost">View order</button>
+        <button class="btn btn-primary">Continue shopping</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="logo">LumaStore</span>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Shop</h4><a href="#">New arrivals</a><a href="#">Best sellers</a><a href="#">Deals</a></div>
+        <div class="foot-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a></div>
+        <div class="foot-col"><h4>Support</h4><a href="#">Shipping and returns</a><a href="#">FAQ</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet & Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+let currentStep = 1;
+const deliveryCosts = { standard: 0, express: 14.99, pickup: 4.99 };
+const deliveryLabels = {
+  standard: 'Standard delivery — 3–5 business days',
+  express: 'Express delivery — 1–2 business days',
+  pickup: 'Pickup point — 2–3 business days'
+};
+const deliveryEta = {
+  standard: '3–5 business days',
+  express: '1–2 business days',
+  pickup: '2–3 business days'
+};
+const SUBTOTAL = 630.00;
+const TAX = 50.40;
+
+function setStepperState(){
+  document.querySelectorAll('.step').forEach(s=>{
+    const n = parseInt(s.dataset.step);
+    s.classList.remove('active','done');
+    if(n < currentStep) s.classList.add('done');
+    else if(n === currentStep) s.classList.add('active');
+  });
+  document.querySelectorAll('.step-line').forEach((l,i)=>{
+    l.classList.toggle('done', (i+1) < currentStep);
+  });
+}
+
+function showPanel(n){
+  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+n).classList.add('active');
+  currentStep = n;
+  setStepperState();
+  window.scrollTo({top: document.getElementById('checkout-layout').offsetTop - 100, behavior:'smooth'});
+}
+
+function validateForm(formId){
+  const form = document.getElementById(formId);
+  let valid = true;
+  form.querySelectorAll('input,select').forEach(input=>{
+    const field = input.closest('.field');
+    if(!field) return;
+    const ok = input.checkValidity();
+    field.classList.toggle('invalid', !ok);
+    if(!ok) valid = false;
+  });
+  return valid;
+}
+
+function nextStep(from){
+  if(from === 1 && !validateForm('form-shipping')) return;
+  if(from === 3 && !validateForm('form-payment')) return;
+  if(from === 3) fillReview();
+  showPanel(from + 1);
+}
+function prevStep(from){ showPanel(from - 1); }
+function goToStep(n){ showPanel(n); }
+
+function fillReview(){
+  const s = new FormData(document.getElementById('form-shipping'));
+  document.getElementById('rev-shipping').textContent =
+    `${s.get('fullName')} — ${s.get('address')}, ${s.get('city')} ${s.get('zip')}, ${s.get('country')}`;
+
+  const selected = document.querySelector('input[name="delivery"]:checked').value;
+  document.getElementById('rev-delivery').textContent = deliveryLabels[selected];
+
+  const p = new FormData(document.getElementById('form-payment'));
+  const num = (p.get('cardNumber') || '').replace(/\s/g,'');
+  document.getElementById('rev-payment').textContent =
+    `${p.get('cardName')} — card ending in ${num.slice(-4)}`;
+}
+
+document.querySelectorAll('.delivery-option').forEach(opt=>{
+  opt.addEventListener('click', ()=>{
+    document.querySelectorAll('.delivery-option').forEach(o=>o.classList.remove('selected'));
+    opt.classList.add('selected');
+    const cost = deliveryCosts[opt.querySelector('input').value];
+    document.getElementById('sum-shipping').textContent = cost === 0 ? 'Free' : '$' + cost.toFixed(2);
+    document.getElementById('sum-total').textContent = '$' + (SUBTOTAL + cost + TAX).toFixed(2);
+  });
+});
+
+const cardNumberInput = document.querySelector('input[name="cardNumber"]');
+cardNumberInput.addEventListener('input', ()=>{
+  let digits = cardNumberInput.value.replace(/\D/g,'').slice(0,16);
+  cardNumberInput.value = digits.replace(/(.{4})/g,'$1 ').trim();
+  document.getElementById('cp-num').textContent = digits.length ? cardNumberInput.value.padEnd(19,'•') : '•••• •••• •••• ••••';
+});
+document.querySelector('input[name="cardName"]').addEventListener('input', e=>{
+  document.getElementById('cp-name').textContent = e.target.value || 'Full name';
+});
+const expiryInput = document.querySelector('input[name="expiry"]');
+expiryInput.addEventListener('input', ()=>{
+  let v = expiryInput.value.replace(/\D/g,'').slice(0,4);
+  if(v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
+  expiryInput.value = v;
+  document.getElementById('cp-exp').textContent = v || 'MM/YY';
+});
+
+function placeOrder(){
+  const btn = document.getElementById('place-order-btn');
+  btn.disabled = true;
+  btn.textContent = 'Placing order…';
+  setTimeout(()=>{
+    const orderNum = 'LUMA-' + Math.floor(10000 + Math.random()*89999);
+    document.getElementById('confirm-order-number').textContent = 'Order ' + orderNum;
+    const selected = document.querySelector('input[name="delivery"]:checked').value;
+    document.getElementById('confirm-delivery').textContent = 'Estimated delivery: ' + deliveryEta[selected];
+    document.getElementById('confirm-total').textContent = document.getElementById('sum-total').textContent;
+    document.getElementById('checkout-layout').style.display = 'none';
+    currentStep = 5;
+    setStepperState();
+    document.getElementById('confirm-wrap').style.display = 'block';
+  }, 900);
+}
+</script>
+</body>
+</html>

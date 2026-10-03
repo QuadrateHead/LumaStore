@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Account — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+.avatar-chip{display:flex;align-items:center;gap:9px;border:1px solid var(--border);border-radius:99px;padding:5px 14px 5px 5px;background:var(--surface)}
+.avatar-chip .av{width:28px;height:28px;border-radius:99px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.avatar-chip span{font-size:13px;font-weight:700}
+
+/* ---- account ---- */
+.account-wrap{padding-top:28px;padding-bottom:64px}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.breadcrumb a:hover{color:var(--primary)}
+.account-wrap > h1{font-size:28px;font-weight:800;letter-spacing:-0.02em;margin-bottom:24px}
+
+.account-layout{display:grid;grid-template-columns:230px 1fr;gap:36px;align-items:start}
+
+.account-nav{display:flex;flex-direction:column;gap:2px;position:sticky;top:88px}
+.account-nav button{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;border:none;background:none;color:var(--text-muted);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-align:left;width:100%}
+.account-nav button .icon{width:18px;height:18px;flex-shrink:0}
+.account-nav button:hover{color:var(--text)}
+.account-nav button.active{background:var(--surface-2);color:var(--text)}
+.account-nav hr{border:none;border-top:1px solid var(--border);margin:10px 4px}
+.account-nav .signout{color:var(--danger)}
+.account-nav .signout:hover{color:var(--danger)}
+
+.account-section{display:none}
+.account-section.active{display:block}
+.section-title{font-size:19px;font-weight:800;letter-spacing:-0.02em;margin-bottom:20px}
+
+.stat-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.stat-card{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.stat-card .num{font-size:24px;font-weight:800}
+.stat-card .label{font-size:13px;color:var(--text-muted)}
+
+.recent-order{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:8px}
+.recent-order .oi strong{display:block;font-size:14px;margin-bottom:3px}
+.recent-order .oi span{font-size:12px;color:var(--text-muted)}
+
+.status-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;display:inline-block;white-space:nowrap}
+.status-badge.delivered{background:rgba(22,163,74,.14);color:var(--success)}
+.status-badge.shipped{background:rgba(79,70,229,.14);color:var(--primary)}
+.status-badge.processing{background:rgba(245,158,11,.16);color:var(--accent)}
+.status-badge.pending{background:var(--surface-2);color:var(--text-muted)}
+.status-badge.cancelled{background:rgba(220,38,38,.14);color:var(--danger)}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;font-weight:700}
+.field input{border:1px solid var(--border);border-radius:9px;padding:10px 12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:14px;width:100%}
+.field input:focus{outline:2px solid var(--primary);outline-offset:1px}
+.panel-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.panel-card h3{font-size:14px;margin-bottom:16px}
+.saved-msg{font-size:13px;color:var(--success);display:none;margin-top:4px}
+.saved-msg.show{display:block}
+
+.address-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px}
+.address-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative}
+.address-card .tag{position:absolute;top:14px;right:14px;font-size:11px;font-weight:700;background:var(--accent);color:var(--on-accent);padding:3px 9px;border-radius:7px}
+.address-card strong{display:block;margin-bottom:4px;font-size:14px}
+.address-card p{font-size:13px;color:var(--text-muted);margin-bottom:12px}
+.address-actions{display:flex;gap:16px;font-size:12px;font-weight:700}
+.address-actions button{background:none;border:none;color:var(--primary);cursor:pointer;font-family:inherit;padding:0}
+.address-actions button.danger{color:var(--danger)}
+.add-address-form{display:none}
+.add-address-form.show{display:block}
+
+.order-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px;flex-wrap:wrap;gap:14px}
+.order-row .oi{display:flex;flex-direction:column;gap:2px;min-width:150px}
+.order-row .oi strong{font-size:14px}
+.order-row .oi span{font-size:12px;color:var(--text-muted)}
+.order-row .ot{font-weight:800;font-size:14px;min-width:70px}
+.order-actions{display:flex;gap:8px}
+
+.wishlist-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.p-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.p-card .imgph{height:130px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);position:relative}
+.p-card .imgph .icon{width:30px;height:30px}
+.p-card .remove-wish{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:99px;background:var(--surface);display:flex;align-items:center;justify-content:center;border:1px solid var(--border);cursor:pointer;color:var(--text-muted)}
+.p-card .remove-wish .icon{width:14px;height:14px}
+.p-card .body{padding:14px 16px 16px}
+.p-card .name{font-weight:700;font-size:14px;display:block;margin-bottom:6px}
+.p-card .price{font-size:15px;font-weight:800;margin-bottom:12px}
+.p-card .btn{width:100%}
+
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:860px){
+  .nav-links,.search{display:none}
+  .account-layout{grid-template-columns:1fr}
+  .account-nav{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .account-nav hr{display:none}
+  .form-grid{grid-template-columns:1fr}
+  .address-grid{grid-template-columns:1fr}
+  .wishlist-grid{grid-template-columns:repeat(2,1fr)}
+  .stat-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <span class="logo">LumaStore</span>
+    <nav class="nav-links">
+      <a href="#">New arrivals</a>
+      <a href="#">Best sellers</a>
+      <a href="#">Categories</a>
+      <a href="#">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <label class="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search products">
+      </label>
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+        <span class="badge">2</span>
+      </button>
+      <div class="avatar-chip"><span class="av">JC</span><span>Jordan</span></div>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap account-wrap">
+    <div class="breadcrumb"><a href="#">Home</a> / Account</div>
+    <h1>My account</h1>
+
+    <div class="account-layout">
+      <nav class="account-nav" id="account-nav">
+        <button class="active" data-target="overview">
+          <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          Overview
+        </button>
+        <button data-target="profile">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+          Profile settings
+        </button>
+        <button data-target="addresses">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
+          Addresses
+        </button>
+        <button data-target="orders">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4 20V9a2 2 0 0 1 2-2h1l1-3h8l1 3h1a2 2 0 0 1 2 2v11"/><path d="M4 20h16"/></svg>
+          Order history
+        </button>
+        <button data-target="wishlist">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+          Wishlist
+        </button>
+        <hr>
+        <button class="signout">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          Sign out
+        </button>
+      </nav>
+
+      <div>
+        <!-- Overview -->
+        <section class="account-section active" id="overview">
+          <div class="section-title">Welcome back, Jordan</div>
+          <div class="stat-row">
+            <div class="stat-card"><div class="num">12</div><div class="label">Total orders</div></div>
+            <div class="stat-card"><div class="num">5</div><div class="label">Wishlist items</div></div>
+            <div class="stat-card"><div class="num">Mar 2024</div><div class="label">Member since</div></div>
+          </div>
+          <h3 style="font-size:14px;margin-bottom:10px">Most recent order</h3>
+          <div class="recent-order">
+            <div class="oi"><strong>Order #LUMA-10482</strong><span>Placed March 12, 2026 · 3 items · $342.02</span></div>
+            <span class="status-badge shipped">Shipped</span>
+            <button class="btn btn-ghost btn-sm" onclick="showSection('orders')">View order</button>
+          </div>
+        </section>
+
+        <!-- Profile settings -->
+        <section class="account-section" id="profile">
+          <div class="section-title">Profile settings</div>
+          <div class="panel-card">
+            <h3>Personal information</h3>
+            <form id="profile-form">
+              <div class="form-grid">
+                <div class="field"><label>Full name</label><input value="Jordan Casey" name="fullName"></div>
+                <div class="field"><label>Email</label><input value="jordan.casey@email.com" type="email" name="email"></div>
+                <div class="field"><label>Phone number</label><input value="+381 60 123 4567" name="phone"></div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+              <div class="saved-msg" id="profile-saved">Profile updated.</div>
+            </form>
+          </div>
+          <div class="panel-card">
+            <h3>Change password</h3>
+            <form id="password-form">
+              <div class="form-grid">
+                <div class="field full"><label>Current password</label><input type="password" placeholder="Enter current password"></div>
+                <div class="field"><label>New password</label><input type="password" placeholder="Minimum 8 characters"></div>
+                <div class="field"><label>Confirm new password</label><input type="password" placeholder="Re-enter new password"></div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm">Update password</button>
+              <div class="saved-msg" id="password-saved">Password updated.</div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Addresses -->
+        <section class="account-section" id="addresses">
+          <div class="section-title">Addresses</div>
+          <div class="address-grid">
+            <div class="address-card">
+              <span class="tag">Default</span>
+              <strong>Home</strong>
+              <p>Jordan Casey<br>Bulevar Mihajla Pupina 10<br>Novi Beograd, 11070, Serbia<br>+381 60 123 4567</p>
+              <div class="address-actions"><button>Edit</button><button class="danger">Delete</button></div>
+            </div>
+            <div class="address-card">
+              <strong>Work</strong>
+              <p>Jordan Casey<br>Bulevar Zorana Đinđića 64<br>Novi Beograd, 11070, Serbia<br>+381 60 123 4567</p>
+              <div class="address-actions"><button>Set as default</button><button>Edit</button><button class="danger">Delete</button></div>
+            </div>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById('add-address').classList.toggle('show')">+ Add new address</button>
+          <div class="panel-card add-address-form" id="add-address" style="margin-top:16px">
+            <h3>New address</h3>
+            <div class="form-grid">
+              <div class="field full"><label>Full name</label><input placeholder="Jordan Casey"></div>
+              <div class="field full"><label>Address</label><input placeholder="Street and number"></div>
+              <div class="field"><label>City</label><input placeholder="Novi Beograd"></div>
+              <div class="field"><label>Zip code</label><input placeholder="11070"></div>
+              <div class="field"><label>Country</label><input placeholder="Serbia"></div>
+              <div class="field"><label>Phone</label><input placeholder="+381 60 123 4567"></div>
+            </div>
+            <button class="btn btn-primary btn-sm">Save address</button>
+          </div>
+        </section>
+
+        <!-- Order history -->
+        <section class="account-section" id="orders">
+          <div class="section-title">Order history</div>
+          <div class="order-row">
+            <div class="oi"><strong>#LUMA-10482</strong><span>March 12, 2026</span></div>
+            <span class="status-badge shipped">Shipped</span>
+            <div class="ot">$342.02</div>
+            <div class="order-actions"><button class="btn btn-ghost btn-sm">View details</button><button class="btn btn-primary btn-sm">Reorder</button></div>
+          </div>
+          <div class="order-row">
+            <div class="oi"><strong>#LUMA-10417</strong><span>February 2, 2026</span></div>
+            <span class="status-badge delivered">Delivered</span>
+            <div class="ot">$128.50</div>
+            <div class="order-actions"><button class="btn btn-ghost btn-sm">View details</button><button class="btn btn-primary btn-sm">Reorder</button></div>
+          </div>
+          <div class="order-row">
+            <div class="oi"><strong>#LUMA-10390</strong><span>January 20, 2026</span></div>
+            <span class="status-badge processing">Processing</span>
+            <div class="ot">$79.00</div>
+            <div class="order-actions"><button class="btn btn-ghost btn-sm">View details</button><button class="btn btn-primary btn-sm">Reorder</button></div>
+          </div>
+          <div class="order-row">
+            <div class="oi"><strong>#LUMA-10355</strong><span>December 30, 2025</span></div>
+            <span class="status-badge cancelled">Cancelled</span>
+            <div class="ot">$249.00</div>
+            <div class="order-actions"><button class="btn btn-ghost btn-sm">View details</button></div>
+          </div>
+        </section>
+
+        <!-- Wishlist -->
+        <section class="account-section" id="wishlist">
+          <div class="section-title">Wishlist</div>
+          <div class="wishlist-grid">
+            <div class="p-card">
+              <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg><button class="remove-wish" aria-label="Remove"><svg class="icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+              <div class="body"><span class="name">Sony WH-1000XM5 headphones</span><div class="price">$349</div><button class="btn btn-primary btn-sm">Move to cart</button></div>
+            </div>
+            <div class="p-card">
+              <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="11" rx="2"/><path d="M8 20h8"/><path d="M12 17v3"/></svg><button class="remove-wish" aria-label="Remove"><svg class="icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+              <div class="body"><span class="name">27&Prime; 4K monitor</span><div class="price">$329</div><button class="btn btn-primary btn-sm">Move to cart</button></div>
+            </div>
+            <div class="p-card">
+              <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="1" y="7" width="13" height="9" rx="1"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="6" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><button class="remove-wish" aria-label="Remove"><svg class="icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+              <div class="body"><span class="name">Standing desk converter</span><div class="price">$179</div><button class="btn btn-primary btn-sm">Move to cart</button></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="logo">LumaStore</span>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Shop</h4><a href="#">New arrivals</a><a href="#">Best sellers</a><a href="#">Deals</a></div>
+        <div class="foot-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a></div>
+        <div class="foot-col"><h4>Support</h4><a href="#">Shipping and returns</a><a href="#">FAQ</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet &amp; Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.account-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('#account-nav button[data-target]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.target === id);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+document.querySelectorAll('#account-nav button[data-target]').forEach(btn=>{
+  btn.addEventListener('click', ()=>showSection(btn.dataset.target));
+});
+
+document.getElementById('profile-form').addEventListener('submit', e=>{
+  e.preventDefault();
+  const msg = document.getElementById('profile-saved');
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'), 2500);
+});
+document.getElementById('password-form').addEventListener('submit', e=>{
+  e.preventDefault();
+  const msg = document.getElementById('password-saved');
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'), 2500);
+});
+
+document.querySelectorAll('.remove-wish').forEach(btn=>{
+  btn.addEventListener('click', ()=>btn.closest('.p-card').remove());
+});
+</script>
+</body>
+</html>

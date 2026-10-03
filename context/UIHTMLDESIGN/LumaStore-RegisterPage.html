@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Create Account — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.btn-full{width:100%}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+.auth-wrap{padding-top:28px;padding-bottom:72px}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:32px}
+.breadcrumb a:hover{color:var(--primary)}
+
+.auth-shell{max-width:440px;margin:0 auto}
+.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px}
+.auth-card h1{font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px}
+.auth-sub{color:var(--text-muted);font-size:14px;margin-bottom:28px}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field label{font-size:13px;font-weight:700}
+.field input{border:1px solid var(--border);border-radius:9px;padding:11px 12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:14px;width:100%}
+.field input:focus{outline:2px solid var(--primary);outline-offset:1px}
+.field .err{font-size:12px;color:var(--danger);display:none}
+.field.invalid input{border-color:var(--danger)}
+.field.invalid .err{display:block}
+
+.pw-wrap{position:relative}
+.pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:12px;font-weight:700;font-family:inherit}
+
+.pw-strength{margin-top:8px}
+.pw-bar{height:5px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin-bottom:6px}
+.pw-bar-fill{height:100%;width:0%;border-radius:99px;background:var(--danger);transition:width .2s,background .2s}
+.pw-strength-label{font-size:12px;color:var(--text-muted)}
+
+.terms-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
+.terms-row input{accent-color:var(--primary);width:16px;height:16px;margin-top:2px;flex-shrink:0}
+.terms-row label{font-size:13px;color:var(--text-muted)}
+.terms-row a{font-weight:700;color:var(--primary)}
+.terms-row.invalid label{color:var(--danger)}
+
+.auth-switch{text-align:center;font-size:13px;color:var(--text-muted);margin-top:26px}
+.auth-switch a{font-weight:700;color:var(--primary)}
+
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:860px){
+  .nav-links,.search{display:none}
+  .auth-card{padding:28px 22px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+    <nav class="nav-links">
+      <a href="#">New arrivals</a>
+      <a href="#">Best sellers</a>
+      <a href="#">Categories</a>
+      <a href="#">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <label class="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search products">
+      </label>
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+        <span class="badge">2</span>
+      </button>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap auth-wrap">
+    <div class="breadcrumb"><a href="#">Home</a> / Create account</div>
+
+    <div class="auth-shell">
+      <div class="auth-card">
+        <h1>Create your account</h1>
+        <p class="auth-sub">Join LumaStore to track orders, save your wishlist, and check out faster.</p>
+
+        <form id="register-form" novalidate>
+          <div class="field">
+            <label>Full name</label>
+            <input required minlength="2" name="fullName" placeholder="Jordan Casey">
+            <span class="err">Name must be at least 2 characters.</span>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input required type="email" name="email" placeholder="you@email.com">
+            <span class="err">Enter a valid email address.</span>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <div class="pw-wrap">
+              <input required minlength="8" type="password" name="password" placeholder="Minimum 8 characters">
+              <button type="button" class="pw-toggle" data-target="password">Show</button>
+            </div>
+            <div class="pw-strength">
+              <div class="pw-bar"><div class="pw-bar-fill" id="pw-bar-fill"></div></div>
+              <span class="pw-strength-label" id="pw-strength-label">Use 8+ characters with a number and an uppercase letter.</span>
+            </div>
+            <span class="err">Minimum 8 characters, with an uppercase letter and a number.</span>
+          </div>
+          <div class="field">
+            <label>Confirm password</label>
+            <input required type="password" name="confirmPassword" placeholder="Re-enter your password">
+            <span class="err">Passwords don't match.</span>
+          </div>
+
+          <div class="terms-row" id="terms-row">
+            <input type="checkbox" required id="terms" name="terms">
+            <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full" id="register-btn">Create account</button>
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="LumaStore-LoginPage.html">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="logo">LumaStore</span>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Shop</h4><a href="#">New arrivals</a><a href="#">Best sellers</a><a href="#">Deals</a></div>
+        <div class="foot-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a></div>
+        <div class="foot-col"><h4>Support</h4><a href="#">Shipping and returns</a><a href="#">FAQ</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet &amp; Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelector('.pw-toggle').addEventListener('click', function(){
+  const input = this.previousElementSibling;
+  const show = input.type === 'password';
+  input.type = show ? 'text' : 'password';
+  this.textContent = show ? 'Hide' : 'Show';
+});
+
+const pwInput = document.querySelector('input[name="password"]');
+const barFill = document.getElementById('pw-bar-fill');
+const label = document.getElementById('pw-strength-label');
+
+pwInput.addEventListener('input', ()=>{
+  const v = pwInput.value;
+  let score = 0;
+  if(v.length >= 8) score++;
+  if(/[A-Z]/.test(v)) score++;
+  if(/[0-9]/.test(v)) score++;
+  if(/[^A-Za-z0-9]/.test(v)) score++;
+
+  const stages = [
+    { width: '0%', color: 'var(--danger)', text: 'Use 8+ characters with a number and an uppercase letter.' },
+    { width: '25%', color: 'var(--danger)', text: 'Weak — add an uppercase letter and a number.' },
+    { width: '55%', color: 'var(--accent)', text: 'Fair — a symbol would make this stronger.' },
+    { width: '80%', color: 'var(--accent)', text: 'Good password.' },
+    { width: '100%', color: 'var(--success)', text: 'Strong password.' }
+  ];
+  const stage = v.length === 0 ? stages[0] : stages[score] || stages[1];
+  barFill.style.width = stage.width;
+  barFill.style.background = stage.color;
+  label.textContent = stage.text;
+});
+
+document.getElementById('register-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  const form = e.target;
+  let valid = true;
+
+  form.querySelectorAll('input:not([type="checkbox"])').forEach(input=>{
+    const field = input.closest('.field');
+    let ok = input.checkValidity();
+    if(input.name === 'password' && ok){
+      ok = /[A-Z]/.test(input.value) && /[0-9]/.test(input.value);
+    }
+    if(input.name === 'confirmPassword'){
+      ok = ok && input.value === form.password.value;
+    }
+    field.classList.toggle('invalid', !ok);
+    if(!ok) valid = false;
+  });
+
+  const termsRow = document.getElementById('terms-row');
+  const termsOk = document.getElementById('terms').checked;
+  termsRow.classList.toggle('invalid', !termsOk);
+  if(!termsOk) valid = false;
+
+  if(!valid) return;
+
+  const btn = document.getElementById('register-btn');
+  btn.disabled = true;
+  btn.textContent = 'Creating account…';
+  setTimeout(()=>{ btn.textContent = 'Account created ✓'; }, 700);
+});
+</script>
+</body>
+</html>

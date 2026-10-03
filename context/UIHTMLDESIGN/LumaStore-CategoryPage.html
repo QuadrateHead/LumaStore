@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Audio — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover,.nav-links a[aria-current]{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+/* Side gutter comes from .wrap — this wrapper sets only top/bottom padding */
+.cat-wrap{padding-top:28px;padding-bottom:64px}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.breadcrumb a:hover{color:var(--primary)}
+
+.cat-banner{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:28px}
+.cat-banner h1{font-size:36px;font-weight:800;letter-spacing:-0.02em;line-height:1.15;margin-bottom:10px}
+.cat-banner p{color:var(--text-muted);font-size:15px;max-width:48ch;margin-bottom:18px}
+.cat-banner .imgph{height:170px;border-radius:14px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted)}
+.cat-banner .imgph .icon{width:56px;height:56px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:99px;padding:7px 14px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.chip.active{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+
+.shop-layout{display:grid;grid-template-columns:240px 1fr;gap:36px;align-items:start}
+.filters{display:flex;flex-direction:column;gap:22px;position:sticky;top:88px}
+.filter-block{border-bottom:1px solid var(--border);padding-bottom:18px}
+.filter-title{font-weight:700;font-size:13px;margin-bottom:12px}
+.filter-list{display:flex;flex-direction:column;gap:9px}
+.filter-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-muted);cursor:pointer}
+.filter-item input{accent-color:var(--primary);width:15px;height:15px}
+.price-inputs{display:flex;align-items:center;gap:8px}
+.price-inputs input{width:100%;border:1px solid var(--border);border-radius:9px;padding:8px 10px;background:var(--surface);color:var(--text);font-family:inherit;font-size:13px}
+.price-inputs span{color:var(--text-muted);font-size:13px}
+.color-swatches{display:flex;gap:8px;flex-wrap:wrap}
+.color-swatches button{width:26px;height:26px;border-radius:99px;border:2px solid transparent;padding:2px;cursor:pointer;background:none}
+.color-swatches button.active{border-color:var(--primary)}
+.color-swatches i{display:block;width:100%;height:100%;border-radius:99px;border:1px solid var(--border)}
+.clear-filters{font-size:13px;font-weight:700;color:var(--primary);cursor:pointer;background:none;border:none;font-family:inherit;padding:0;text-align:left}
+
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.pc-count{font-size:13px;color:var(--text-muted)}
+.select{border:1px solid var(--border);border-radius:9px;padding:9px 12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:13px}
+.filter-toggle{display:none}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.p-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.p-card .imgph{height:150px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);position:relative}
+.p-card .imgph .icon{width:34px;height:34px}
+.p-card .sale{position:absolute;top:10px;left:10px;background:var(--accent);color:var(--on-accent);font-size:11px;font-weight:700;padding:3px 8px;border-radius:7px}
+.p-card .wish{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:99px;background:var(--surface);display:flex;align-items:center;justify-content:center;border:1px solid var(--border)}
+.p-card .body{padding:14px 16px 16px}
+.p-card .brand{font-size:11px;color:var(--text-muted);margin-bottom:2px}
+.p-card .name{font-weight:700;font-size:14px;display:block;margin-bottom:6px}
+.p-card .rating{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.p-card .rating svg{width:12px;height:12px;color:var(--accent)}
+.p-card .price{font-size:16px;font-weight:800;margin-bottom:12px}
+.p-card .price small{font-size:12px;color:var(--text-muted);text-decoration:line-through;font-weight:500;margin-left:4px}
+.p-card .btn{width:100%}
+
+.pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:36px}
+.pagination button{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.pagination button.active{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.pagination button.arrow{color:var(--text-muted)}
+
+.more{margin-top:56px}
+.more h2{font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:20px}
+.cat-strip{display:flex;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.cat-item{flex:1;padding:20px;border-right:1px solid var(--border)}
+.cat-item:last-child{border-right:none}
+.cat-item:nth-child(odd){background:var(--surface-2)}
+.cat-item:hover strong{color:var(--primary)}
+.cat-item strong{display:block;font-size:15px;margin-bottom:4px}
+.cat-item span{font-size:13px;color:var(--text-muted)}
+
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.foot-col a:hover{color:var(--primary)}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:860px){
+  .nav-links,.search{display:none}
+  .cat-banner{grid-template-columns:1fr;padding:24px}
+  .cat-banner h1{font-size:28px}
+  .cat-banner .imgph{display:none}
+  .shop-layout{grid-template-columns:1fr}
+  .filters{position:static;border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:none}
+  .filters.open{display:flex}
+  .filter-toggle{display:inline-flex}
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+  .cat-strip{flex-wrap:wrap}
+  .cat-item{flex:1 1 50%;border-bottom:1px solid var(--border)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+    <nav class="nav-links">
+      <a href="LumaStore-CatalogPage.html">New arrivals</a>
+      <a href="LumaStore-CatalogPage.html">Best sellers</a>
+      <a href="LumaStore-CategoryPage.html" aria-current="page">Categories</a>
+      <a href="LumaStore-CatalogPage.html">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <label class="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search products">
+      </label>
+      <a class="icon-btn" href="LumaStore-WishlistPage.html" aria-label="Wishlist">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+      </a>
+      <a class="icon-btn" href="LumaStore___Cart_Page.html" aria-label="Cart">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+        <span class="badge">2</span>
+      </a>
+      <a class="btn btn-primary btn-sm" href="LumaStore-LoginPage.html">Sign in</a>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap cat-wrap">
+    <div class="breadcrumb"><a href="LumaStore___Upgrade_your_everyday_tech__1_.html">Home</a> / <a href="LumaStore-CatalogPage.html">Products</a> / Audio</div>
+
+    <section class="cat-banner">
+      <div>
+        <h1>Audio</h1>
+        <p>Wireless headphones, speakers, microphones, and sound accessories for focused work and long listening sessions.</p>
+        <div class="chips" id="chips">
+          <button class="chip active">All audio</button>
+          <button class="chip">Headphones</button>
+          <button class="chip">Earbuds</button>
+          <button class="chip">Speakers</button>
+          <button class="chip">Microphones</button>
+        </div>
+      </div>
+      <div class="imgph"><svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg></div>
+    </section>
+
+    <div class="shop-layout">
+      <aside class="filters" id="filters">
+        <div class="filter-block">
+          <div class="filter-title">Price</div>
+          <div class="price-inputs"><input type="number" placeholder="Min" aria-label="Minimum price"><span>—</span><input type="number" placeholder="Max" aria-label="Maximum price"></div>
+        </div>
+        <div class="filter-block">
+          <div class="filter-title">Brand</div>
+          <div class="filter-list">
+            <label class="filter-item"><input type="checkbox"> Sony</label>
+            <label class="filter-item"><input type="checkbox"> Anker</label>
+            <label class="filter-item"><input type="checkbox"> Samsung</label>
+            <label class="filter-item"><input type="checkbox"> Logitech</label>
+          </div>
+        </div>
+        <div class="filter-block">
+          <div class="filter-title">Rating</div>
+          <div class="filter-list">
+            <label class="filter-item"><input type="checkbox"> 4 stars &amp; up</label>
+            <label class="filter-item"><input type="checkbox"> 3 stars &amp; up</label>
+          </div>
+        </div>
+        <div class="filter-block">
+          <div class="filter-title">Availability</div>
+          <div class="filter-list">
+            <label class="filter-item"><input type="checkbox" checked> In stock</label>
+            <label class="filter-item"><input type="checkbox"> Out of stock</label>
+          </div>
+        </div>
+        <div class="filter-block">
+          <div class="filter-title">Color</div>
+          <div class="color-swatches">
+            <button class="active" aria-label="Black"><i style="background:#18181B"></i></button>
+            <button aria-label="White"><i style="background:#FAFAFA"></i></button>
+            <button aria-label="Silver"><i style="background:#C4C4C8"></i></button>
+            <button aria-label="Blue"><i style="background:#3B4A6B"></i></button>
+          </div>
+        </div>
+        <button class="clear-filters">Clear all filters</button>
+      </aside>
+
+      <div>
+        <div class="toolbar">
+          <div style="display:flex;align-items:center;gap:10px">
+            <button class="btn btn-ghost btn-sm filter-toggle" onclick="document.getElementById('filters').classList.toggle('open')">Filters</button>
+            <span class="pc-count">128 products in Audio</span>
+          </div>
+          <select class="select" aria-label="Sort products">
+            <option>Newest</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Best rated</option><option>Biggest discount</option>
+          </select>
+        </div>
+
+        <div class="grid-3">
+          <div class="p-card"><div class="imgph"><span class="sale">-13%</span><svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body"><div class="brand">Sony</div><span class="name">WH-1000XM5 headphones</span><div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.8 (1,204)</div><div class="price">$349<small>$399</small></div><button class="btn btn-primary btn-sm">Add to cart</button></div></div>
+          <div class="p-card"><div class="imgph"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body"><div class="brand">Anker</div><span class="name">Soundcore Motion+ speaker</span><div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.6 (842)</div><div class="price">$99</div><button class="btn btn-primary btn-sm">Add to cart</button></div></div>
+          <div class="p-card"><div class="imgph"><span class="sale">-20%</span><svg class="icon" viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="12" rx="4"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body"><div class="brand">Logitech</div><span class="name">Yeti USB microphone</span><div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.7 (563)</div><div class="price">$79<small>$99</small></div><button class="btn btn-primary btn-sm">Add to cart</button></div></div>
+          <div class="p-card"><div class="imgph"><svg class="icon" viewBox="0 0 24 24"><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><path d="M8 9V5M16 9V5"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body"><div class="brand">Samsung</div><span class="name">Galaxy Buds2 Pro</span><div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.5 (391)</div><div class="price">$149</div><button class="btn btn-primary btn-sm">Add to cart</button></div></div>
+          <div class="p-card"><div class="imgph"><svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body"><div class="brand">Anker</div><span class="name">Soundcore Space One</span><div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.4 (276)</div><div class="price">$89</div><button class="btn btn-primary btn-sm">Add to cart</button></div></div>
+          <div class="p-card"><div class="imgph"><svg class="icon" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="3"/><circle cx="12" cy="15" r="3"/></svg><span class="wish"><svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></span></div>
+            <div class="body"><div class="brand">Sony</div><span class="name">SRS-XB100 speaker</span><div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>4.6 (718)</div><div class="price">$59</div><button class="btn btn-primary btn-sm">Add to cart</button></div></div>
+        </div>
+
+        <div class="pagination">
+          <button class="arrow" aria-label="Previous page">‹</button>
+          <button class="active">1</button><button>2</button><button>3</button><button>4</button>
+          <button class="arrow" aria-label="Next page">›</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="more">
+      <h2>Explore other categories</h2>
+      <div class="cat-strip">
+        <a class="cat-item" href="LumaStore-CategoryPage.html"><strong>Keyboards</strong><span>64 products</span></a>
+        <a class="cat-item" href="LumaStore-CategoryPage.html"><strong>Smart watches</strong><span>42 products</span></a>
+        <a class="cat-item" href="LumaStore-CategoryPage.html"><strong>Desk setup</strong><span>96 products</span></a>
+        <a class="cat-item" href="LumaStore-CategoryPage.html"><strong>Bags</strong><span>37 products</span></a>
+        <a class="cat-item" href="LumaStore-CategoryPage.html"><strong>Phone accessories</strong><span>53 products</span></a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Shop</h4><a href="LumaStore-CatalogPage.html">New arrivals</a><a href="LumaStore-CatalogPage.html">Best sellers</a><a href="LumaStore-CatalogPage.html">Deals</a></div>
+        <div class="foot-col"><h4>Company</h4><a href="LumaStore-AboutPage.html">About</a><a href="LumaStore-ContactPage.html">Contact</a></div>
+        <div class="foot-col"><h4>Support</h4><a href="LumaStore-ShippingReturnsPage.html">Shipping and returns</a><a href="LumaStore-FaqPage.html">FAQ</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet &amp; Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function single(sel){
+  document.querySelectorAll(sel).forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll(sel).forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  }));
+}
+single('.chip');
+single('.color-swatches button');
+single('.pagination button:not(.arrow)');
+</script>
+</body>
+</html>
