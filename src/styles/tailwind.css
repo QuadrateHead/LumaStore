@@ -1,1 +1,110 @@
 @import "tailwindcss";
+
+:root {
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --surface-2: #F4F4F6;
+  --text: #18181B;
+  --text-muted: #71717A;
+  --border: #E4E4E7;
+  --primary: #4F46E5;
+  --primary-hover: #4338CA;
+  --on-primary: #FFFFFF;
+  --accent: #F59E0B;
+  --on-accent: #78350F;
+  --success: #16A34A;
+  --danger: #DC2626;
+  --radius: 12px;
+  color-scheme: light;
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F0F14;
+    --surface: #1B1B24;
+    --surface-2: #232330;
+    --text: #F4F4F5;
+    --text-muted: #A1A1AA;
+    --border: #2C2C36;
+    --primary: #6366F1;
+    --primary-hover: #818CF8;
+    --on-primary: #0F0F14;
+    --accent: #FBBF24;
+    --on-accent: #451A03;
+    --success: #22C55E;
+    --danger: #EF4444;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0F0F14;
+  --surface: #1B1B24;
+  --surface-2: #232330;
+  --text: #F4F4F5;
+  --text-muted: #A1A1AA;
+  --border: #2C2C36;
+  --primary: #6366F1;
+  --primary-hover: #818CF8;
+  --on-primary: #0F0F14;
+  --accent: #FBBF24;
+  --on-accent: #451A03;
+  --success: #22C55E;
+  --danger: #EF4444;
+  color-scheme: dark;
+}
+
+@theme {
+  --font-sans: "Manrope", "Segoe UI", sans-serif;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --radius-md: var(--radius);
+  --radius-lg: 20px;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input {
+  font: inherit;
+}
