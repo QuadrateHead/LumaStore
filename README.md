@@ -1,75 +1,47 @@
-# React + TypeScript + Vite
+# LumaStore
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**A premium tech and lifestyle storefront, built as a modern e-commerce web app.**
 
-Currently, two official plugins are available:
+LumaStore is designed to make discovering and buying products feel clear and polished—from browsing a catalog to reviewing an order. The project also plans for a separate admin experience for managing store operations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Project goals
 
-## React Compiler
+- Create a responsive storefront for tech products and lifestyle accessories.
+- Build out product discovery, search, cart, wishlist, checkout, and customer account flows.
+- Provide admin screens for products, orders, customers, and promotions.
+- Keep the app modular and ready to connect to a backend as it grows.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+| Technology | Purpose |
+| --- | --- |
+| React 19 + TypeScript | User interface and typed application code |
+| Vite | Development server and production builds |
+| React Router | Client-side routing |
+| Tailwind CSS 4 + Sass | Styling |
+| ESLint | Code linting |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Useful scripts:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run build   # Type-check and create a production build
+npm run lint    # Run ESLint
+npm run preview # Preview the production build locally
 ```
+
+## Current status
+
+The repository is at its initial frontend scaffold stage; the storefront and admin features above describe the intended scope, not completed functionality. There is no live backend or payment integration at this stage.
+
+## Project notes
+
+- [Project overview](./context/project-overview.md)
+- [Architecture and stack direction](./context/architecture-context.md)
+- [UI design references](./context/UIHTMLDESIGN/)
