@@ -17,6 +17,7 @@
 ## Styling
 
 - Use Tailwind utilities as the primary styling mechanism.
+- Prefer the theme variables defined in `src/styles/tailwind.css` for shared colors, radii, and surfaces instead of introducing ad hoc values in component classes.
 - Keep visual decisions consistent with `ui-context.md`.
 - Do not hardcode colors or spacing patterns in a way that bypasses the design system.
 - Keep layout classes intentional and maintainable; avoid deep CSS nesting or broad resets.

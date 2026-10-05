@@ -2,11 +2,11 @@
 
 ## Current Phase
 
-- Planning / specification alignment
+- Implementation / reusable element extraction
 
 ## Current Goal
 
-- Prepare the project for implementation by aligning the context files with the LumaStore e-commerce spec and making the design source of truth clear.
+- Translate the reusable blocks from the LumaStore HTML mockups into a small, composable set of shared elements under `/src/elements`, using the generated Tailwind design tokens as the default styling source.
 
 ## Completed
 
@@ -14,16 +14,23 @@
 - Updated the project overview, architecture, UI direction, and standards to match the LumaStore requirements.
 - Added explicit directory-level standards for `/src/elements` and other `/src` folders.
 - Added a rule requiring design analysis to begin from the HTML mockups in `/src/UIHTMLDESIGN` before creating custom design solutions.
-- Reset the active issue backlog and re-established the tracker to a clean starting state.
+- Exported the initial reusable UI atoms from the HTML mockups into `/src/elements`:
+  - `Button`
+  - `Badge`
+  - `IconButton`
+  - `SectionHeader`
+  - `ProductCard`
+- Updated the app to demonstrate the exported elements using the theme variables from the design system.
+- Added the styling rule that shared colors and tokens should be sourced from `src/styles/tailwind.css` before introducing custom values.
 
 ## In Progress
 
-- None
+- Validation of the extracted element set against the HTML source and the project lint/build checks.
 
 ## Next Up
 
-- Begin implementation of the first approved feature slice using the HTML design mockups as the primary source of truth.
-- Keep work constrained to the current feature unit and update this tracker after each milestone.
+- Resolve any build or lint issues discovered during validation.
+- Extend additional reusable storefront sections only when the HTML source clearly supports a shared pattern.
 
 ## Open Questions
 
@@ -31,6 +38,5 @@
 
 ## Notes
 
-- All future implementation work should be guided by the approved context files and the UI HTML source material in the design folder.
-- Do not add new product or architecture behavior without updating the relevant context file first.
-- This tracker should remain concise and focused on the current implementation state.
+- The exported elements intentionally stay presentational and reusable; no page-level functionality or business logic was added to `/src/elements`.
+- Future implementation work should continue to derive from the HTML mockups and maintain the approved folder boundaries.
