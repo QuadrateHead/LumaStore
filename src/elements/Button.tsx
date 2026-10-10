@@ -21,8 +21,8 @@ const variantClasses: Record<ButtonVariant, string> = {
 }
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'px-3.5 py-2 text-xs',
-  md: 'px-5 py-3 text-sm',
+  sm: 'rounded-[9px] px-[14px] py-2 text-[13px]',
+  md: 'px-[22px] py-3 text-sm',
   lg: 'px-6 py-3.5 text-base',
 }
 
@@ -38,7 +38,7 @@ export function Button({
     <button
       type={type}
       className={[
-        'inline-flex items-center justify-center gap-2 rounded-[var(--radius)] font-bold transition-colors duration-200',
+        'inline-flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius)] font-bold leading-[1.6] transition-colors duration-200',
         variantClasses[variant],
         sizeClasses[size],
         className,

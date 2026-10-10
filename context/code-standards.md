@@ -16,7 +16,12 @@
 
 ## Styling
 
-- Use Tailwind utilities as the primary styling mechanism.
+- Use Tailwind utilities in component markup as the primary styling mechanism.
+- Do not add Sass/SCSS. Use plain CSS only for global tokens, browser-specific behavior, or repeated rules that cannot be expressed clearly with existing Tailwind utilities.
+- For shared components that appear across pages, use page-independent names such as `Header` and `Footer`; avoid page prefixes such as `HomeHeader` and `HomeFooter`.
+- Match typography in the source HTML precisely. In particular, buttons use `font-weight: 700` when that is the value in the mockup.
+- Merge required SVG base styles with caller-provided size classes so overrides do not remove icon strokes or fills.
+- Give interactive buttons a pointer cursor.
 - Prefer the theme variables defined in `src/styles/tailwind.css` for shared colors, radii, and surfaces instead of introducing ad hoc values in component classes.
 - Keep visual decisions consistent with `ui-context.md`.
 - Do not hardcode colors or spacing patterns in a way that bypasses the design system.
@@ -88,4 +93,3 @@ Rules:
 - Do not combine unrelated feature work into a single implementation step.
 - Reference the approved spec files before introducing new state or new product behavior.
 - Keep the app coherent enough to support real commerce features later without a large rewrite.
-

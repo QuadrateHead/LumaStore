@@ -1,5 +1,16 @@
 # UI Context
 
+## HTML Design Fidelity
+
+When recreating a page represented in `context/UIHTMLDESIGN`, use its HTML files as the source of truth. Match the mockup's content and UI as closely as possible:
+
+- Preserve the text and its meaning, DOM structure, layout, and styles from the corresponding HTML file.
+- Keep the mockup's images, icons, and other visual assets; do not replace, omit, or alter them as part of reproducing the UI.
+- Do not introduce new copy or visual design choices that diverge from the mockup.
+- If a referenced font is unavailable, load it from Google Fonts or the same source used by the HTML mockup. If a referenced icon is unavailable, use `lucide-react` as a fallback.
+
+These fidelity rules take precedence over the general design direction and patterns below wherever an HTML mockup exists for the page.
+
 ## General Direction
 
 LumaStore should feel premium, minimal, and conversion-focused. The visual design should communicate quality, trust, and clarity without feeling cluttered. The project favors spacious layouts, confident type hierarchy, and product-first merchandising.
@@ -81,7 +92,8 @@ The project should not simulate a dark movie-like aesthetic. It should feel like
 
 ## Component Styling Rules
 
-- Use Tailwind utilities for layout, spacing, border radius, and typography.
+- Use Tailwind utilities in component markup for layout, spacing, border radius, and typography; avoid Sass/SCSS.
+- Match each mockup's button font weight exactly (the HomePage buttons use `700`).
 - Prefer subtle shadows and borders over heavy decoration.
 - Maintain strong spacing rhythm between major sections and tighter grouping within individual blocks.
 - Keep cards visually consistent across homepage, catalog, and product detail contexts.
@@ -104,7 +116,7 @@ Common component categories for this project:
 
 ## Iconography
 
-Use Lucide React for consistent UI icons. Keep icons simple and line-based, with small emphasis only where needed.
+Preserve the icons shown in the HTML mockups. When a mockup does not specify an icon or its icon is unavailable, use Lucide React and keep icons simple and line-based.
 
 ## Accessibility and UX Expectations
 
