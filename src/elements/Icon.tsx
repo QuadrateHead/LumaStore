@@ -3,6 +3,7 @@ import type { SVGProps } from 'react'
 export type IconName =
   | 'cart'
   | 'heart'
+  | 'headphones'
   | 'image'
   | 'returns'
   | 'search'
@@ -36,6 +37,13 @@ export function Icon({ name, className = '', ...props }: IconProps) {
       ) : null}
       {name === 'heart' ? (
         <path d='M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z' />
+      ) : null}
+      {name === 'headphones' ? (
+        <>
+          <path d='M4 13a8 8 0 0 1 16 0' />
+          <rect x='2' y='13' width='5' height='7' rx='1.5' />
+          <rect x='17' y='13' width='5' height='7' rx='1.5' />
+        </>
       ) : null}
       {name === 'cart' ? (
         <>

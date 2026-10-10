@@ -1,5 +1,10 @@
 # Progress Tracker
 
+## Done Pages
+
+- HomePage (`/`) — based on `context/UIHTMLDESIGN/LumaStore-HomePage.html`.
+- ProductPage (`/product`, `/products/:slug`) — based on `context/UIHTMLDESIGN/LumaStore-ProductPage.html`.
+
 ## Current Phase
 
 - Implementation / mockup-driven page slices
@@ -7,7 +12,6 @@
 ## Current Goal
 
 - Add remaining static page routes from their HTML mockups, merging equivalent page designs where appropriate and adding no commerce behavior.
-- Add the theme switcher interaction to the HomePage header so it toggles the document theme between light and dark while preserving the HTML mockup behavior.
 
 ## Completed
 
@@ -33,6 +37,10 @@
 - Matched the product-card wishlist button to the mockup's 30px absolute top-right placement and used the accent button variant for the sale CTA.
 - Adjusted only the HomePage discount badge radius to the mockup's squarer 7px corners.
 - Added the HomePage theme switcher interaction, matching the HTML mockup by toggling the document theme between light and dark and swapping the button text between ☾ and ☀.
+- Exported the ProductPage mockup into a static React route at `/product` and `/products/:slug`, matching the original product copy, price blocks, tabbed content, swatches, quantity controls, and related product grid from the HTML source.
+- Aligned ProductPage responsive grids with the mockup's 860px breakpoint, reused the shared `ProductCard` for related products, and refined the gallery icon, card spacing, and button sizing for closer visual fidelity.
+- Matched ProductPage horizontal content padding to the HomePage, enforced the product wishlist control's 48px dimensions, and restored the active tab underline by separating active and inactive tab classes.
+- Added keyboard-accessible product gallery thumbnail selection with active-state styling and an announced main-image position.
 
 ## In Progress
 
@@ -49,5 +57,5 @@
 ## Notes
 
 - The exported elements intentionally stay presentational and reusable; no page-level functionality or business logic was added to `/src/elements`.
-- The HomePage slice was checked against `context/UIHTMLDESIGN/LumaStore-HomePage.html`; build, lint, and browser checks pass. The rendered screenshot confirms resized icons retain their outlines, and interactive buttons including card wishlists report a pointer cursor.
+- The HomePage slice was checked against `context/UIHTMLDESIGN/LumaStore-HomePage.html`; the ProductPage route is aligned with `context/UIHTMLDESIGN/LumaStore-ProductPage.html` and adds no commerce behavior beyond the mockup interactions present in the static HTML.
 - The root route uses Vite's configured base path. Future page implementation should continue to derive from the HTML mockups and maintain the approved folder boundaries.

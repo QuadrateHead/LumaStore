@@ -2,7 +2,9 @@
 
 ## Status
 
-- Resolved
+- Fix padding for main content, it should be the same like HomePage have
+- Fix watchlist button size
+- You lost underline under Description-FAQ blocks
 
 ## Notes
 
