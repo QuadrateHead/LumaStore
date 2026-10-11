@@ -4,6 +4,7 @@ import { AboutPage } from './pages/AboutPage'
 import { AccountPage } from './pages/AccountPage'
 import { AdminPage } from './pages/AdminPage'
 import { AdminProductFormPage } from './pages/AdminProductFormPage'
+import { CatalogPage } from './pages/CatalogPage'
 import { HomePage } from './pages/HomePage'
 import { ProductPage } from './pages/ProductPage'
 
@@ -14,10 +15,12 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/about' element={<AboutPage />} />
         <Route path='/account' element={<AccountPage />} />
+        <Route path='/catalog' element={<CatalogPage />} />
         <Route path='/admin' element={<AdminPage />} />
         <Route path='/admin/products/new' element={<AdminProductFormPage />} />
         <Route path='/admin/products/:id/edit' element={<AdminProductFormPage />} />
         <Route path='/product' element={<ProductPage />} />
+        <Route path='/products' element={<CatalogPage />} />
         <Route path='/products/:slug' element={<ProductPage />} />
       </Routes>
     </BrowserRouter>

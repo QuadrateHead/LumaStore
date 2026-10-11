@@ -6,7 +6,7 @@ const footerLinks = [
   { title: 'Support', links: ['Shipping and returns', 'FAQ'] },
 ]
 
-export function Footer() {
+export function Footer({ showNewsletter = true }: { showNewsletter?: boolean }) {
   return (
     <footer className='border-t border-border pb-[calc(32px+env(safe-area-inset-bottom,0px))] pt-12'>
       <div className='mx-auto max-w-[1180px] px-6'>
@@ -16,20 +16,22 @@ export function Footer() {
             <p className='mt-2 max-w-[34ch] text-sm text-text-muted'>
               Premium tech and workspace essentials for people who care about the details.
             </p>
-            <div className='mt-[14px] flex gap-2'>
-              <input
-                type='email'
-                placeholder='you@email.com'
-                aria-label='Email address'
-                className='w-[220px] rounded-[9px] border border-border bg-surface px-3 py-[9px] text-[13px] text-text'
-              />
-              <Button
-                size='sm'
-                className='rounded-[9px] px-[14px] py-2 text-[13px] leading-[1.6]'
-              >
-                Get updates
-              </Button>
-            </div>
+            {showNewsletter ? (
+              <div className='mt-[14px] flex gap-2'>
+                <input
+                  type='email'
+                  placeholder='you@email.com'
+                  aria-label='Email address'
+                  className='w-[220px] rounded-[9px] border border-border bg-surface px-3 py-[9px] text-[13px] text-text'
+                />
+                <Button
+                  size='sm'
+                  className='rounded-[9px] px-[14px] py-2 text-[13px] leading-[1.6]'
+                >
+                  Get updates
+                </Button>
+              </div>
+            ) : null}
           </div>
           <div className='flex flex-wrap gap-14'>
             {footerLinks.map(({ title, links }) => (

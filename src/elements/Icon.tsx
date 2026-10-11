@@ -6,14 +6,21 @@ export type IconName =
   | 'heart'
   | 'headphones'
   | 'image'
+  | 'keyboard'
   | 'location'
   | 'logout'
+  | 'mouse'
   | 'orders'
   | 'returns'
   | 'search'
   | 'shipping'
   | 'star'
   | 'support'
+  | 'phone'
+  | 'backpack'
+  | 'charger'
+  | 'watch'
+  | 'webcam'
   | 'lock'
   | 'monitor'
   | 'package'
@@ -99,6 +106,12 @@ export function Icon({ name, className = '', ...props }: IconProps) {
           stroke='none'
         />
       ) : null}
+      {name === 'charger' ? (
+        <>
+          <rect x='6' y='5' width='12' height='16' rx='2' />
+          <path d='M9 2v3m6-3v3m-4 6-2 3h3l-1 3 3-4h-3l1-2' />
+        </>
+      ) : null}
       {name === 'shipping' ? (
         <>
           <rect x='1' y='7' width='13' height='9' rx='1' />
@@ -123,6 +136,45 @@ export function Icon({ name, className = '', ...props }: IconProps) {
         <>
           <rect x='4' y='6' width='16' height='11' rx='2' />
           <path d='M8 20h8M12 17v3' />
+        </>
+      ) : null}
+      {name === 'keyboard' ? (
+        <>
+          <rect x='2' y='5' width='20' height='14' rx='2' />
+          <path d='M5 9h1m3 0h1m3 0h1m3 0h1M5 12h1m3 0h1m3 0h1m3 0h1M8 15h8' />
+        </>
+      ) : null}
+      {name === 'watch' ? (
+        <>
+          <path d='M8 3h8l1 4H7l1-4zM7 17h10l-1 4H8l-1-4z' />
+          <rect x='6' y='7' width='12' height='10' rx='3' />
+          <path d='M12 9v3l2 1' />
+        </>
+      ) : null}
+      {name === 'mouse' ? (
+        <>
+          <rect x='5' y='2' width='14' height='20' rx='7' />
+          <path d='M12 2v6' />
+        </>
+      ) : null}
+      {name === 'backpack' ? (
+        <>
+          <path d='M7 7V6a5 5 0 0 1 10 0v1' />
+          <rect x='4' y='7' width='16' height='14' rx='3' />
+          <path d='M8 7v3m8-3v3M8 14h8v7H8z' />
+        </>
+      ) : null}
+      {name === 'phone' ? (
+        <>
+          <rect x='6' y='2' width='12' height='20' rx='2' />
+          <path d='M10 5h4m-2 13h.01' />
+        </>
+      ) : null}
+      {name === 'webcam' ? (
+        <>
+          <rect x='3' y='5' width='18' height='13' rx='3' />
+          <circle cx='12' cy='11.5' r='3' />
+          <path d='M9 18v3m6-3v3m-6 0h6' />
         </>
       ) : null}
       {name === 'package' ? (
