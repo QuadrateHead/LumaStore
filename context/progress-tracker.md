@@ -67,6 +67,7 @@
 - Exported the AccountPage at `/account`, matching the account mockup's overview, profile, addresses, order history, and wishlist panels; sidebar navigation switches among these static panels, and the recent-order action opens order history.
 - Exported the static AdminPage dashboard at `/admin` with its KPI cards, sales chart, low-stock list, and recent order table; extracted shared admin sidebar, panel, KPI, and status components plus a reusable theme toggle for admin and storefront headers.
 - Added AdminPage sidebar tab switching between Overview, Products, and Orders, with matching content and page title; the overview's “View all” action opens Orders.
+- Connected the Admin sales graph range controls to the source mockup's Today, 7 days, 30 days, and This year datasets, with matching active selection and chart descriptions.
 - Added a page-export rule and code standard requiring repeated page elements to be extracted as reusable components or elements.
 
 ## In Progress

@@ -34,7 +34,45 @@ const sales = [
   { label: 'Fri', value: 1180 },
   { label: 'Sat', value: 760 },
   { label: 'Sun', value: 690 },
-]
+] as const
+
+type SalesRange = 'today' | '7' | '30' | 'year'
+
+const salesByRange: Record<SalesRange, readonly { label: string; value: number }[]> = {
+  today: [
+    { label: '9', value: 120 },
+    { label: '12', value: 340 },
+    { label: '15', value: 210 },
+    { label: '18', value: 480 },
+    { label: '21', value: 150 },
+  ],
+  '7': sales,
+  '30': [
+    { label: 'W1', value: 3900 },
+    { label: 'W2', value: 4600 },
+    { label: 'W3', value: 4100 },
+    { label: 'W4', value: 5200 },
+  ],
+  year: [
+    { label: 'Jan', value: 1800 },
+    { label: 'Feb', value: 2100 },
+    { label: 'Mar', value: 2600 },
+    { label: 'Apr', value: 2300 },
+    { label: 'May', value: 2900 },
+    { label: 'Jun', value: 3300 },
+    { label: 'Jul', value: 3100 },
+    { label: 'Aug', value: 3500 },
+    { label: 'Sep', value: 3800 },
+    { label: 'Oct', value: 1200 },
+  ],
+}
+
+const salesRangeLabels: Record<SalesRange, string> = {
+  today: 'today',
+  '7': 'the last seven days',
+  '30': 'the last 30 days',
+  year: 'this year',
+}
 
 const lowStock = [
   { name: 'Sony WH-1000XM5', count: '2 left' },
@@ -73,8 +111,9 @@ const productStatusClasses: Record<(typeof products)[number]['status'], string> 
   Archived: 'bg-surface-2 text-text-muted',
 }
 
-function SalesChart() {
-  const max = Math.max(...sales.map(({ value }) => value))
+function SalesChart({ range }: { range: SalesRange }) {
+  const rangeSales = salesByRange[range]
+  const max = Math.max(...rangeSales.map(({ value }) => value))
 
   return (
     <svg
@@ -82,11 +121,11 @@ function SalesChart() {
       viewBox='0 0 600 220'
       preserveAspectRatio='none'
       role='img'
-      aria-label='Sales chart for the last seven days'
+      aria-label={`Sales chart for ${salesRangeLabels[range]}`}
     >
       <line x1='0' x2='600' y1='190' y2='190' className='stroke-border' />
-      {sales.map(({ label, value }, index) => {
-        const width = 600 / sales.length
+      {rangeSales.map(({ label, value }, index) => {
+        const width = 600 / rangeSales.length
         const barWidth = Math.min(width * 0.55, 48)
         const height = (value / max) * 160
         const center = index * width + width / 2
@@ -198,6 +237,7 @@ function ProductsTable() {
 
 export function AdminPage() {
   const [activeSection, setActiveSection] = useState<AdminSection>('overview')
+  const [salesRange, setSalesRange] = useState<SalesRange>('7')
   const title = activeSection[0].toUpperCase() + activeSection.slice(1)
 
   return (
@@ -227,14 +267,29 @@ export function AdminPage() {
               title='Sales'
               action={
                 <div className='flex gap-1 rounded-[9px] bg-surface-2 p-[3px] text-xs font-bold text-text-muted'>
-                  <button type='button' className='rounded-[7px] px-3 py-1.5'>Today</button>
-                  <button type='button' aria-pressed='true' className='rounded-[7px] bg-surface px-3 py-1.5 text-text'>7 days</button>
-                  <button type='button' className='rounded-[7px] px-3 py-1.5'>30 days</button>
-                  <button type='button' className='rounded-[7px] px-3 py-1.5'>This year</button>
+                  {([
+                    ['today', 'Today'],
+                    ['7', '7 days'],
+                    ['30', '30 days'],
+                    ['year', 'This year'],
+                  ] as const).map(([range, label]) => (
+                    <button
+                      key={range}
+                      type='button'
+                      aria-pressed={salesRange === range}
+                      onClick={() => setSalesRange(range)}
+                      className={[
+                        'cursor-pointer rounded-[7px] px-3 py-1.5',
+                        salesRange === range ? 'bg-surface text-text' : '',
+                      ].join(' ')}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </div>
               }
             >
-              <SalesChart />
+              <SalesChart range={salesRange} />
             </AdminPanel>
 
             <AdminPanel title='Low stock'>
