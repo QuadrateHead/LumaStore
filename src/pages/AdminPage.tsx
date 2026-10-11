@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { AdminKpiCard } from '../components/AdminKpiCard'
 import { AdminPanel } from '../components/AdminPanel'
 import { AdminSidebar } from '../components/AdminSidebar'
@@ -89,14 +90,14 @@ const recentOrders: AdminOrder[] = [
 ]
 
 const products = [
-  { name: 'Sony WH-1000XM5', sku: 'AUD-1001', category: 'Audio', price: '$349', stock: '2', status: 'Published' },
-  { name: 'Keychron K2 Keyboard', sku: 'KEY-2040', category: 'Keyboards', price: '$129', stock: '3', status: 'Published' },
-  { name: 'Logitech MX Master 3S', sku: 'DSK-3012', category: 'Desk setup', price: '$76', stock: '48', status: 'Published' },
-  { name: 'Galaxy Watch 6', sku: 'WAT-4007', category: 'Smart watches', price: '$249', stock: '0', status: 'Out of stock' },
-  { name: '27" 4K Monitor', sku: 'DSK-3055', category: 'Desk setup', price: '$329', stock: '4', status: 'Published' },
-  { name: 'Everyday Backpack 20L', sku: 'BAG-5003', category: 'Bags', price: '$68', stock: '61', status: 'Draft' },
-  { name: 'PowerCore 20K Charger', sku: 'PHN-6021', category: 'Phone accessories', price: '$39', stock: '120', status: 'Published' },
-  { name: '4K Webcam', sku: 'DSK-3078', category: 'Desk setup', price: '$69', stock: '35', status: 'Archived' },
+  { id: '1', name: 'Sony WH-1000XM5', sku: 'AUD-1001', category: 'Audio', price: '$349', stock: '2', status: 'Published' },
+  { id: '2', name: 'Keychron K2 Keyboard', sku: 'KEY-2040', category: 'Keyboards', price: '$129', stock: '3', status: 'Published' },
+  { id: '3', name: 'Logitech MX Master 3S', sku: 'DSK-3012', category: 'Desk setup', price: '$76', stock: '48', status: 'Published' },
+  { id: '4', name: 'Galaxy Watch 6', sku: 'WAT-4007', category: 'Smart watches', price: '$249', stock: '0', status: 'Out of stock' },
+  { id: '5', name: '27" 4K Monitor', sku: 'DSK-3055', category: 'Desk setup', price: '$329', stock: '4', status: 'Published' },
+  { id: '6', name: 'Everyday Backpack 20L', sku: 'BAG-5003', category: 'Bags', price: '$68', stock: '61', status: 'Draft' },
+  { id: '7', name: 'PowerCore 20K Charger', sku: 'PHN-6021', category: 'Phone accessories', price: '$39', stock: '120', status: 'Published' },
+  { id: '8', name: '4K Webcam', sku: 'DSK-3078', category: 'Desk setup', price: '$69', stock: '35', status: 'Archived' },
 ] as const
 
 const orders: AdminOrder[] = [
@@ -223,7 +224,12 @@ function ProductsTable() {
               </td>
               <td className='whitespace-nowrap border-b border-border px-3.5 py-3'>
                 <div className='flex gap-2'>
-                  <Button variant='ghost' size='sm'>Edit</Button>
+                  <Link
+                    to={`/admin/products/${product.id}/edit`}
+                    className='inline-flex items-center justify-center rounded-[9px] border border-border px-[14px] py-2 text-[13px] font-bold text-text hover:bg-surface-2'
+                  >
+                    Edit
+                  </Link>
                   <Button variant='ghost' size='sm'>Delete</Button>
                 </div>
               </td>
@@ -236,7 +242,11 @@ function ProductsTable() {
 }
 
 export function AdminPage() {
-  const [activeSection, setActiveSection] = useState<AdminSection>('overview')
+  const location = useLocation()
+  const initialSection = location.hash.slice(1)
+  const [activeSection, setActiveSection] = useState<AdminSection>(
+    initialSection === 'products' || initialSection === 'orders' ? initialSection : 'overview',
+  )
   const [salesRange, setSalesRange] = useState<SalesRange>('7')
   const title = activeSection[0].toUpperCase() + activeSection.slice(1)
 
@@ -313,15 +323,15 @@ export function AdminPage() {
         </section> : null}
 
         {activeSection === 'products' ? (
-          <AdminPanel title='Products'>
+          <AdminPanel>
             <div className='mb-4 flex flex-wrap gap-2.5'>
               <input
-                className='min-w-[200px] flex-1 rounded-[9px] border border-border bg-surface px-3 py-[9px] text-[13px]'
+                className='min-w-[200px] flex-1 rounded-[9px] border border-border bg-surface px-3 py-[9px] text-[13px] leading-[1.6]'
                 placeholder='Search products or SKU'
                 aria-label='Search products'
               />
               <select
-                className='rounded-[9px] border border-border bg-surface px-3 py-[9px] text-[13px]'
+                className='rounded-[9px] border border-border bg-surface px-3 py-[9px] text-[13px] leading-[1.6]'
                 aria-label='Filter by status'
                 defaultValue=''
               >
@@ -331,7 +341,12 @@ export function AdminPage() {
                 <option>Out of stock</option>
                 <option>Archived</option>
               </select>
-              <Button>+ Add product</Button>
+              <Link
+                to='/admin/products/new'
+                className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-[9px] border border-transparent bg-primary px-3.5 py-2 text-[13px] font-bold leading-[1.6] text-on-primary transition-colors duration-200 hover:bg-primary-hover'
+              >
+                + Add product
+              </Link>
             </div>
             <ProductsTable />
           </AdminPanel>

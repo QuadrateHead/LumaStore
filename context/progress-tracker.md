@@ -7,10 +7,10 @@
 - AboutPage (`/about`) — based on `context/UIHTMLDESIGN/LumaStore-AboutPage.html`.
 - AccountPage (`/account`) — based on `context/UIHTMLDESIGN/LumaStore-AccountPage.html`.
 - AdminPage (`/admin`) — based on `context/UIHTMLDESIGN/LumaStore-AdminPage.html`.
+- AdminProductFormPage (`/admin/products/new`, `/admin/products/:id/edit`) — based on `context/UIHTMLDESIGN/LumaStore-AdminProductFormPage.html`.
 
 ## Not Done Pages
 
-- AdminProductFormPage (`/admin/products/new`, `/admin/products/:id/edit`) — based on `context/UIHTMLDESIGN/LumaStore-AdminProductFormPage.html`.
 - CartPage (`/cart`) — based on `context/UIHTMLDESIGN/LumaStore — Cart Page.html`.
 - CatalogPage (`/catalog`) — based on `context/UIHTMLDESIGN/LumaStore-CatalogPage.html`.
 - CategoryPage (`/category`, `/categories/:slug`) — based on `context/UIHTMLDESIGN/LumaStore-CategoryPage.html`.
@@ -68,6 +68,8 @@
 - Exported the static AdminPage dashboard at `/admin` with its KPI cards, sales chart, low-stock list, and recent order table; extracted shared admin sidebar, panel, KPI, and status components plus a reusable theme toggle for admin and storefront headers.
 - Added AdminPage sidebar tab switching between Overview, Products, and Orders, with matching content and page title; the overview's “View all” action opens Orders.
 - Connected the Admin sales graph range controls to the source mockup's Today, 7 days, 30 days, and This year datasets, with matching active selection and chart descriptions.
+- Matched the Admin Products panel to its HTML source by removing the duplicate panel heading and restoring the filter-row control sizing.
+- Exported AdminProductFormPage at `/admin/products/new` and `/admin/products/:id/edit` with mock edit examples, form validation feedback, image/specification row controls, and no persistence; linked the admin products view to create/edit routes.
 - Added a page-export rule and code standard requiring repeated page elements to be extracted as reusable components or elements.
 
 ## In Progress
@@ -76,7 +78,7 @@
 
 ## Next Up
 
-- Continue with AdminProductFormPage (`/admin/products/new`, `/admin/products/:id/edit`), reusing the shared admin shell and panels.
+- Continue with CartPage (`/cart`), reusing shared storefront components where applicable.
 
 ## Open Questions
 
@@ -85,5 +87,6 @@
 ## Notes
 
 - The exported elements intentionally stay presentational and reusable; no page-level functionality or business logic was added to `/src/elements`.
+- AdminProductFormPage keeps its interactions UI-only: it validates fields and shows feedback but does not persist product changes.
 - The HomePage slice was checked against `context/UIHTMLDESIGN/LumaStore-HomePage.html`; the ProductPage route is aligned with `context/UIHTMLDESIGN/LumaStore-ProductPage.html` and adds no commerce behavior beyond the mockup interactions present in the static HTML.
 - The root route uses Vite's configured base path. Future page implementation should continue to derive from the HTML mockups and maintain the approved folder boundaries.
