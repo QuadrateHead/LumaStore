@@ -116,8 +116,8 @@ export function ProductPage() {
                 <span>4.8 · 1,204 reviews</span>
               </div>
 
-              <div className='mb-4 flex items-baseline gap-2.5'>
-                <span className='text-[30px] font-extrabold'>$349</span>
+              <div className='mb-4 flex items-end gap-2.5'>
+                <span className='text-[30px] leading-none font-extrabold'>$349</span>
                 <span className='text-[15px] text-text-muted line-through'>$399</span>
                 <span className='rounded-[7px] bg-accent px-2 py-[3px] text-[11px] font-bold text-on-accent'>-13%</span>
               </div>

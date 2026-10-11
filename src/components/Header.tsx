@@ -1,31 +1,12 @@
-import { useEffect, useState } from 'react'
-
 import { Button, IconButton } from '../elements'
 import { Icon } from '../elements/Icon'
+import { ThemeToggle } from './ThemeToggle'
 
-type Theme = 'light' | 'dark'
-
-function getPreferredTheme(): Theme {
-  const currentTheme = document.documentElement.getAttribute('data-theme')
-
-  if (currentTheme === 'light' || currentTheme === 'dark') {
-    return currentTheme
-  }
-
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+type HeaderProps = {
+  accountName?: string
 }
 
-export function Header() {
-  const [theme, setTheme] = useState<Theme>(getPreferredTheme)
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-  }, [theme])
-
-  const toggleTheme = () => {
-    setTheme((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'))
-  }
-
+export function Header({ accountName }: HeaderProps) {
   return (
     <header className='sticky top-0 z-10 border-b border-border bg-bg pt-[env(safe-area-inset-top,0px)]'>
       <div className='mx-auto flex h-[72px] max-w-[1180px] items-center justify-between gap-6 px-6'>
@@ -58,20 +39,25 @@ export function Header() {
             badge='2'
             aria-label='Cart'
           />
-          <Button
-            size='sm'
-            className='rounded-[9px] px-[14px] py-2 text-[13px] leading-[1.6]'
-          >
-            Sign in
-          </Button>
-          <button
-            type='button'
-            onClick={toggleTheme}
-            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-full border border-border bg-surface text-text'
-            aria-label='Toggle theme'
-          >
-            {theme === 'dark' ? '☀' : '☾'}
-          </button>
+          {accountName ? (
+            <div className='flex items-center gap-[9px] rounded-full border border-border bg-surface py-[5px] pl-[5px] pr-[14px]'>
+              <span className='flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-extrabold text-on-primary'>
+                {accountName
+                  .split(' ')
+                  .map((part) => part[0])
+                  .join('')}
+              </span>
+              <span className='text-[13px] font-bold'>{accountName.split(' ')[0]}</span>
+            </div>
+          ) : (
+            <Button
+              size='sm'
+              className='rounded-[9px] px-[14px] py-2 text-[13px] leading-[1.6]'
+            >
+              Sign in
+            </Button>
+          )}
+          <ThemeToggle />
         </div>
       </div>
     </header>

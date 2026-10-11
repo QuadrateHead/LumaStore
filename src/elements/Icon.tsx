@@ -2,15 +2,22 @@ import type { SVGProps } from 'react'
 
 export type IconName =
   | 'cart'
+  | 'dashboard'
   | 'heart'
   | 'headphones'
   | 'image'
+  | 'location'
+  | 'logout'
+  | 'orders'
   | 'returns'
   | 'search'
   | 'shipping'
   | 'star'
   | 'support'
   | 'lock'
+  | 'monitor'
+  | 'package'
+  | 'user'
 
 type IconProps = SVGProps<SVGSVGElement> & {
   name: IconName
@@ -52,11 +59,37 @@ export function Icon({ name, className = '', ...props }: IconProps) {
           <path d='M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6' />
         </>
       ) : null}
+      {name === 'dashboard' ? (
+        <>
+          <rect x='3' y='3' width='7' height='7' rx='1.5' />
+          <rect x='14' y='3' width='7' height='7' rx='1.5' />
+          <rect x='3' y='14' width='7' height='7' rx='1.5' />
+          <rect x='14' y='14' width='7' height='7' rx='1.5' />
+        </>
+      ) : null}
       {name === 'image' ? (
         <>
           <rect x='2' y='4' width='20' height='16' rx='2' />
           <circle cx='8' cy='10' r='1.6' />
           <path d='M2 16l5-5 4 4 5-6 6 7' />
+        </>
+      ) : null}
+      {name === 'location' ? (
+        <>
+          <path d='M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11z' />
+          <circle cx='12' cy='10' r='2.4' />
+        </>
+      ) : null}
+      {name === 'logout' ? (
+        <>
+          <path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4' />
+          <path d='M16 17l5-5-5-5M21 12H9' />
+        </>
+      ) : null}
+      {name === 'orders' ? (
+        <>
+          <path d='M4 20V9a2 2 0 0 1 2-2h1l1-3h8l1 3h1a2 2 0 0 1 2 2v11' />
+          <path d='M4 20h16' />
         </>
       ) : null}
       {name === 'star' ? (
@@ -86,12 +119,30 @@ export function Icon({ name, className = '', ...props }: IconProps) {
           <path d='M8 10V7a4 4 0 0 1 8 0v3' />
         </>
       ) : null}
+      {name === 'monitor' ? (
+        <>
+          <rect x='4' y='6' width='16' height='11' rx='2' />
+          <path d='M8 20h8M12 17v3' />
+        </>
+      ) : null}
+      {name === 'package' ? (
+        <>
+          <path d='M21 8l-9-5-9 5 9 5 9-5z' />
+          <path d='M3 8v8l9 5 9-5V8' />
+        </>
+      ) : null}
       {name === 'support' ? (
         <>
           <path d='M4 13a8 8 0 0 1 16 0' />
           <rect x='2' y='13' width='5' height='7' rx='1.5' />
           <rect x='17' y='13' width='5' height='7' rx='1.5' />
           <path d='M20 20a4 4 0 0 1-4 4h-2' />
+        </>
+      ) : null}
+      {name === 'user' ? (
+        <>
+          <circle cx='12' cy='8' r='4' />
+          <path d='M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7' />
         </>
       ) : null}
     </svg>

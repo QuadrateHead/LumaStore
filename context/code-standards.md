@@ -4,6 +4,7 @@
 
 - Keep components small and single-purpose. One component should solve one problem clearly.
 - Prefer reusable building blocks over page-specific duplication.
+- When a page element is used on another page, extract it into a reusable component or element instead of duplicating it. Use `/src/components` for assembled sections and page blocks, and `/src/elements` for generic UI atoms.
 - Fix root causes rather than layering one-off CSS overrides or ad hoc hacks.
 - Keep storefront and admin workflows visually and structurally separated.
 

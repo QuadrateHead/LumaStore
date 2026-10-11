@@ -4,6 +4,26 @@
 
 - HomePage (`/`) — based on `context/UIHTMLDESIGN/LumaStore-HomePage.html`.
 - ProductPage (`/product`, `/products/:slug`) — based on `context/UIHTMLDESIGN/LumaStore-ProductPage.html`.
+- AboutPage (`/about`) — based on `context/UIHTMLDESIGN/LumaStore-AboutPage.html`.
+- AccountPage (`/account`) — based on `context/UIHTMLDESIGN/LumaStore-AccountPage.html`.
+- AdminPage (`/admin`) — based on `context/UIHTMLDESIGN/LumaStore-AdminPage.html`.
+
+## Not Done Pages
+
+- AdminProductFormPage (`/admin/products/new`, `/admin/products/:id/edit`) — based on `context/UIHTMLDESIGN/LumaStore-AdminProductFormPage.html`.
+- CartPage (`/cart`) — based on `context/UIHTMLDESIGN/LumaStore — Cart Page.html`.
+- CatalogPage (`/catalog`) — based on `context/UIHTMLDESIGN/LumaStore-CatalogPage.html`.
+- CategoryPage (`/category`, `/categories/:slug`) — based on `context/UIHTMLDESIGN/LumaStore-CategoryPage.html`.
+- CheckoutPage (`/checkout`) — based on `context/UIHTMLDESIGN/LumaStore — Checkout Page.html`.
+- CheckoutSuccessPage (`/checkout/success`) — based on `context/UIHTMLDESIGN/LumaStore-CheckoutSuccessPage.html`.
+- ContactPage (`/contact`) — based on `context/UIHTMLDESIGN/LumaStore-ContactPage.html`.
+- FaqPage (`/faq`) — based on `context/UIHTMLDESIGN/LumaStore-FaqPage.html`.
+- LoginPage (`/login`) — based on `context/UIHTMLDESIGN/LumaStore-LoginPage.html`.
+- OrderDetailsPage (`/account/orders/:id`) — based on `context/UIHTMLDESIGN/LumaStore-OrderDetailsPage.html`.
+- RegisterPage (`/register`) — based on `context/UIHTMLDESIGN/LumaStore-RegisterPage.html`.
+- SearchPage (`/search`) — based on `context/UIHTMLDESIGN/LumaStore-SearchPage.html`.
+- ShippingReturnsPage (`/shipping-returns`) — based on `context/UIHTMLDESIGN/LumaStore-ShippingReturnsPage.html`.
+- WishlistPage (`/wishlist`) — based on `context/UIHTMLDESIGN/LumaStore-WishlistPage.html`.
 
 ## Current Phase
 
@@ -41,6 +61,13 @@
 - Aligned ProductPage responsive grids with the mockup's 860px breakpoint, reused the shared `ProductCard` for related products, and refined the gallery icon, card spacing, and button sizing for closer visual fidelity.
 - Matched ProductPage horizontal content padding to the HomePage, enforced the product wishlist control's 48px dimensions, and restored the active tab underline by separating active and inactive tab classes.
 - Added keyboard-accessible product gallery thumbnail selection with active-state styling and an announced main-image position.
+- Aligned the product price, original price, and discount badge to a shared bottom edge.
+- Reduced the main product price line-height so its text aligns with the original price and discount badge instead of sitting high in the row.
+- Matched the AboutPage heading line-height to its HTML source and extracted a shared `PromoBanner` used by HomePage and AboutPage while preserving each mockup's sizing and action.
+- Exported the AccountPage at `/account`, matching the account mockup's overview, profile, addresses, order history, and wishlist panels; sidebar navigation switches among these static panels, and the recent-order action opens order history.
+- Exported the static AdminPage dashboard at `/admin` with its KPI cards, sales chart, low-stock list, and recent order table; extracted shared admin sidebar, panel, KPI, and status components plus a reusable theme toggle for admin and storefront headers.
+- Added AdminPage sidebar tab switching between Overview, Products, and Orders, with matching content and page title; the overview's “View all” action opens Orders.
+- Added a page-export rule and code standard requiring repeated page elements to be extracted as reusable components or elements.
 
 ## In Progress
 
@@ -48,7 +75,7 @@
 
 ## Next Up
 
-- Map the next HTML mockups and identify shared components and merged page routes before implementing another page slice.
+- Continue with AdminProductFormPage (`/admin/products/new`, `/admin/products/:id/edit`), reusing the shared admin shell and panels.
 
 ## Open Questions
 

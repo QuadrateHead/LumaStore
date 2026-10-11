@@ -1,5 +1,6 @@
 import { Badge, Button, ProductCard, SectionHeader } from '../elements'
 import { Icon } from '../elements/Icon'
+import { PromoBanner } from './PromoBanner'
 
 const newArrivals = [
   { name: 'Wireless headphones', price: '$199', originalPrice: '$249' },
@@ -159,12 +160,10 @@ export function PromotionSection() {
   return (
     <section id='deals' className='py-5'>
       <div className='mx-auto max-w-[1180px] px-6'>
-        <div className='flex flex-wrap items-center justify-between gap-6 rounded-[20px] bg-primary p-12 text-on-primary'>
-          <h3 className='max-w-[34ch] text-[26px] font-extrabold tracking-[-0.02em]'>
-            Summer desk setup sale — up to 25% off monitors, lamps, and keyboards.
-          </h3>
-          <Button variant='accent'>Shop the sale</Button>
-        </div>
+        <PromoBanner
+          title='Summer desk setup sale — up to 25% off monitors, lamps, and keyboards.'
+          action={<Button variant='accent'>Shop the sale</Button>}
+        />
       </div>
     </section>
   )
