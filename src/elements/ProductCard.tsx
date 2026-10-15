@@ -71,7 +71,7 @@ export function ProductCard({
             </small>
           ) : null}
         </div>
-        <Button size='sm' className='w-full border-0'>Add to cart</Button>
+        <Button size='sm' className='w-full cursor-pointer border-0'>Add to cart</Button>
       </div>
     </article>
   )

@@ -9,10 +9,10 @@
 - CatalogPage (`/catalog`, `/products`) — based on `context/UIHTMLDESIGN/LumaStore-CatalogPage.html`.
 - AdminPage (`/admin`) — based on `context/UIHTMLDESIGN/LumaStore-AdminPage.html`.
 - AdminProductFormPage (`/admin/products/new`, `/admin/products/:id/edit`) — based on `context/UIHTMLDESIGN/LumaStore-AdminProductFormPage.html`.
+- CartPage (`/cart`) — based on `context/UIHTMLDESIGN/LumaStore — Cart Page.html`.
 
 ## Not Done Pages
 
-- CartPage (`/cart`) — based on `context/UIHTMLDESIGN/LumaStore — Cart Page.html`.
 - CategoryPage (`/category`, `/categories/:slug`) — based on `context/UIHTMLDESIGN/LumaStore-CategoryPage.html`.
 - CheckoutPage (`/checkout`) — based on `context/UIHTMLDESIGN/LumaStore — Checkout Page.html`.
 - CheckoutSuccessPage (`/checkout/success`) — based on `context/UIHTMLDESIGN/LumaStore-CheckoutSuccessPage.html`.
@@ -71,6 +71,7 @@
 - Matched the Admin Products panel to its HTML source by removing the duplicate panel heading and restoring the filter-row control sizing.
 - Exported CatalogPage at `/catalog` and `/products` with responsive filters, the source mockup's product cards, sort selector, color swatches, mobile filter toggle, and pagination controls; reused shared header, footer, and product-card components.
 - Exported AdminProductFormPage at `/admin/products/new` and `/admin/products/:id/edit` with mock edit examples, form validation feedback, image/specification row controls, and no persistence; linked the admin products view to create/edit routes.
+- Exported CartPage at `/cart` with the mockup's cart summary, quantity controls, coupon interaction, and related product recommendations; matched the recommendation grid's 860px responsive breakpoint and kept all behavior UI-only.
 - Added a page-export rule and code standard requiring repeated page elements to be extracted as reusable components or elements.
 
 ## In Progress
@@ -79,7 +80,7 @@
 
 ## Next Up
 
-- Continue with CartPage (`/cart`), reusing shared storefront components where applicable.
+- Continue with CheckoutPage (`/checkout`), reusing shared storefront components where applicable.
 
 ## Open Questions
 

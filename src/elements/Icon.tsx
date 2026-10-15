@@ -17,6 +17,7 @@ export type IconName =
   | 'star'
   | 'support'
   | 'phone'
+  | 'trash'
   | 'backpack'
   | 'charger'
   | 'watch'
@@ -155,6 +156,11 @@ export function Icon({ name, className = '', ...props }: IconProps) {
         <>
           <rect x='5' y='2' width='14' height='20' rx='7' />
           <path d='M12 2v6' />
+        </>
+      ) : null}
+      {name === 'trash' ? (
+        <>
+          <path d='M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V6z' />
         </>
       ) : null}
       {name === 'backpack' ? (
