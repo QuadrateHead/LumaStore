@@ -6,6 +6,7 @@ import { AdminPage } from './pages/AdminPage'
 import { AdminProductFormPage } from './pages/AdminProductFormPage'
 import { CartPage } from './pages/CartPage'
 import { CatalogPage } from './pages/CatalogPage'
+import { CheckoutPage } from './pages/CheckoutPage'
 import { HomePage } from './pages/HomePage'
 import { ProductPage } from './pages/ProductPage'
 
@@ -18,6 +19,8 @@ function App() {
         <Route path='/account' element={<AccountPage />} />
         <Route path='/catalog' element={<CatalogPage />} />
         <Route path='/cart' element={<CartPage />} />
+        <Route path='/checkout' element={<CheckoutPage />} />
+        <Route path='/checkout/success' element={<CheckoutPage />} />
         <Route path='/admin' element={<AdminPage />} />
         <Route path='/admin/products/new' element={<AdminProductFormPage />} />
         <Route path='/admin/products/:id/edit' element={<AdminProductFormPage />} />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
@@ -47,6 +47,7 @@ const suggestedProducts = [
 const formatCurrency = (value: number) => `$${value.toFixed(2)}`
 
 export function CartPage() {
+  const navigate = useNavigate()
   const [items, setItems] = useState<CartProduct[]>(initialItems)
   const [coupon, setCoupon] = useState('')
   const [couponState, setCouponState] = useState<'ok' | 'err' | null>(null)
@@ -219,7 +220,7 @@ export function CartPage() {
                   <span>{formatCurrency(total)}</span>
                 </div>
 
-                <Button className='mt-4 w-full'>Checkout</Button>
+                <Button className='mt-4 w-full' onClick={() => navigate('/checkout')}>Checkout</Button>
                 <Link to='/products' className='mt-3 block text-center text-[13px] font-bold text-primary'>
                   Continue shopping
                 </Link>

@@ -18,6 +18,7 @@ export type IconName =
   | 'support'
   | 'phone'
   | 'trash'
+  | 'check'
   | 'backpack'
   | 'charger'
   | 'watch'
@@ -162,6 +163,9 @@ export function Icon({ name, className = '', ...props }: IconProps) {
         <>
           <path d='M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V6z' />
         </>
+      ) : null}
+      {name === 'check' ? (
+        <path d='M20 6L9 17l-5-5' />
       ) : null}
       {name === 'backpack' ? (
         <>

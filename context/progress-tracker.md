@@ -10,12 +10,11 @@
 - AdminPage (`/admin`) — based on `context/UIHTMLDESIGN/LumaStore-AdminPage.html`.
 - AdminProductFormPage (`/admin/products/new`, `/admin/products/:id/edit`) — based on `context/UIHTMLDESIGN/LumaStore-AdminProductFormPage.html`.
 - CartPage (`/cart`) — based on `context/UIHTMLDESIGN/LumaStore — Cart Page.html`.
+- CheckoutPage (`/checkout`, `/checkout/success`) — combines the checkout flow and order confirmation designs from `context/UIHTMLDESIGN/LumaStore — Checkout Page.html` and `context/UIHTMLDESIGN/LumaStore-CheckoutSuccessPage.html`.
 
 ## Not Done Pages
 
 - CategoryPage (`/category`, `/categories/:slug`) — based on `context/UIHTMLDESIGN/LumaStore-CategoryPage.html`.
-- CheckoutPage (`/checkout`) — based on `context/UIHTMLDESIGN/LumaStore — Checkout Page.html`.
-- CheckoutSuccessPage (`/checkout/success`) — based on `context/UIHTMLDESIGN/LumaStore-CheckoutSuccessPage.html`.
 - ContactPage (`/contact`) — based on `context/UIHTMLDESIGN/LumaStore-ContactPage.html`.
 - FaqPage (`/faq`) — based on `context/UIHTMLDESIGN/LumaStore-FaqPage.html`.
 - LoginPage (`/login`) — based on `context/UIHTMLDESIGN/LumaStore-LoginPage.html`.
@@ -72,6 +71,7 @@
 - Exported CatalogPage at `/catalog` and `/products` with responsive filters, the source mockup's product cards, sort selector, color swatches, mobile filter toggle, and pagination controls; reused shared header, footer, and product-card components.
 - Exported AdminProductFormPage at `/admin/products/new` and `/admin/products/:id/edit` with mock edit examples, form validation feedback, image/specification row controls, and no persistence; linked the admin products view to create/edit routes.
 - Exported CartPage at `/cart` with the mockup's cart summary, quantity controls, coupon interaction, and related product recommendations; matched the recommendation grid's 860px responsive breakpoint and kept all behavior UI-only.
+- Exported CheckoutPage at `/checkout` and `/checkout/success`, combining the five-step checkout and order confirmation mockups with UI-only field validation, delivery selection, masked payment review, and static order summaries; linked the CartPage checkout action to the flow.
 - Added a page-export rule and code standard requiring repeated page elements to be extracted as reusable components or elements.
 
 ## In Progress
@@ -80,7 +80,7 @@
 
 ## Next Up
 
-- Continue with CheckoutPage (`/checkout`), reusing shared storefront components where applicable.
+- Continue with CategoryPage (`/category`, `/categories/:slug`), reusing shared storefront components where applicable.
 
 ## Open Questions
 
@@ -91,5 +91,6 @@
 - The exported elements intentionally stay presentational and reusable; no page-level functionality or business logic was added to `/src/elements`.
 - AdminProductFormPage keeps its interactions UI-only: it validates fields and shows feedback but does not persist product changes.
 - CatalogPage filter controls, swatches, and pagination are UI-only and do not change product data.
+- CheckoutPage is a mock UI flow only: it performs no payment or order submission, retains only the masked card suffix for review, and limits formatted phone input to 12 digits.
 - The HomePage slice was checked against `context/UIHTMLDESIGN/LumaStore-HomePage.html`; the ProductPage route is aligned with `context/UIHTMLDESIGN/LumaStore-ProductPage.html` and adds no commerce behavior beyond the mockup interactions present in the static HTML.
 - The root route uses Vite's configured base path. Future page implementation should continue to derive from the HTML mockups and maintain the approved folder boundaries.
