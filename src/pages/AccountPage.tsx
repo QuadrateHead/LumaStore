@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
@@ -36,6 +36,7 @@ const wishlist = [
 
 export function AccountPage() {
   const [activeTab, setActiveTab] = useState<AccountTab>('overview')
+  const navigate = useNavigate()
 
   return (
     <div className='min-h-screen leading-[1.6]'>
@@ -208,7 +209,14 @@ export function AccountPage() {
                         </span>
                         <div className='min-w-[70px] text-sm font-extrabold'>{total}</div>
                         <div className='flex gap-2'>
-                          <Button variant='ghost' size='sm'>View details</Button>
+                          <Button
+                            variant='ghost'
+                            size='sm'
+                            onClick={() => navigate(`/account/orders/${id}`)}
+                            disabled={id !== 'LUMA-10482'}
+                          >
+                            View details
+                          </Button>
                           {reorder ? <Button size='sm'>Reorder</Button> : null}
                         </div>
                       </article>

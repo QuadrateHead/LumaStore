@@ -21,7 +21,7 @@ const footerLinks = [
   {
     title: 'Support',
     links: [
-      { label: 'Shipping and returns', to: '#' },
+      { label: 'Shipping and returns', to: '/shipping-and-returns' },
       { label: 'FAQ', to: '/faq' },
     ],
   },

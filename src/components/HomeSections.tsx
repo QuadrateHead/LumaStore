@@ -20,11 +20,11 @@ const bestSellers = [
 ]
 
 const categories = [
-  { name: 'Audio', count: '128 products' },
-  { name: 'Keyboards', count: '64 products' },
-  { name: 'Smart watches', count: '42 products' },
-  { name: 'Desk setup', count: '96 products' },
-  { name: 'Bags', count: '37 products' },
+  { name: 'Audio', count: '128 products', to: '/categories/audio' },
+  { name: 'Keyboards', count: '64 products', to: '/categories/keyboards' },
+  { name: 'Smart watches', count: '42 products', to: '/categories/smart-watches' },
+  { name: 'Desk setup', count: '96 products', to: '/categories/desk-setup' },
+  { name: 'Bags', count: '37 products', to: '/categories/bags' },
 ]
 
 const benefits = [

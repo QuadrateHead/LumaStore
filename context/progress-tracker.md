@@ -16,13 +16,14 @@
 - FaqPage (`/faq`) — based on `context/UIHTMLDESIGN/LumaStore-FaqPage.html`.
 - LoginPage (`/login`) — based on `context/UIHTMLDESIGN/LumaStore-LoginPage.html`.
 - RegisterPage (`/register`) — based on `context/UIHTMLDESIGN/LumaStore-RegisterPage.html`.
+- OrderDetailsPage (`/account/orders/:id`) — based on `context/UIHTMLDESIGN/LumaStore-OrderDetailsPage.html`; displays the shipped sample order with mock tracking, invoice-print, copy-number, and reorder interactions.
+- SearchPage (`/search`) — based on `context/UIHTMLDESIGN/LumaStore-SearchPage.html`.
+- ShippingReturnsPage (`/shipping-and-returns`, `/shipping-returns`) — based on `context/UIHTMLDESIGN/LumaStore-ShippingReturnsPage.html`.
+- WishlistPage (`/wishlist`) — based on `context/UIHTMLDESIGN/LumaStore-WishlistPage.html`.
 
 ## Not Done Pages
 
-- OrderDetailsPage (`/account/orders/:id`) — based on `context/UIHTMLDESIGN/LumaStore-OrderDetailsPage.html`.
-- SearchPage (`/search`) — based on `context/UIHTMLDESIGN/LumaStore-SearchPage.html`.
-- ShippingReturnsPage (`/shipping-returns`) — based on `context/UIHTMLDESIGN/LumaStore-ShippingReturnsPage.html`.
-- WishlistPage (`/wishlist`) — based on `context/UIHTMLDESIGN/LumaStore-WishlistPage.html`.
+- None.
 
 ## Current Phase
 
@@ -30,7 +31,7 @@
 
 ## Current Goal
 
-- Add remaining static page routes from their HTML mockups, merging equivalent page designs where appropriate and adding no commerce behavior.
+- Complete the HTML mockup page exports while keeping interactions UI-only.
 
 ## Completed
 
@@ -51,6 +52,8 @@
 - Loaded the Manrope font used in the mockup.
 - Replaced HomePage SCSS with Tailwind utility classes, renamed the shared layout components `Header` and `Footer`, and corrected the unlayered font reset that prevented button `font-bold` from taking effect.
 - Added implementation guidance for Tailwind-first styling, shared component naming, and mockup button font weight.
+- Made the HomePage category tiles navigate to their matching category routes and linked the shared LumaStore wordmark to HomePage.
+- Matched HomePage category tiles to the CategoryPage category-strip styling, including the shared hover treatment and responsive layout.
 - Removed unused Sass source files and the direct Sass compiler dependency after the HomePage migration.
 - Fixed SVG icons losing their base stroke/fill styles when custom classes were provided, and added pointer cursors to interactive button elements including product-card wishlist buttons.
 - Matched the product-card wishlist button to the mockup's 30px absolute top-right placement and used the accent button variant for the sale CTA.
@@ -77,6 +80,9 @@
 - Exported ContactPage at `/contact` with the mockup's contact details, responsive message form, Zod validation, and UI-only submission confirmation.
 - Exported FaqPage at `/faq` with linked topic navigation, native disclosure answers, and a contact call-to-action.
 - Exported LoginPage and RegisterPage at `/login` and `/register` with shared auth layout/password controls, Zod validation, password strength feedback, and mock-only submission interactions.
+- Exported SearchPage at `/search` with the mockup's product results, query/empty states, local filters, sorting, and search chips; wired the shared header search form and wishlist/cart links.
+- Exported ShippingReturnsPage at `/shipping-and-returns` and `/shipping-returns` with section navigation, shipping options, return steps, refund guidance, and a contact-support link.
+- Exported WishlistPage at `/wishlist` with the mockup's five sample products, local sorting/removal/move-to-cart feedback, out-of-stock state, and empty state.
 
 ## In Progress
 
@@ -84,7 +90,7 @@
 
 ## Next Up
 
-- Continue with OrderDetailsPage (`/account/orders/:id`), reusing shared storefront components where applicable.
+- No remaining HTML mockup pages are listed as not done.
 
 ## Open Questions
 
@@ -100,5 +106,7 @@
 - ContactPage form submission is UI-only and does not send or persist messages.
 - FaqPage questions use native disclosure elements and provide static informational content only.
 - LoginPage and RegisterPage simulate authentication/registration feedback only; they do not create sessions, persist user data, or perform real social sign-in.
+- OrderDetailsPage is a static sample order view; tracking, invoice printing, clipboard feedback, and reorder feedback are UI-only, and only the sample order `LUMA-10482` is available.
+- SearchPage and WishlistPage use mock products and local UI state only; they do not fetch or persist product, wishlist, or cart data.
 - The HomePage slice was checked against `context/UIHTMLDESIGN/LumaStore-HomePage.html`; the ProductPage route is aligned with `context/UIHTMLDESIGN/LumaStore-ProductPage.html` and adds no commerce behavior beyond the mockup interactions present in the static HTML.
 - The root route uses Vite's configured base path. Future page implementation should continue to derive from the HTML mockups and maintain the approved folder boundaries.

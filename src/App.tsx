@@ -14,6 +14,10 @@ import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
 import { ProductPage } from './pages/ProductPage'
 import { RegisterPage } from './pages/RegisterPage'
+import { OrderDetailsPage } from './pages/OrderDetailsPage'
+import { SearchPage } from './pages/SearchPage'
+import { ShippingReturnsPage } from './pages/ShippingReturnsPage'
+import { WishlistPage } from './pages/WishlistPage'
 
 function App() {
   return (
@@ -22,6 +26,7 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/about' element={<AboutPage />} />
         <Route path='/account' element={<AccountPage />} />
+        <Route path='/account/orders/:id' element={<OrderDetailsPage />} />
         <Route path='/catalog' element={<CatalogPage />} />
         <Route path='/category' element={<CategoryPage />} />
         <Route path='/categories/:slug' element={<CategoryPage />} />
@@ -32,6 +37,10 @@ function App() {
         <Route path='/faq' element={<FaqPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/register' element={<RegisterPage />} />
+        <Route path='/search' element={<SearchPage />} />
+        <Route path='/shipping-and-returns' element={<ShippingReturnsPage />} />
+        <Route path='/shipping-returns' element={<ShippingReturnsPage />} />
+        <Route path='/wishlist' element={<WishlistPage />} />
         <Route path='/admin' element={<AdminPage />} />
         <Route path='/admin/products/new' element={<AdminProductFormPage />} />
         <Route path='/admin/products/:id/edit' element={<AdminProductFormPage />} />

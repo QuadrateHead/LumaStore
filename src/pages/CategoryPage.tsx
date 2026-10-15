@@ -209,7 +209,6 @@ export function CategoryPage() {
             <h2 className='mb-5 text-[22px] font-extrabold tracking-[-0.02em]'>Explore other categories</h2>
             <CategoryStrip
               items={otherCategories}
-              variant='related'
             />
           </section>
         </div>

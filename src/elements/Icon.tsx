@@ -33,6 +33,7 @@ export type IconName =
   | 'monitor'
   | 'package'
   | 'user'
+  | 'desk'
 
 type IconProps = SVGProps<SVGSVGElement> & {
   name: IconName
@@ -248,6 +249,12 @@ export function Icon({ name, className = '', ...props }: IconProps) {
         <>
           <circle cx='12' cy='8' r='4' />
           <path d='M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7' />
+        </>
+      ) : null}
+      {name === 'desk' ? (
+        <>
+          <rect x='3' y='10' width='18' height='4' rx='1' />
+          <path d='M6 14v3m12-3v3M4 10l2-4h12l2 4' />
         </>
       ) : null}
     </svg>
