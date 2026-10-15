@@ -13,13 +13,13 @@
 - CheckoutPage (`/checkout`, `/checkout/success`) — combines the checkout flow and order confirmation designs from `context/UIHTMLDESIGN/LumaStore — Checkout Page.html` and `context/UIHTMLDESIGN/LumaStore-CheckoutSuccessPage.html`.
 - CategoryPage (`/category`, `/categories/:slug`) — based on `context/UIHTMLDESIGN/LumaStore-CategoryPage.html`.
 - ContactPage (`/contact`) — based on `context/UIHTMLDESIGN/LumaStore-ContactPage.html`.
+- FaqPage (`/faq`) — based on `context/UIHTMLDESIGN/LumaStore-FaqPage.html`.
+- LoginPage (`/login`) — based on `context/UIHTMLDESIGN/LumaStore-LoginPage.html`.
+- RegisterPage (`/register`) — based on `context/UIHTMLDESIGN/LumaStore-RegisterPage.html`.
 
 ## Not Done Pages
 
-- FaqPage (`/faq`) — based on `context/UIHTMLDESIGN/LumaStore-FaqPage.html`.
-- LoginPage (`/login`) — based on `context/UIHTMLDESIGN/LumaStore-LoginPage.html`.
 - OrderDetailsPage (`/account/orders/:id`) — based on `context/UIHTMLDESIGN/LumaStore-OrderDetailsPage.html`.
-- RegisterPage (`/register`) — based on `context/UIHTMLDESIGN/LumaStore-RegisterPage.html`.
 - SearchPage (`/search`) — based on `context/UIHTMLDESIGN/LumaStore-SearchPage.html`.
 - ShippingReturnsPage (`/shipping-returns`) — based on `context/UIHTMLDESIGN/LumaStore-ShippingReturnsPage.html`.
 - WishlistPage (`/wishlist`) — based on `context/UIHTMLDESIGN/LumaStore-WishlistPage.html`.
@@ -75,6 +75,8 @@
 - Added a page-export rule and code standard requiring repeated page elements to be extracted as reusable components or elements.
 - Extracted shared listing filters, filter sidebar, product grid, pagination, color swatches, and category strips into reusable components used by CatalogPage, CategoryPage, and HomePage without changing their existing styles or interactions.
 - Exported ContactPage at `/contact` with the mockup's contact details, responsive message form, Zod validation, and UI-only submission confirmation.
+- Exported FaqPage at `/faq` with linked topic navigation, native disclosure answers, and a contact call-to-action.
+- Exported LoginPage and RegisterPage at `/login` and `/register` with shared auth layout/password controls, Zod validation, password strength feedback, and mock-only submission interactions.
 
 ## In Progress
 
@@ -82,7 +84,7 @@
 
 ## Next Up
 
-- Continue with FaqPage (`/faq`), reusing shared storefront components where applicable.
+- Continue with OrderDetailsPage (`/account/orders/:id`), reusing shared storefront components where applicable.
 
 ## Open Questions
 
@@ -96,5 +98,7 @@
 - CheckoutPage is a mock UI flow only: it performs no payment or order submission, retains only the masked card suffix for review, and limits formatted phone input to 12 digits.
 - CategoryPage filters, subcategory chips, color swatches, sorting, and pagination are UI-only and do not change product data.
 - ContactPage form submission is UI-only and does not send or persist messages.
+- FaqPage questions use native disclosure elements and provide static informational content only.
+- LoginPage and RegisterPage simulate authentication/registration feedback only; they do not create sessions, persist user data, or perform real social sign-in.
 - The HomePage slice was checked against `context/UIHTMLDESIGN/LumaStore-HomePage.html`; the ProductPage route is aligned with `context/UIHTMLDESIGN/LumaStore-ProductPage.html` and adds no commerce behavior beyond the mockup interactions present in the static HTML.
 - The root route uses Vite's configured base path. Future page implementation should continue to derive from the HTML mockups and maintain the approved folder boundaries.

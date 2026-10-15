@@ -69,6 +69,7 @@ An admin can:
 - `/wishlist`
 - `/about`
 - `/contact`
+- `/faq`
 - `/shipping-and-returns`
 
 ### Admin Pages

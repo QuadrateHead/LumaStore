@@ -50,6 +50,7 @@
 - `/wishlist` — Saved products list
 - `/about` — Store story
 - `/contact` — Contact page with form
+- `/faq` — Frequently asked questions and help topics
 - `/shipping-and-returns` — Shipping and return information
 
 ### Admin Dashboard

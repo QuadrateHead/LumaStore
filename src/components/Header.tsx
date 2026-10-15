@@ -1,4 +1,6 @@
-import { Button, IconButton } from '../elements'
+import { Link } from 'react-router-dom'
+
+import { IconButton } from '../elements'
 import { Icon } from '../elements/Icon'
 import { ThemeToggle } from './ThemeToggle'
 
@@ -57,12 +59,12 @@ export function Header({ accountName, activeNav }: HeaderProps) {
               <span className='text-[13px] font-bold'>{accountName.split(' ')[0]}</span>
             </div>
           ) : (
-            <Button
-              size='sm'
-              className='rounded-[9px] px-[14px] py-2 text-[13px] leading-[1.6]'
+            <Link
+              to='/login'
+              className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-[9px] bg-primary px-[14px] py-2 text-[13px] font-bold leading-[1.6] text-on-primary transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg'
             >
               Sign in
-            </Button>
+            </Link>
           )}
           <ThemeToggle />
         </div>

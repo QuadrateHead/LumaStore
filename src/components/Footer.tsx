@@ -1,9 +1,30 @@
+import { Link } from 'react-router-dom'
+
 import { Button } from '../elements'
 
 const footerLinks = [
-  { title: 'Shop', links: ['New arrivals', 'Best sellers', 'Deals'] },
-  { title: 'Company', links: ['About', 'Contact'] },
-  { title: 'Support', links: ['Shipping and returns', 'FAQ'] },
+  {
+    title: 'Shop',
+    links: [
+      { label: 'New arrivals', to: '/#new-arrivals' },
+      { label: 'Best sellers', to: '/#best-sellers' },
+      { label: 'Deals', to: '/#deals' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About', to: '/about' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    title: 'Support',
+    links: [
+      { label: 'Shipping and returns', to: '#' },
+      { label: 'FAQ', to: '/faq' },
+    ],
+  },
 ]
 
 export function Footer({
@@ -43,18 +64,18 @@ export function Footer({
             {footerLinks.map(({ title, links }) => (
               <div key={title}>
                 <h4 className='mb-3 text-[13px] font-bold'>{title}</h4>
-                {links.map((link) => (
-                  <a
-                    aria-current={activeLink === link ? 'page' : undefined}
+                {links.map(({ label, to }) => (
+                  <Link
+                    aria-current={activeLink === label ? 'page' : undefined}
                     className={[
                       'mb-2 block text-sm text-text-muted hover:text-primary',
-                      activeLink === link ? 'text-primary' : '',
+                      activeLink === label ? 'text-primary' : '',
                     ].join(' ')}
-                    href='#'
-                    key={link}
+                    to={to}
+                    key={label}
                   >
-                    {link}
-                  </a>
+                    {label}
+                  </Link>
                 ))}
               </div>
             ))}
