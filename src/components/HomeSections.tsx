@@ -1,6 +1,9 @@
-import { Badge, Button, ProductCard, SectionHeader } from '../elements'
+import { Badge, Button, SectionHeader } from '../elements'
 import { Icon } from '../elements/Icon'
+import type { ProductCardProps } from '../elements'
+import { CategoryStrip } from './CategoryStrip'
 import { PromoBanner } from './PromoBanner'
+import { ProductGrid } from './ProductGrid'
 
 const newArrivals = [
   { name: 'Wireless headphones', price: '$199', originalPrice: '$249' },
@@ -17,11 +20,11 @@ const bestSellers = [
 ]
 
 const categories = [
-  ['Audio', '128 products'],
-  ['Keyboards', '64 products'],
-  ['Smart watches', '42 products'],
-  ['Desk setup', '96 products'],
-  ['Bags', '37 products'],
+  { name: 'Audio', count: '128 products' },
+  { name: 'Keyboards', count: '64 products' },
+  { name: 'Smart watches', count: '42 products' },
+  { name: 'Desk setup', count: '96 products' },
+  { name: 'Bags', count: '37 products' },
 ]
 
 const benefits = [
@@ -98,17 +101,7 @@ export function CategorySection() {
     <section id='categories' className='py-5'>
       <div className='mx-auto max-w-[1180px] px-6'>
         <SectionHeader title='Shop by category' className='mb-7' />
-        <div className='flex overflow-hidden rounded-[var(--radius)] border border-border max-[860px]:flex-wrap'>
-          {categories.map(([name, count]) => (
-            <div
-              className='flex-1 border-r border-border p-5 text-left odd:bg-surface-2 last:border-r-0 max-[860px]:flex-[1_1_50%] max-[860px]:border-b'
-              key={name}
-            >
-              <strong className='mb-1 block text-[15px]'>{name}</strong>
-              <span className='text-[13px] text-text-muted'>{count}</span>
-            </div>
-          ))}
-        </div>
+        <CategoryStrip items={categories} />
       </div>
     </section>
   )
@@ -121,7 +114,7 @@ function ProductSection({
 }: {
   id: string
   title: string
-  products: typeof newArrivals | typeof bestSellers
+  products: readonly ProductCardProps[]
 }) {
   return (
     <section id={id} className='py-5'>
@@ -131,17 +124,11 @@ function ProductSection({
           action={<a className='text-sm font-bold' href='#'>View all</a>}
           className='mb-7'
         />
-        <div className='grid grid-cols-4 gap-5 max-[860px]:grid-cols-2'>
-          {products.map((product) => (
-            <ProductCard
-              key={product.name}
-              name={product.name}
-              price={product.price}
-              {...('originalPrice' in product ? { originalPrice: product.originalPrice } : {})}
-              {...('rating' in product ? { rating: product.rating } : {})}
-            />
-          ))}
-        </div>
+        <ProductGrid
+          products={products}
+          imageHeight={140}
+          className='grid grid-cols-4 gap-5 max-[860px]:grid-cols-2'
+        />
       </div>
     </section>
   )

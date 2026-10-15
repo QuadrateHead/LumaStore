@@ -4,9 +4,10 @@ import { ThemeToggle } from './ThemeToggle'
 
 type HeaderProps = {
   accountName?: string
+  activeNav?: 'categories'
 }
 
-export function Header({ accountName }: HeaderProps) {
+export function Header({ accountName, activeNav }: HeaderProps) {
   return (
     <header className='sticky top-0 z-10 border-b border-border bg-bg pt-[env(safe-area-inset-top,0px)]'>
       <div className='mx-auto flex h-[72px] max-w-[1180px] items-center justify-between gap-6 px-6'>
@@ -17,7 +18,13 @@ export function Header({ accountName }: HeaderProps) {
         >
           <a href='#new-arrivals' className='hover:text-primary'>New arrivals</a>
           <a href='#best-sellers' className='hover:text-primary'>Best sellers</a>
-          <a href='#categories' className='hover:text-primary'>Categories</a>
+          <a
+            href='#categories'
+            aria-current={activeNav === 'categories' ? 'page' : undefined}
+            className={activeNav === 'categories' ? 'text-primary' : 'hover:text-primary'}
+          >
+            Categories
+          </a>
           <a href='#deals' className='hover:text-primary'>Deals</a>
         </nav>
         <div className='flex items-center gap-[14px]'>

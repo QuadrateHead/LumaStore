@@ -6,7 +6,13 @@ const footerLinks = [
   { title: 'Support', links: ['Shipping and returns', 'FAQ'] },
 ]
 
-export function Footer({ showNewsletter = true }: { showNewsletter?: boolean }) {
+export function Footer({
+  showNewsletter = true,
+  activeLink,
+}: {
+  showNewsletter?: boolean
+  activeLink?: string
+}) {
   return (
     <footer className='border-t border-border pb-[calc(32px+env(safe-area-inset-bottom,0px))] pt-12'>
       <div className='mx-auto max-w-[1180px] px-6'>
@@ -39,7 +45,11 @@ export function Footer({ showNewsletter = true }: { showNewsletter?: boolean }) 
                 <h4 className='mb-3 text-[13px] font-bold'>{title}</h4>
                 {links.map((link) => (
                   <a
-                    className='mb-2 block text-sm text-text-muted'
+                    aria-current={activeLink === link ? 'page' : undefined}
+                    className={[
+                      'mb-2 block text-sm text-text-muted hover:text-primary',
+                      activeLink === link ? 'text-primary' : '',
+                    ].join(' ')}
                     href='#'
                     key={link}
                   >

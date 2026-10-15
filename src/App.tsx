@@ -6,7 +6,9 @@ import { AdminPage } from './pages/AdminPage'
 import { AdminProductFormPage } from './pages/AdminProductFormPage'
 import { CartPage } from './pages/CartPage'
 import { CatalogPage } from './pages/CatalogPage'
+import { CategoryPage } from './pages/CategoryPage'
 import { CheckoutPage } from './pages/CheckoutPage'
+import { ContactPage } from './pages/ContactPage'
 import { HomePage } from './pages/HomePage'
 import { ProductPage } from './pages/ProductPage'
 
@@ -18,9 +20,12 @@ function App() {
         <Route path='/about' element={<AboutPage />} />
         <Route path='/account' element={<AccountPage />} />
         <Route path='/catalog' element={<CatalogPage />} />
+        <Route path='/category' element={<CategoryPage />} />
+        <Route path='/categories/:slug' element={<CategoryPage />} />
         <Route path='/cart' element={<CartPage />} />
         <Route path='/checkout' element={<CheckoutPage />} />
         <Route path='/checkout/success' element={<CheckoutPage />} />
+        <Route path='/contact' element={<ContactPage />} />
         <Route path='/admin' element={<AdminPage />} />
         <Route path='/admin/products/new' element={<AdminProductFormPage />} />
         <Route path='/admin/products/:id/edit' element={<AdminProductFormPage />} />

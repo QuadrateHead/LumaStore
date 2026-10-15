@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react'
-import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
+import { ColorSwatches } from '../components/ColorSwatches'
+import { FilterCheckboxList } from '../components/FilterCheckboxList'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-import { Button, ProductCard } from '../elements'
+import { Pagination } from '../components/Pagination'
+import { PriceRangeFilter } from '../components/PriceRangeFilter'
+import { ProductFilterBlock } from '../components/ProductFilterBlock'
+import { ProductFilterSidebar } from '../components/ProductFilterSidebar'
+import { ProductGrid } from '../components/ProductGrid'
+import { Button } from '../elements'
 import type { IconName } from '../elements'
 
 type CatalogProduct = {
@@ -41,11 +47,11 @@ const categories = [
 
 const brands = ['Sony', 'Logitech', 'Keychron', 'Anker', 'Samsung']
 const colors = [
-  { name: 'Black', value: '#18181B' },
-  { name: 'White', value: '#FAFAFA' },
-  { name: 'Silver', value: '#C4C4C8' },
-  { name: 'Blue', value: '#3B4A6B' },
-  { name: 'Green', value: '#3F6B4A' },
+  { name: 'Black', color: '#18181B' },
+  { name: 'White', color: '#FAFAFA' },
+  { name: 'Silver', color: '#C4C4C8' },
+  { name: 'Blue', color: '#3B4A6B' },
+  { name: 'Green', color: '#3F6B4A' },
 ]
 
 const filterOptions = [
@@ -54,40 +60,6 @@ const filterOptions = [
   { label: 'In stock', key: 'in-stock' },
   { label: 'Out of stock', key: 'out-of-stock' },
 ]
-
-function FilterCheckbox({
-  label,
-  checked,
-  onChange,
-  count,
-}: {
-  label: string
-  checked: boolean
-  onChange: (checked: boolean) => void
-  count?: string
-}) {
-  return (
-    <label className='flex cursor-pointer items-center gap-[9px] text-[13px] text-text-muted'>
-      <input
-        type='checkbox'
-        checked={checked}
-        onChange={(event) => onChange(event.target.checked)}
-        className='h-[15px] w-[15px] accent-primary'
-      />
-      {label}
-      {count ? <span className='ml-auto text-text-muted opacity-70'>{count}</span> : null}
-    </label>
-  )
-}
-
-function FilterBlock({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section className='border-b border-border pb-[18px] last:border-b-0'>
-      <h2 className='mb-3 text-[13px] font-bold'>{title}</h2>
-      {children}
-    </section>
-  )
-}
 
 export function CatalogPage() {
   const [filtersOpen, setFiltersOpen] = useState(false)
@@ -140,110 +112,53 @@ export function CatalogPage() {
           </div>
 
           <div className='grid grid-cols-[240px_minmax(0,1fr)] items-start gap-9 max-[860px]:grid-cols-1'>
-            <aside
-              className={[
-                'sticky top-[88px] flex flex-col gap-[22px] max-[860px]:static max-[860px]:rounded-[var(--radius)] max-[860px]:border max-[860px]:border-border max-[860px]:p-4',
-                filtersOpen ? 'max-[860px]:flex' : 'max-[860px]:hidden',
-              ].join(' ')}
-              aria-label='Product filters'
-            >
-              <FilterBlock title='Category'>
-                <div className='flex flex-col gap-[9px]'>
-                  {categories.map(({ name, count }) => (
-                    <FilterCheckbox
-                      key={name}
-                      label={name}
-                      count={count}
-                      checked={Boolean(selectedFilters[name])}
-                      onChange={(checked) => setFilter(name, checked)}
-                    />
-                  ))}
-                </div>
-              </FilterBlock>
+            <ProductFilterSidebar open={filtersOpen}>
+              <ProductFilterBlock title='Category' className='last:border-b-0'>
+                <FilterCheckboxList
+                  options={categories.map(({ name, count }) => ({ label: name, count }))}
+                  selectedValues={selectedFilters}
+                  onChange={setFilter}
+                />
+              </ProductFilterBlock>
 
-              <FilterBlock title='Price'>
-                <div className='flex items-center gap-2'>
-                  <input
-                    type='number'
-                    aria-label='Minimum price'
-                    placeholder='Min'
-                    value={priceRange.min}
-                    onChange={(event) => setPriceRange((current) => ({ ...current, min: event.target.value }))}
-                    className='w-full min-w-0 rounded-[9px] border border-border bg-surface px-2.5 py-2 text-[13px] text-text'
-                  />
-                  <span className='text-[13px] text-text-muted'>—</span>
-                  <input
-                    type='number'
-                    aria-label='Maximum price'
-                    placeholder='Max'
-                    value={priceRange.max}
-                    onChange={(event) => setPriceRange((current) => ({ ...current, max: event.target.value }))}
-                    className='w-full min-w-0 rounded-[9px] border border-border bg-surface px-2.5 py-2 text-[13px] text-text'
-                  />
-                </div>
-              </FilterBlock>
+              <PriceRangeFilter
+                min={priceRange.min}
+                max={priceRange.max}
+                onMinChange={(min) => setPriceRange((current) => ({ ...current, min }))}
+                onMaxChange={(max) => setPriceRange((current) => ({ ...current, max }))}
+              />
 
-              <FilterBlock title='Brand'>
-                <div className='flex flex-col gap-[9px]'>
-                  {brands.map((brand) => (
-                    <FilterCheckbox
-                      key={brand}
-                      label={brand}
-                      checked={Boolean(selectedFilters[brand])}
-                      onChange={(checked) => setFilter(brand, checked)}
-                    />
-                  ))}
-                </div>
-              </FilterBlock>
+              <ProductFilterBlock title='Brand' className='last:border-b-0'>
+                <FilterCheckboxList
+                  options={brands.map((label) => ({ label }))}
+                  selectedValues={selectedFilters}
+                  onChange={setFilter}
+                />
+              </ProductFilterBlock>
 
-              <FilterBlock title='Rating'>
-                <div className='flex flex-col gap-[9px]'>
-                  {filterOptions.slice(0, 2).map(({ label, key }) => (
-                    <FilterCheckbox
-                      key={key}
-                      label={label}
-                      checked={Boolean(selectedFilters[key])}
-                      onChange={(checked) => setFilter(key, checked)}
-                    />
-                  ))}
-                </div>
-              </FilterBlock>
+              <ProductFilterBlock title='Rating' className='last:border-b-0'>
+                <FilterCheckboxList
+                  options={filterOptions.slice(0, 2).map(({ label, key }) => ({ label, value: key }))}
+                  selectedValues={selectedFilters}
+                  onChange={setFilter}
+                />
+              </ProductFilterBlock>
 
-              <FilterBlock title='Availability'>
-                <div className='flex flex-col gap-[9px]'>
-                  {filterOptions.slice(2).map(({ label, key }) => (
-                    <FilterCheckbox
-                      key={key}
-                      label={label}
-                      checked={Boolean(selectedFilters[label])}
-                      onChange={(checked) => setFilter(label, checked)}
-                    />
-                  ))}
-                </div>
-              </FilterBlock>
+              <ProductFilterBlock title='Availability' className='last:border-b-0'>
+                <FilterCheckboxList
+                  options={filterOptions.slice(2).map(({ label }) => ({ label }))}
+                  selectedValues={selectedFilters}
+                  onChange={setFilter}
+                />
+              </ProductFilterBlock>
 
-              <FilterBlock title='Color'>
-                <div className='flex flex-wrap gap-2'>
-                  {colors.map(({ name, value }) => (
-                    <button
-                      key={name}
-                      type='button'
-                      aria-label={name}
-                      aria-pressed={activeColor === name}
-                      onClick={() => setActiveColor(name)}
-                      className={[
-                        'h-[26px] w-[26px] cursor-pointer rounded-full border-2 p-0.5',
-                        activeColor === name ? 'border-primary' : 'border-transparent',
-                      ].join(' ')}
-                    >
-                      <i
-                        className='block h-full w-full rounded-full border border-border'
-                        style={{ backgroundColor: value }}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </FilterBlock>
+              <ProductFilterBlock title='Color' className='last:border-b-0'>
+                <ColorSwatches
+                  swatches={colors}
+                  activeColor={activeColor}
+                  onChange={setActiveColor}
+                />
+              </ProductFilterBlock>
 
               <button
                 type='button'
@@ -252,7 +167,7 @@ export function CatalogPage() {
               >
                 Clear all filters
               </button>
-            </aside>
+            </ProductFilterSidebar>
 
             <div className='min-w-0'>
               <div className='mb-5 flex flex-wrap items-center justify-between gap-3'>
@@ -272,58 +187,13 @@ export function CatalogPage() {
                 </select>
               </div>
 
-              <div className='grid grid-cols-3 gap-5 max-[860px]:grid-cols-2'>
-                {products.map((product) => (
-                  <ProductCard
-                    key={product.name}
-                    name={product.name}
-                    brand={product.brand}
-                    price={product.price}
-                    originalPrice={product.originalPrice}
-                    rating={product.rating}
-                    badge={product.badge}
-                    badgePosition={product.badgePosition}
-                    imageIcon={product.imageIcon}
-                    imageHeight={150}
-                  />
-                ))}
-              </div>
+              <ProductGrid products={products} imageHeight={150} />
 
-              <nav className='mt-9 flex items-center justify-center gap-2' aria-label='Catalog pagination'>
-                <button
-                  type='button'
-                  aria-label='Previous page'
-                  onClick={() => setActivePage((page) => Math.max(1, page - 1))}
-                  className='h-9 w-9 cursor-pointer rounded-[9px] border border-border bg-surface text-[13px] font-bold text-text-muted'
-                >
-                  ‹
-                </button>
-                {[1, 2, 3, 4].map((page) => (
-                  <button
-                    key={page}
-                    type='button'
-                    aria-label={`Page ${page}`}
-                    aria-current={activePage === page ? 'page' : undefined}
-                    onClick={() => setActivePage(page)}
-                    className={[
-                      'h-9 w-9 cursor-pointer rounded-[9px] border text-[13px] font-bold',
-                      activePage === page
-                        ? 'border-primary bg-primary text-on-primary'
-                        : 'border-border bg-surface text-text',
-                    ].join(' ')}
-                  >
-                    {page}
-                  </button>
-                ))}
-                <button
-                  type='button'
-                  aria-label='Next page'
-                  onClick={() => setActivePage((page) => Math.min(4, page + 1))}
-                  className='h-9 w-9 cursor-pointer rounded-[9px] border border-border bg-surface text-[13px] font-bold text-text-muted'
-                >
-                  ›
-                </button>
-              </nav>
+              <Pagination
+                ariaLabel='Catalog pagination'
+                activePage={activePage}
+                onPageChange={setActivePage}
+              />
             </div>
           </div>
         </div>

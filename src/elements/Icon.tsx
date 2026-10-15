@@ -9,16 +9,22 @@ export type IconName =
   | 'keyboard'
   | 'location'
   | 'logout'
+  | 'mail'
   | 'mouse'
   | 'orders'
   | 'returns'
   | 'search'
+  | 'clock'
   | 'shipping'
   | 'star'
   | 'support'
   | 'phone'
   | 'trash'
   | 'check'
+  | 'speaker'
+  | 'microphone'
+  | 'earbuds'
+  | 'portableSpeaker'
   | 'backpack'
   | 'charger'
   | 'watch'
@@ -87,6 +93,18 @@ export function Icon({ name, className = '', ...props }: IconProps) {
         <>
           <path d='M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11z' />
           <circle cx='12' cy='10' r='2.4' />
+        </>
+      ) : null}
+      {name === 'mail' ? (
+        <>
+          <rect x='3' y='5' width='18' height='14' rx='2' />
+          <path d='M3 7l9 6 9-6' />
+        </>
+      ) : null}
+      {name === 'clock' ? (
+        <>
+          <circle cx='12' cy='12' r='9' />
+          <path d='M12 7v5l3 2' />
         </>
       ) : null}
       {name === 'logout' ? (
@@ -166,6 +184,31 @@ export function Icon({ name, className = '', ...props }: IconProps) {
       ) : null}
       {name === 'check' ? (
         <path d='M20 6L9 17l-5-5' />
+      ) : null}
+      {name === 'speaker' ? (
+        <>
+          <circle cx='12' cy='12' r='9' />
+          <circle cx='12' cy='12' r='3' />
+        </>
+      ) : null}
+      {name === 'microphone' ? (
+        <>
+          <rect x='8' y='3' width='8' height='12' rx='4' />
+          <path d='M5 11a7 7 0 0 0 14 0M12 18v3' />
+        </>
+      ) : null}
+      {name === 'earbuds' ? (
+        <>
+          <circle cx='8' cy='12' r='3' />
+          <circle cx='16' cy='12' r='3' />
+          <path d='M8 9V5m8 4V5' />
+        </>
+      ) : null}
+      {name === 'portableSpeaker' ? (
+        <>
+          <rect x='6' y='3' width='12' height='18' rx='3' />
+          <circle cx='12' cy='15' r='3' />
+        </>
       ) : null}
       {name === 'backpack' ? (
         <>
