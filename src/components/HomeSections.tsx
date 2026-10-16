@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import { Badge, Button, SectionHeader } from '../elements'
 import { Icon } from '../elements/Icon'
 import type { ProductCardProps } from '../elements'
@@ -121,7 +123,7 @@ function ProductSection({
       <div className='mx-auto max-w-[1180px] px-6'>
         <SectionHeader
           title={title}
-          action={<a className='text-sm font-bold' href='#'>View all</a>}
+          action={<Link className='text-sm font-bold' to='/products'>View all</Link>}
           className='mb-7'
         />
         <ProductGrid
@@ -149,7 +151,7 @@ export function PromotionSection() {
       <div className='mx-auto max-w-[1180px] px-6'>
         <PromoBanner
           title='Summer desk setup sale — up to 25% off monitors, lamps, and keyboards.'
-          action={<Button variant='accent'>Shop the sale</Button>}
+          action={<Link to='/products' className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-[9px] bg-accent px-[14px] py-2 text-[13px] font-bold text-on-accent hover:brightness-105'>Shop the sale</Link>}
         />
       </div>
     </section>

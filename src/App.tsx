@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AboutPage } from './pages/AboutPage'
 import { AccountPage } from './pages/AccountPage'
 import { AdminPage } from './pages/AdminPage'
+import { AdminManagementPage } from './pages/AdminManagementPage'
 import { AdminProductFormPage } from './pages/AdminProductFormPage'
 import { CartPage } from './pages/CartPage'
 import { CatalogPage } from './pages/CatalogPage'
@@ -10,8 +11,11 @@ import { CategoryPage } from './pages/CategoryPage'
 import { CheckoutPage } from './pages/CheckoutPage'
 import { ContactPage } from './pages/ContactPage'
 import { FaqPage } from './pages/FaqPage'
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage'
 import { HomePage } from './pages/HomePage'
+import { LegalPage } from './pages/LegalPage'
 import { LoginPage } from './pages/LoginPage'
+import { NotFoundPage } from './pages/NotFoundPage'
 import { ProductPage } from './pages/ProductPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { OrderDetailsPage } from './pages/OrderDetailsPage'
@@ -26,6 +30,7 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/about' element={<AboutPage />} />
         <Route path='/account' element={<AccountPage />} />
+        <Route path='/account/orders' element={<AccountPage />} />
         <Route path='/account/orders/:id' element={<OrderDetailsPage />} />
         <Route path='/catalog' element={<CatalogPage />} />
         <Route path='/category' element={<CategoryPage />} />
@@ -35,6 +40,8 @@ function App() {
         <Route path='/checkout/success' element={<CheckoutPage />} />
         <Route path='/contact' element={<ContactPage />} />
         <Route path='/faq' element={<FaqPage />} />
+        <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+        <Route path='/legal' element={<LegalPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/search' element={<SearchPage />} />
@@ -42,11 +49,20 @@ function App() {
         <Route path='/shipping-returns' element={<ShippingReturnsPage />} />
         <Route path='/wishlist' element={<WishlistPage />} />
         <Route path='/admin' element={<AdminPage />} />
+        <Route path='/admin/products' element={<AdminManagementPage />} />
+        <Route path='/admin/orders' element={<AdminManagementPage />} />
+        <Route path='/admin/orders/:id' element={<AdminManagementPage />} />
+        <Route path='/admin/categories' element={<AdminManagementPage />} />
+        <Route path='/admin/customers' element={<AdminManagementPage />} />
+        <Route path='/admin/reviews' element={<AdminManagementPage />} />
+        <Route path='/admin/coupons' element={<AdminManagementPage />} />
+        <Route path='/admin/settings' element={<AdminManagementPage />} />
         <Route path='/admin/products/new' element={<AdminProductFormPage />} />
         <Route path='/admin/products/:id/edit' element={<AdminProductFormPage />} />
         <Route path='/product' element={<ProductPage />} />
         <Route path='/products' element={<CatalogPage />} />
         <Route path='/products/:slug' element={<ProductPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   )

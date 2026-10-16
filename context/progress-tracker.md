@@ -6,20 +6,26 @@
 - ProductPage (`/product`, `/products/:slug`) — based on `context/UIHTMLDESIGN/LumaStore-ProductPage.html`.
 - AboutPage (`/about`) — based on `context/UIHTMLDESIGN/LumaStore-AboutPage.html`.
 - AccountPage (`/account`) — based on `context/UIHTMLDESIGN/LumaStore-AccountPage.html`.
+- Account order history (`/account/orders`) — reuses the AccountPage order-history panel and links to the shipped sample order.
 - CatalogPage (`/catalog`, `/products`) — based on `context/UIHTMLDESIGN/LumaStore-CatalogPage.html`.
 - AdminPage (`/admin`) — based on `context/UIHTMLDESIGN/LumaStore-AdminPage.html`.
 - AdminProductFormPage (`/admin/products/new`, `/admin/products/:id/edit`) — based on `context/UIHTMLDESIGN/LumaStore-AdminProductFormPage.html`.
+- Admin management pages (`/admin/products`, `/admin/orders`, `/admin/categories`, `/admin/customers`, `/admin/reviews`, `/admin/coupons`, `/admin/settings`) — mock management screens reuse the AdminPage sidebar, panel, table, and status-badge patterns.
+- Admin order details (`/admin/orders/:id`) — sample order detail with a UI-only status update.
 - CartPage (`/cart`) — based on `context/UIHTMLDESIGN/LumaStore — Cart Page.html`.
 - CheckoutPage (`/checkout`, `/checkout/success`) — combines the checkout flow and order confirmation designs from `context/UIHTMLDESIGN/LumaStore — Checkout Page.html` and `context/UIHTMLDESIGN/LumaStore-CheckoutSuccessPage.html`.
 - CategoryPage (`/category`, `/categories/:slug`) — based on `context/UIHTMLDESIGN/LumaStore-CategoryPage.html`.
 - ContactPage (`/contact`) — based on `context/UIHTMLDESIGN/LumaStore-ContactPage.html`.
 - FaqPage (`/faq`) — based on `context/UIHTMLDESIGN/LumaStore-FaqPage.html`.
+- ForgotPasswordPage (`/forgot-password`) — UI-only password reset confirmation.
+- LegalPage (`/legal`) — Terms of Service and Privacy Policy sections linked from registration.
 - LoginPage (`/login`) — based on `context/UIHTMLDESIGN/LumaStore-LoginPage.html`.
 - RegisterPage (`/register`) — based on `context/UIHTMLDESIGN/LumaStore-RegisterPage.html`.
 - OrderDetailsPage (`/account/orders/:id`) — based on `context/UIHTMLDESIGN/LumaStore-OrderDetailsPage.html`; displays the shipped sample order with mock tracking, invoice-print, copy-number, and reorder interactions.
 - SearchPage (`/search`) — based on `context/UIHTMLDESIGN/LumaStore-SearchPage.html`.
 - ShippingReturnsPage (`/shipping-and-returns`, `/shipping-returns`) — based on `context/UIHTMLDESIGN/LumaStore-ShippingReturnsPage.html`.
 - WishlistPage (`/wishlist`) — based on `context/UIHTMLDESIGN/LumaStore-WishlistPage.html`.
+- NotFoundPage (`*`) — route fallback with a link back to HomePage.
 
 ## Not Done Pages
 
@@ -31,7 +37,7 @@
 
 ## Current Goal
 
-- Complete the HTML mockup page exports while keeping interactions UI-only.
+- Continue implementing the approved storefront and admin flows with mock data and UI-only interactions.
 
 ## Completed
 
@@ -83,6 +89,9 @@
 - Exported SearchPage at `/search` with the mockup's product results, query/empty states, local filters, sorting, and search chips; wired the shared header search form and wishlist/cart links.
 - Exported ShippingReturnsPage at `/shipping-and-returns` and `/shipping-returns` with section navigation, shipping options, return steps, refund guidance, and a contact-support link.
 - Exported WishlistPage at `/wishlist` with the mockup's five sample products, local sorting/removal/move-to-cart feedback, out-of-stock state, and empty state.
+- Added standalone admin product, order, category, customer, review, coupon, and settings screens using the existing admin design system; added an admin order detail route with local status feedback.
+- Added the `/account/orders` route, password-reset and legal destinations for the sign-in/registration links, and a not-found fallback route.
+- Repaired storefront navigation section links, home product-section “View all” links, and the sale CTA so they navigate to real destinations rather than placeholders.
 
 ## In Progress
 
@@ -108,5 +117,7 @@
 - LoginPage and RegisterPage simulate authentication/registration feedback only; they do not create sessions, persist user data, or perform real social sign-in.
 - OrderDetailsPage is a static sample order view; tracking, invoice printing, clipboard feedback, and reorder feedback are UI-only, and only the sample order `LUMA-10482` is available.
 - SearchPage and WishlistPage use mock products and local UI state only; they do not fetch or persist product, wishlist, or cart data.
+- Admin management screens use static sample data and local UI state only; settings, moderation, coupon, category, and order changes are not persisted.
+- ForgotPasswordPage simulates reset-instruction confirmation and does not send email; LegalPage provides illustrative policy copy for the demo, not legal advice.
 - The HomePage slice was checked against `context/UIHTMLDESIGN/LumaStore-HomePage.html`; the ProductPage route is aligned with `context/UIHTMLDESIGN/LumaStore-ProductPage.html` and adds no commerce behavior beyond the mockup interactions present in the static HTML.
 - The root route uses Vite's configured base path. Future page implementation should continue to derive from the HTML mockups and maintain the approved folder boundaries.

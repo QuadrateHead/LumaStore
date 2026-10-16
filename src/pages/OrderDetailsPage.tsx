@@ -67,7 +67,7 @@ export function OrderDetailsPage() {
             {' / '}
             <Link to='/account' className='hover:text-primary'>Account</Link>
             {' / '}
-            <Link to='/account' className='hover:text-primary'>Orders</Link>
+            <Link to='/account/orders' className='hover:text-primary'>Orders</Link>
             {' / #'}{orderId}
           </div>
 

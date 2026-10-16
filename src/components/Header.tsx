@@ -34,16 +34,16 @@ export function Header({
           className='flex gap-7 text-sm font-medium max-[860px]:hidden'
           aria-label='Main navigation'
         >
-          <a href='#new-arrivals' className='hover:text-primary'>New arrivals</a>
-          <a href='#best-sellers' className='hover:text-primary'>Best sellers</a>
-          <a
-            href='#categories'
+          <Link to='/#new-arrivals' className='hover:text-primary'>New arrivals</Link>
+          <Link to='/#best-sellers' className='hover:text-primary'>Best sellers</Link>
+          <Link
+            to='/#categories'
             aria-current={activeNav === 'categories' ? 'page' : undefined}
             className={activeNav === 'categories' ? 'text-primary' : 'hover:text-primary'}
           >
             Categories
-          </a>
-          <a href='#deals' className='hover:text-primary'>Deals</a>
+          </Link>
+          <Link to='/#deals' className='hover:text-primary'>Deals</Link>
         </nav>
         <div className='flex items-center gap-[14px]'>
           <form

@@ -63,6 +63,8 @@ An admin can:
 - `/checkout/success`
 - `/login`
 - `/register`
+- `/forgot-password`
+- `/legal`
 - `/account`
 - `/account/orders`
 - `/account/orders/:id`
@@ -98,6 +100,7 @@ An admin can:
 - Multi-step checkout with validation and order confirmation
 - Account dashboard with profile, addresses, order history, and wishlist
 - Informational pages for about, contact, and shipping/returns
+- Password reset, legal information, and a not-found fallback for navigation completeness
 
 ### Admin Experience
 

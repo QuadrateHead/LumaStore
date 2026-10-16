@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
@@ -35,8 +35,12 @@ const wishlist = [
 ] as const
 
 export function AccountPage() {
-  const [activeTab, setActiveTab] = useState<AccountTab>('overview')
+  const location = useLocation()
+  const [activeTab, setActiveTab] = useState<AccountTab>(
+    location.pathname === '/account/orders' ? 'orders' : 'overview',
+  )
   const navigate = useNavigate()
+  const currentTab = location.pathname === '/account/orders' ? 'orders' : activeTab
 
   return (
     <div className='min-h-screen leading-[1.6]'>
@@ -60,11 +64,15 @@ export function AccountPage() {
                 <button
                   type='button'
                   key={label}
-                  aria-current={activeTab === id ? 'page' : undefined}
-                  onClick={() => setActiveTab(id)}
+                  aria-current={currentTab === id ? 'page' : undefined}
+                  onClick={() => {
+                    setActiveTab(id)
+                    if (id === 'orders') navigate('/account/orders')
+                    else if (location.pathname === '/account/orders') navigate('/account')
+                  }}
                   className={[
                     'flex w-full cursor-pointer items-center gap-2.5 rounded-[9px] px-3 py-2.5 text-left text-sm font-bold min-[861px]:w-full',
-                    activeTab === id ? 'bg-surface-2 text-text' : 'text-text-muted hover:text-text',
+                    currentTab === id ? 'bg-surface-2 text-text' : 'text-text-muted hover:text-text',
                   ].join(' ')}
                 >
                   <Icon name={icon} className='h-[18px] w-[18px] shrink-0' />
@@ -82,7 +90,7 @@ export function AccountPage() {
             </nav>
 
             <section aria-labelledby='account-overview-title'>
-              {activeTab === 'overview' ? (
+              {currentTab === 'overview' ? (
                 <div>
                   <h2 id='account-overview-title' className='mb-5 text-[19px] font-extrabold tracking-[-0.02em]'>
                     Welcome back, Jordan
@@ -109,14 +117,14 @@ export function AccountPage() {
                     <span className='inline-block whitespace-nowrap rounded-full bg-primary/15 px-2.5 py-1 text-[11px] font-bold text-primary'>
                       Shipped
                     </span>
-                    <Button variant='ghost' size='sm' onClick={() => setActiveTab('orders')}>
+                    <Button variant='ghost' size='sm' onClick={() => navigate('/account/orders')}>
                       View order
                     </Button>
                   </div>
                 </div>
               ) : null}
 
-              {activeTab === 'profile' ? (
+              {currentTab === 'profile' ? (
                 <div>
                   <h2 className='mb-5 text-[19px] font-extrabold tracking-[-0.02em]'>Profile settings</h2>
                   <div className='mb-5 rounded-[var(--radius)] border border-border bg-surface p-6'>
@@ -160,7 +168,7 @@ export function AccountPage() {
                 </div>
               ) : null}
 
-              {activeTab === 'addresses' ? (
+              {currentTab === 'addresses' ? (
                 <div>
                   <h2 className='mb-5 text-[19px] font-extrabold tracking-[-0.02em]'>Addresses</h2>
                   <div className='mb-4 grid grid-cols-2 gap-4 max-[860px]:grid-cols-1'>
@@ -191,7 +199,7 @@ export function AccountPage() {
                 </div>
               ) : null}
 
-              {activeTab === 'orders' ? (
+              {currentTab === 'orders' ? (
                 <div>
                   <h2 className='mb-5 text-[19px] font-extrabold tracking-[-0.02em]'>Order history</h2>
                   <div className='flex flex-col gap-3'>
@@ -225,7 +233,7 @@ export function AccountPage() {
                 </div>
               ) : null}
 
-              {activeTab === 'wishlist' ? (
+              {currentTab === 'wishlist' ? (
                 <div>
                   <h2 className='mb-5 text-[19px] font-extrabold tracking-[-0.02em]'>Wishlist</h2>
                   <div className='grid grid-cols-3 gap-5 max-[860px]:grid-cols-2 max-[520px]:grid-cols-1'>

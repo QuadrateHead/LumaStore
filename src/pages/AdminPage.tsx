@@ -259,9 +259,14 @@ export function AdminPage() {
           <h1 className='text-[28px] font-extrabold tracking-[-0.02em]'>{title}</h1>
           <div className='flex items-center gap-3'>
             <ThemeToggle />
-            <div className='flex h-[34px] w-[34px] items-center justify-center rounded-full bg-primary text-xs font-extrabold text-on-primary' title='Admin'>
+            <Link
+              to='/account'
+              aria-label='Admin account'
+              title='Account'
+              className='flex h-[34px] w-[34px] items-center justify-center rounded-full bg-primary text-xs font-extrabold text-on-primary hover:ring-2 hover:ring-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary'
+            >
               AD
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -316,7 +321,7 @@ export function AdminPage() {
 
           <AdminPanel
             title='Recent orders'
-            action={<Button variant='ghost' onClick={() => setActiveSection('orders')}>View all</Button>}
+            action={<Link to='/admin/orders' className='rounded-[9px] border border-border px-[14px] py-2 text-[13px] font-bold hover:bg-surface-2'>View all</Link>}
           >
             <OrdersTable rows={recentOrders} />
           </AdminPanel>
@@ -346,6 +351,12 @@ export function AdminPage() {
                 className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-[9px] border border-transparent bg-primary px-3.5 py-2 text-[13px] font-bold leading-[1.6] text-on-primary transition-colors duration-200 hover:bg-primary-hover'
               >
                 + Add product
+              </Link>
+              <Link
+                to='/admin/products'
+                className='inline-flex cursor-pointer items-center justify-center rounded-[9px] border border-border px-3.5 py-2 text-[13px] font-bold hover:bg-surface-2'
+              >
+                Open product management
               </Link>
             </div>
             <ProductsTable />

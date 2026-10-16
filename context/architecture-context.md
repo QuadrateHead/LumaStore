@@ -44,6 +44,8 @@
 - `/checkout/success` — Order confirmation page
 - `/login` — Customer sign-in
 - `/register` — New account registration
+- `/forgot-password` — Password reset request preview
+- `/legal` — Terms of Service and Privacy Policy
 - `/account` — Customer dashboard overview
 - `/account/orders` — Order history
 - `/account/orders/:id` — Order detail view
@@ -66,6 +68,7 @@
 - `/admin/reviews` — Review moderation
 - `/admin/coupons` — Discount management
 - `/admin/settings` — Store configuration
+- `*` — Not-found page for unmatched routes
 
 ## Data Model Direction
 

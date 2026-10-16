@@ -157,7 +157,7 @@ export function RegisterPage() {
                 errors.terms ? 'text-danger' : '',
               ].join(' ')}
             >
-              I agree to the <a href='#' className='font-bold text-primary'>Terms of Service</a> and <a href='#' className='font-bold text-primary'>Privacy Policy</a>.
+              I agree to the <Link to='/legal#terms' className='font-bold text-primary'>Terms of Service</Link> and <Link to='/legal#privacy' className='font-bold text-primary'>Privacy Policy</Link>.
             </label>
             {errors.terms ? <span id='register-terms-error' className='mt-1 block text-xs text-danger'>{errors.terms.message}</span> : null}
           </div>

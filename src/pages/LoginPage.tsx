@@ -90,7 +90,7 @@ export function LoginPage() {
           error={errors.password?.message}
           minLength={1}
           labelAction={
-            <a href='#' className='text-xs font-bold text-primary'>Forgot password?</a>
+            <Link to='/forgot-password' className='text-xs font-bold text-primary'>Forgot password?</Link>
           }
         />
 
