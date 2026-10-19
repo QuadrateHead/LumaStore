@@ -15,10 +15,9 @@ LumaStore is designed to make discovering and buying products feel clear and pol
 
 | Technology | Purpose |
 | --- | --- |
-| React 19 + TypeScript | User interface and typed application code |
-| Vite | Development server and production builds |
-| React Router | Client-side routing |
-| Tailwind CSS 4 + Sass | Styling |
+| Next.js 16 App Router + React 19 | User interface, file-based routing, and typed application code |
+| Next.js + Turbopack | Development server and production builds |
+| Tailwind CSS 4 | Styling |
 | ESLint | Code linting |
 
 ## Getting started
@@ -33,12 +32,12 @@ Useful scripts:
 ```bash
 npm run build   # Type-check and create a production build
 npm run lint    # Run ESLint
-npm run preview # Preview the production build locally
+npm run start   # Start the production build locally
 ```
 
 ## Current status
 
-The repository is at its initial frontend scaffold stage; the storefront and admin features above describe the intended scope, not completed functionality. There is no live backend or payment integration at this stage.
+The storefront and admin mockup pages are implemented under `src/app`. Navigation uses Next.js `Link` and `next/navigation`; there is no React Router compatibility layer. There is no live backend or payment integration at this stage.
 
 ## Project notes
 

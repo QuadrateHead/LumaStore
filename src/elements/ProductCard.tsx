@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { Button } from './Button'
 import { IconButton } from './IconButton'
 import { Icon } from './Icon'
@@ -30,33 +32,38 @@ export function ProductCard({
 }: ProductCardProps) {
   return (
     <article className='overflow-hidden rounded-[var(--radius)] border border-border bg-surface'>
-      <div
-        className='relative flex items-center justify-center bg-surface-2 text-text-muted'
-        style={{ height: imageHeight }}
-      >
-        <Icon name={imageIcon} className='h-[34px] w-[34px]' />
-        {badge ? (
-          <span
-            className={[
-              'absolute top-2.5 rounded-[7px] bg-accent px-2 py-[3px] text-[11px] font-bold text-on-accent',
-              badgePosition === 'right' ? 'right-11' : 'left-2.5',
-            ].join(' ')}
-          >
-            {badge}
-          </span>
-        ) : null}
+      <div className='relative' style={{ height: imageHeight }}>
+        <Link
+          href='/product'
+          aria-label={`View ${name} details`}
+          className='flex h-full items-center justify-center bg-surface-2 text-text-muted hover:text-primary'
+        >
+          <Icon name={imageIcon} className='h-[34px] w-[34px]' />
+          {badge ? (
+            <span
+              className={[
+                'absolute top-2.5 rounded-[7px] bg-accent px-2 py-[3px] text-[11px] font-bold text-on-accent',
+                badgePosition === 'right' ? 'right-11' : 'left-2.5',
+              ].join(' ')}
+            >
+              {badge}
+            </span>
+          ) : null}
+        </Link>
         {showWishlist ? (
           <IconButton
             icon={<Icon name='heart' className='h-[14px] w-[14px]' />}
             aria-label={`Add ${name} to wishlist`}
-            className='cursor-pointer rounded-full'
+            className='z-1 cursor-pointer rounded-full'
             style={{ position: 'absolute', top: 10, right: 10, width: 30, height: 30 }}
           />
         ) : null}
       </div>
       <div className='px-4 pb-4 pt-[14px]'>
         {brand ? <div className='mb-0.5 text-[11px] leading-[1.6] text-text-muted'>{brand}</div> : null}
-        <div className='mb-1.5 text-sm font-bold leading-[1.6]'>{name}</div>
+        <Link href='/product' className='mb-1.5 block text-sm font-bold leading-[1.6] hover:text-primary'>
+          {name}
+        </Link>
         {rating ? (
           <div className='mb-2 flex items-center gap-1 text-xs leading-[1.6] text-text-muted'>
             <Icon name='star' className='h-3 w-3 text-accent' />

@@ -1,7 +1,9 @@
+'use client'
+
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 
+import Link from 'next/link'
 import { Footer } from './Footer'
 import { Header } from './Header'
 
@@ -33,7 +35,7 @@ export function AuthPageLayout({
       <main>
         <div className='mx-auto max-w-295 px-6 pb-18 pt-7'>
           <div className='mb-8 text-[13px] text-text-muted'>
-            <Link to='/' className='hover:text-primary'>Home</Link>
+            <Link href='/' className='hover:text-primary'>Home</Link>
             {' / '}
             {breadcrumb}
           </div>

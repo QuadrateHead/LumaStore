@@ -33,11 +33,11 @@
 
 ## Current Phase
 
-- Implementation / mockup-driven page slices
+- Next.js 16 (App Router) Migration Complete; ready for Phase 2 State Management & Backend
 
 ## Current Goal
 
-- Continue implementing the approved storefront and admin flows with mock data and UI-only interactions.
+- Begin Phase 2: Core Data Layer, Zustand Global Stores, and API/MSW integration.
 
 ## Completed
 
@@ -92,6 +92,16 @@
 - Added standalone admin product, order, category, customer, review, coupon, and settings screens using the existing admin design system; added an admin order detail route with local status feedback.
 - Added the `/account/orders` route, password-reset and legal destinations for the sign-in/registration links, and a not-found fallback route.
 - Repaired storefront navigation section links, home product-section “View all” links, and the sale CTA so they navigate to real destinations rather than placeholders.
+- Migrated the entire application from Vite + React Router to the latest Next.js 16 (App Router + Turbopack) and React 19.
+- Replaced Vite dependencies with `next@16.4.2`, `postcss`, and `@tailwindcss/postcss`.
+- Created Next.js configuration files (`next.config.ts`, `postcss.config.mjs`, `tsconfig.json`) and updated `eslint.config.js` to support Next.js App Router.
+- Built the root layout at `/src/app/layout.tsx` with Manrope typography, Tailwind theme variables, and an inline theme initialization script.
+- Replaced the migration's compatibility navigation with native Next.js `Link` and `next/navigation` usage across the storefront and admin route tree; checkout now pushes through the App Router and admin sidebars use real route links.
+- Generated the complete file-based route hierarchy under `/src/app/` for the storefront and admin pages.
+- Verified `npm run lint` and `npx tsc --noEmit` with 0 errors; aligned TypeScript to the Next.js-compatible 5.9 line for production builds.
+- Removed the dashboard hash-navigation dependency and corrected admin product breadcrumbs to point at the routed management page.
+- Resolved SSR/client hydration mismatch in `ThemeToggle` using React 19's `useSyncExternalStore` and `MutationObserver` with a safe server snapshot fallback and `suppressHydrationWarning`.
+- Adjusted `ProductCard` wishlist button stacking context from `z-10` to `z-1` and elevated `Header` sticky z-index to `z-30` so cards scroll cleanly beneath the header.
 
 ## In Progress
 
@@ -120,4 +130,4 @@
 - Admin management screens use static sample data and local UI state only; settings, moderation, coupon, category, and order changes are not persisted.
 - ForgotPasswordPage simulates reset-instruction confirmation and does not send email; LegalPage provides illustrative policy copy for the demo, not legal advice.
 - The HomePage slice was checked against `context/UIHTMLDESIGN/LumaStore-HomePage.html`; the ProductPage route is aligned with `context/UIHTMLDESIGN/LumaStore-ProductPage.html` and adds no commerce behavior beyond the mockup interactions present in the static HTML.
-- The root route uses Vite's configured base path. Future page implementation should continue to derive from the HTML mockups and maintain the approved folder boundaries.
+- The routing architecture uses Next.js App Router under `/src/app/`; route pages and reusable components should use native Next.js navigation primitives directly.

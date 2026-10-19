@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 import { Badge, Button, SectionHeader } from '../elements'
 import { Icon } from '../elements/Icon'
@@ -22,11 +22,11 @@ const bestSellers = [
 ]
 
 const categories = [
-  { name: 'Audio', count: '128 products', to: '/categories/audio' },
-  { name: 'Keyboards', count: '64 products', to: '/categories/keyboards' },
-  { name: 'Smart watches', count: '42 products', to: '/categories/smart-watches' },
-  { name: 'Desk setup', count: '96 products', to: '/categories/desk-setup' },
-  { name: 'Bags', count: '37 products', to: '/categories/bags' },
+  { name: 'Audio', count: '128 products', href: '/categories/audio' },
+  { name: 'Keyboards', count: '64 products', href: '/categories/keyboards' },
+  { name: 'Smart watches', count: '42 products', href: '/categories/smart-watches' },
+  { name: 'Desk setup', count: '96 products', href: '/categories/desk-setup' },
+  { name: 'Bags', count: '37 products', href: '/categories/bags' },
 ]
 
 const benefits = [
@@ -123,7 +123,7 @@ function ProductSection({
       <div className='mx-auto max-w-[1180px] px-6'>
         <SectionHeader
           title={title}
-          action={<Link className='text-sm font-bold' to='/products'>View all</Link>}
+          action={<Link className='text-sm font-bold' href='/products'>View all</Link>}
           className='mb-7'
         />
         <ProductGrid
@@ -151,7 +151,7 @@ export function PromotionSection() {
       <div className='mx-auto max-w-[1180px] px-6'>
         <PromoBanner
           title='Summer desk setup sale — up to 25% off monitors, lamps, and keyboards.'
-          action={<Link to='/products' className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-[9px] bg-accent px-[14px] py-2 text-[13px] font-bold text-on-accent hover:brightness-105'>Shop the sale</Link>}
+          action={<Link href='/products' className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-[9px] bg-accent px-[14px] py-2 text-[13px] font-bold text-on-accent hover:brightness-105'>Shop the sale</Link>}
         />
       </div>
     </section>

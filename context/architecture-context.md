@@ -4,16 +4,16 @@
 
 | Layer | Technology | Role |
 | --- | --- | --- |
-| Framework | React 18 + TypeScript | UI rendering and interaction logic |
-| Build Tool | Vite | Local dev server, bundling, and production builds |
-| Routing | React Router DOM | Client-side navigation across storefront and admin pages |
+| Framework | Next.js 16+ (React 19 + TypeScript) | App Router, Server/Client components, and UI rendering |
+| Build Tool | Next.js (Turbopack) | Local dev server, bundling, and production builds |
+| Routing | Next.js App Router (`src/app`) | File-based routing across storefront and admin pages |
 | State | Zustand | Cart, wishlist, UI state, checkout step tracking |
-| Data Fetching | TanStack Query | Product, category, order, and admin data retrieval |
+| Data Fetching | TanStack Query / Next.js Server Components | Product, category, order, and admin data retrieval |
 | Forms & Validation | React Hook Form + Zod | Checkout, login, register, review, and product forms |
-| Styling | Tailwind CSS | Layout, spacing, components, responsive behavior |
-| Icons | Lucide React | Buttons, status indicators, and utility icons |
-| Data Layer | Mock API / MSW | Initial product, customer, and order data without a live backend |
-| Deployment | Vite static build target | Frontend build for local and hosted environments |
+| Styling | Tailwind CSS (v4) | Layout, spacing, components, responsive behavior |
+| Icons | Lucide React / SVG Icon element | Buttons, status indicators, and utility icons |
+| Data Layer | Mock API / MSW / Server Actions | Initial product, customer, and order data without a live backend |
+| Deployment | Next.js build target (Node / Vercel / standalone) | Full-stack deployment for local and hosted environments |
 
 ## Architectural Goals
 

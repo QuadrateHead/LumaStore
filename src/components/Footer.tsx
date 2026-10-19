@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 import { Button } from '../elements'
 
@@ -6,23 +6,23 @@ const footerLinks = [
   {
     title: 'Shop',
     links: [
-      { label: 'New arrivals', to: '/#new-arrivals' },
-      { label: 'Best sellers', to: '/#best-sellers' },
-      { label: 'Deals', to: '/#deals' },
+      { label: 'New arrivals', href: '/#new-arrivals' },
+      { label: 'Best sellers', href: '/#best-sellers' },
+      { label: 'Deals', href: '/#deals' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'About', to: '/about' },
-      { label: 'Contact', to: '/contact' },
+      { label: 'About', href: '/about' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {
     title: 'Support',
     links: [
-      { label: 'Shipping and returns', to: '/shipping-and-returns' },
-      { label: 'FAQ', to: '/faq' },
+      { label: 'Shipping and returns', href: '/shipping-and-returns' },
+      { label: 'FAQ', href: '/faq' },
     ],
   },
 ]
@@ -64,14 +64,14 @@ export function Footer({
             {footerLinks.map(({ title, links }) => (
               <div key={title}>
                 <h4 className='mb-3 text-[13px] font-bold'>{title}</h4>
-                {links.map(({ label, to }) => (
+                {links.map(({ label, href }) => (
                   <Link
                     aria-current={activeLink === label ? 'page' : undefined}
                     className={[
                       'mb-2 block text-sm text-text-muted hover:text-primary',
                       activeLink === label ? 'text-primary' : '',
                     ].join(' ')}
-                    to={to}
+                    href={href}
                     key={label}
                   >
                     {label}

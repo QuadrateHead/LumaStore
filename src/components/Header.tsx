@@ -1,4 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { Icon } from '../elements/Icon'
 import { ThemeToggle } from './ThemeToggle'
@@ -18,13 +21,13 @@ export function Header({
   searchQuery = '',
   wishlistCount,
 }: HeaderProps) {
-  const navigate = useNavigate()
+  const router = useRouter()
 
   return (
-    <header className='sticky top-0 z-10 border-b border-border bg-bg pt-[env(safe-area-inset-top,0px)]'>
+    <header className='sticky top-0 z-30 border-b border-border bg-bg pt-[env(safe-area-inset-top,0px)]'>
       <div className='mx-auto flex h-[72px] max-w-[1180px] items-center justify-between gap-6 px-6'>
         <Link
-          to='/'
+          href='/'
           aria-label='LumaStore home'
           className='text-xl font-extrabold tracking-[-0.02em] hover:text-primary'
         >
@@ -34,16 +37,16 @@ export function Header({
           className='flex gap-7 text-sm font-medium max-[860px]:hidden'
           aria-label='Main navigation'
         >
-          <Link to='/#new-arrivals' className='hover:text-primary'>New arrivals</Link>
-          <Link to='/#best-sellers' className='hover:text-primary'>Best sellers</Link>
+          <Link href='/#new-arrivals' className='hover:text-primary'>New arrivals</Link>
+          <Link href='/#best-sellers' className='hover:text-primary'>Best sellers</Link>
           <Link
-            to='/#categories'
+            href='/#categories'
             aria-current={activeNav === 'categories' ? 'page' : undefined}
             className={activeNav === 'categories' ? 'text-primary' : 'hover:text-primary'}
           >
             Categories
           </Link>
-          <Link to='/#deals' className='hover:text-primary'>Deals</Link>
+          <Link href='/#deals' className='hover:text-primary'>Deals</Link>
         </nav>
         <div className='flex items-center gap-[14px]'>
           <form
@@ -52,7 +55,7 @@ export function Header({
               event.preventDefault()
               const query = new FormData(event.currentTarget).get('q')
               const trimmedQuery = typeof query === 'string' ? query.trim() : ''
-              navigate(trimmedQuery ? `/search?q=${encodeURIComponent(trimmedQuery)}` : '/search')
+              router.push(trimmedQuery ? `/search?q=${encodeURIComponent(trimmedQuery)}` : '/search')
             }}
             className='flex w-[200px] items-center gap-2 rounded-[var(--radius)] border border-border bg-surface-2 px-3 py-2 max-[860px]:hidden'
           >
@@ -67,7 +70,7 @@ export function Header({
             />
           </form>
           <Link
-            to='/wishlist'
+            href='/wishlist'
             aria-label='Wishlist'
             aria-current={wishlistCount !== undefined ? 'page' : undefined}
             className={[
@@ -87,7 +90,7 @@ export function Header({
             ) : null}
           </Link>
           <Link
-            to='/cart'
+            href='/cart'
             aria-label='Cart'
             className='relative flex h-[38px] w-[38px] items-center justify-center rounded-[var(--radius)] border border-border bg-surface text-text'
           >
@@ -110,7 +113,7 @@ export function Header({
             </div>
           ) : (
             <Link
-              to='/login'
+              href='/login'
               className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-[9px] bg-primary px-[14px] py-2 text-[13px] font-bold leading-[1.6] text-on-primary transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg'
             >
               Sign in

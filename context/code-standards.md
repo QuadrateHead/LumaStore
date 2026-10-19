@@ -59,7 +59,8 @@
 - `/src/lib` — API helpers, validation schemas, constants, and shared utilities.
 - `/src/types` — domain models for product, order, customer, coupon, review, and UI state structures.
 - `/src/hooks` — reusable custom hooks that encapsulate logic such as form handling, local storage access, or query orchestration.
-- `/src/pages` — route-level page containers when needed, typically thin shells that compose components/features together.
+- `/src/app` — Next.js App Router route hierarchy (`layout.tsx`, `page.tsx`, `not-found.tsx`), serving as thin route containers that compose features and components.
+- `/src/views` — route-level page view containers referenced by the Next.js App Router page shells.
 - `/src/assets` — static product imagery, icons, and other non-code assets.
 - `/src/styles` or `/src/index.css` — global styling tokens, resets, and app-wide themes. Do not spread global visual logic across unrelated files.
 

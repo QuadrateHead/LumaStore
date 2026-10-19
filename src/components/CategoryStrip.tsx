@@ -1,15 +1,17 @@
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 export type CategoryStripItem = {
   name: string
   count: string
+  href?: string
   to?: string
 }
 
 export function CategoryStrip({ items }: { items: readonly CategoryStripItem[] }) {
   return (
     <div className='flex overflow-hidden rounded-[var(--radius)] border border-border max-[860px]:flex-wrap'>
-      {items.map(({ name, count, to }, index) => {
+      {items.map(({ name, count, href, to }, index) => {
+        const destination = href ?? to
         const className = [
           'min-w-0 flex-1 border-r border-border p-5 text-left last:border-r-0 hover:text-primary max-[860px]:flex-[1_1_50%] max-[860px]:border-b',
           index % 2 === 0 ? 'bg-surface-2' : 'bg-surface',
@@ -21,8 +23,8 @@ export function CategoryStrip({ items }: { items: readonly CategoryStripItem[] }
           </>
         )
 
-        return to ? (
-          <Link to={to} className={className} key={name}>
+        return destination ? (
+          <Link href={destination} className={className} key={name}>
             {content}
           </Link>
         ) : (
