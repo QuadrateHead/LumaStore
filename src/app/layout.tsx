@@ -3,11 +3,13 @@ import type { ReactNode } from 'react'
 
 import '../styles/tailwind.css'
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 export const metadata: Metadata = {
   title: 'LumaStore — Upgrade your everyday tech',
   description: 'Premium tech and workspace essentials for people who care about the details.',
   icons: {
-    icon: '/favicon.svg',
+    icon: `${basePath}/favicon.svg`,
   },
 }
 
