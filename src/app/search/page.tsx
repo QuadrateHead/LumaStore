@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
@@ -51,6 +51,18 @@ function SearchChip({ query }: { query: string }) {
 }
 
 export default function SearchPage() {
+  return (
+    <Suspense fallback={<SearchLoading />}>
+      <SearchPageWithParams />
+    </Suspense>
+  )
+}
+
+function SearchLoading() {
+  return <div className='min-h-screen' aria-busy='true' aria-label='Loading search results' />
+}
+
+function SearchPageWithParams() {
   const searchParams = useSearchParams()
   const query = (searchParams.get('q') ?? '').trim()
   useEffect(() => {
