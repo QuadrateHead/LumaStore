@@ -41,6 +41,9 @@
 
 ## Completed
 
+- Added GitHub Pages deployment through GitHub Actions: the workflow builds a Next.js static export with the repository base path, uploads the `out/` artifact, and deploys it using the Pages environment; dynamic App Router routes now declare static sample parameters required by static export.
+- Verified the GitHub Pages build mode with `GITHUB_ACTIONS=true` and `/LumaStore` base path: lint and TypeScript pass, and the static export successfully prerenders 40 routes into `out/`.
+
 - Completed a release-readiness audit for the GitHub deployment: confirmed the repository is clean and synchronized with `origin/main`, verified the configured runtime and dependency versions against `package-lock.json`, checked application navigation destinations against the App Router route tree, and confirmed no `.env` files or tracked credential/key files are present. The production build was attempted; lint and TypeScript passed, while Turbopack was blocked by the restricted execution environment's process/port permission.
 - Fixed the `/search` route's production prerender failure by placing its `useSearchParams()` consumer behind a React Suspense boundary; lint, TypeScript, and the Webpack production build now pass for all 32 routes. Turbopack remains environment-blocked by its internal process-port permission, while Webpack provides a successful production-build verification.
 
