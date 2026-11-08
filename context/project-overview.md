@@ -119,12 +119,12 @@ An admin can:
 - Product discovery, filters, and shopping cart flows
 - Authentication and account management UI
 - Admin dashboard layouts and management screens
-- Mocked data and validation patterns before a backend is introduced
+- Express API integration with PostgreSQL persistence, Prisma migrations, and seeded development data
 
 ### Out of Scope
 
 - Real payment processing
-- Live production backend integration during the initial build phase
+- Production payment processing, email delivery, and deployment hardening until separately specified
 - Full marketplace or multi-vendor functionality
 - Real-time inventory synchronization with external systems
 

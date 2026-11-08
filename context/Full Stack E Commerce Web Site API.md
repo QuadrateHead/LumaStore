@@ -2,90 +2,88 @@
 
 ---
 
-## Part 1: Where Does the API Come From?
+## Part 1: Backend Architecture
 
-This is the most important decision. You have **no real backend**, but you need to practice TanStack Query mutations, caching, optimistic updates, etc. Here's the strategy:
-
----
-
-### 🏆 Recommended: Hybrid API Approach
-
-| Data Domain               | API Source                    | Why                                                                                             |
-| ------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------- |
-| **Products, Categories**  | **Real free API** (DummyJSON) | Real images, realistic data, pagination, filtering already works                                |
-| **Cart**                  | **MSW** (Mock Service Worker) | Free APIs have terrible cart support. MSW lets you simulate add/remove/update with full control |
-| **Auth (Login/Signup)**   | **MSW**                       | You control the JWT flow, error states, session logic                                           |
-| **Checkout / Orders**     | **MSW**                       | Simulate payment success/failure, order creation                                                |
-| **Admin (CRUD products)** | **MSW**                       | Full create/update/delete simulation                                                            |
-| **Wishlist / Reviews**    | **MSW**                       | Simulate user-specific data                                                                     |
+LumaStore uses a real local API instead of browser-side request mocking. The backend is a separate Node.js service backed by PostgreSQL and Prisma.
 
 ---
 
-### What is each tool?
+### Stack decisions
 
-#### 1. **DummyJSON** (Real Free API — for Products)
+| Concern | Decision |
+| --- | --- |
+| API runtime | Node.js with Express and TypeScript |
+| Database | PostgreSQL |
+| ORM and migrations | Prisma (`schema.prisma`, generated client, Prisma Migrate) |
+| Authentication | bcrypt password hashing + short-lived JWT access tokens + rotating refresh tokens |
+| API client | TanStack Query calling the Express API over `/api` |
+| Validation | Zod at the request boundary and shared domain schemas where practical |
+| API contract | JSON REST endpoints with a consistent error envelope |
+| Local development | Docker Compose PostgreSQL or a configured local PostgreSQL instance |
+| Product data | PostgreSQL seed data; external product APIs are not runtime dependencies |
 
-- URL: `https://dummyjson.com`
-- No API key needed
-- Endpoints you'll actually use:
+---
+
+The API should be organized by feature rather than as one large router:
 
 ```text
-GET  /products                    → all products (paginated)
-GET  /products?limit=10&skip=20   → pagination
-GET  /products/search?q=phone     → search
-GET  /products/category/smartphones → filter by category
-GET  /products/categories         → list all categories
-GET  /products/1                  → single product
+server/
+  src/
+    app.ts                 # Express app and middleware
+    server.ts              # process startup and graceful shutdown
+    config/env.ts          # validated environment variables
+    db/prisma.ts           # Prisma client lifecycle
+    middleware/            # auth, roles, validation, errors, rate limits
+    modules/               # auth, products, cart, checkout, orders, wishlist, reviews, coupons, admin
+    lib/                   # JWT, password, pagination, logging helpers
+  prisma/
+    schema.prisma
+    seed.ts
 ```
 
-- Returns real product images, prices, ratings, descriptions
-- **Limitation**: You can't actually create/update/delete products on their server. That's why you use MSW for admin.
+The Next.js app remains the frontend and calls the Express service through a configured API base URL. Prisma and database credentials must never be included in the browser bundle.
 
-#### 2. **MSW — Mock Service Worker** (for everything else)
+### Required security and operational decisions
 
-- Runs in the browser, intercepts `fetch`/`axios` calls
-- You write handlers that return fake JSON
-- **Feels exactly like a real backend** to your React app
-- Your TanStack Query code will be **100% production-ready** — when you later connect a real backend, you just change the URL
+- Hash passwords with bcrypt; never store or log plaintext passwords.
+- Keep access tokens short-lived. Store refresh tokens in `HttpOnly`, `Secure`, `SameSite` cookies, persist only a hash or token identifier server-side, rotate them on refresh, and revoke them on logout or suspected reuse.
+- Use HTTPS outside local development. Configure an explicit CORS allowlist, credentials policy, security headers, request-size limits, and rate limits for authentication, password reset, coupon validation, and checkout.
+- If cookie authentication is used, protect state-changing requests with CSRF protection and validate the `Origin` header where appropriate.
+- Authenticate protected routes and enforce roles and resource ownership in the API. Frontend guards are only a UX aid.
+- Validate request bodies, params, query strings, and image URLs. Use parameterized Prisma queries and never interpolate raw SQL from user input.
+- Return generic authentication errors, add progressive delays or lockout for repeated failures, and avoid account enumeration.
+- Add structured request logging with request IDs, redacting authorization headers, cookies, passwords, CVV, and other sensitive data.
+- Use transactions for checkout, stock decrement, order creation, coupon use, and refresh-token rotation. Enforce stock server-side and make order placement idempotent with a client-provided idempotency key.
+- Use Prisma migrations and a deterministic seed script. Define backups, restore testing, and a production migration strategy before deployment.
 
-```text
-// Example: Your app calls POST /api/cart/add
-// MSW intercepts it and returns a fake success response
-// Your React code doesn't know the difference
-```
-
-#### 3. **Why not just use one API for everything?**
-
-| Approach      | Problem                                                                 |
-|---------------|-------------------------------------------------------------------------|
-| Only DummyJSON | Can't simulate cart mutations, auth, checkout. You'd have to fake everything in React state, which defeats the purpose of practicing TanStack Query mutations |
-| Only MSW      | You'd have to manually write 100+ fake products with images. Tedious    |
-| Only JSON Server | Works, but you have to seed the database yourself and manage a local server process |
-| **Hybrid (DummyJSON + MSW)** | ✅ Best of both worlds |
-
----
-
-### Setup Commands
+### Setup commands
 
 ```bash
-npm install msw
-npx msw init public/
+npm install express cors helmet cookie-parser express-rate-limit bcrypt jsonwebtoken zod @prisma/client
+npm install -D prisma tsx @types/express @types/cookie-parser @types/bcrypt @types/jsonwebtoken
+npx prisma init
+npx prisma migrate dev --name init
+npx prisma db seed
 ```
 
-You'll create files like:
+Project scripts should expose `dev`, `build`, `start`, `prisma:generate`, `prisma:migrate`, and `prisma:seed`. Keep secrets in environment variables such as `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CLIENT_ORIGIN`, and token lifetimes; commit only `.env.example`.
 
-```text
-src/mocks/
-  ├── handlers/
-  │   ├── cart.ts
-  │   ├── auth.ts
-  │   ├── checkout.ts
-  │   └── admin.ts
-  ├── data/
-  │   ├── db.ts        ← in-memory "database"
-  │   └── users.ts
-  └── browser.ts
+### API response and error contract
+
+Successful responses should use predictable resource shapes and pagination metadata. Errors should use one envelope:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "The request is invalid.",
+    "fields": { "email": "Enter a valid email address." },
+    "requestId": "req_123"
+  }
+}
 ```
+
+Use `400` for validation, `401` unauthenticated, `403` forbidden, `404` missing resources, `409` conflicts, `422` business-rule failures, and `429` rate limits. Add final Express error middleware and never expose stack traces in production.
 
 ---
 
@@ -117,7 +115,7 @@ src/mocks/
 | Fetching products        | **TanStack Query** | `useQuery({ queryKey: ['products', filters], queryFn: ... })`       |
 | Search debouncing        | **React**          | `useEffect` + `setTimeout` or a custom `useDebounce` hook           |
 | Filter/sort state        | **Zustand**        | Store: `{ category, minPrice, maxPrice, sortBy, searchQuery }`      |
-| URL sync                 | **React Router**   | Sync filters to URL: `/products?category=phones&sort=price_asc`     |
+| URL sync                 | **Next.js App Router** | Sync filters to URL: `/products?category=phones&sort=price_asc` |
 | Form validation (price inputs) | **Zod**     | `z.object({ min: z.number().min(0), max: z.number().min(0) }).refine(d => d.min <= d.max)` |
 | UI Components            | **AI Perfect Pixel** | Convert Figma product card, grid, sidebar to pixel-perfect React   |
 
@@ -152,11 +150,12 @@ const ProductSchema = z.object({
 
 #### API Source
 
-→ **DummyJSON** (real API)
+→ **Express + Prisma**
 
-- `GET https://dummyjson.com/products?limit=12&skip=0`
-- `GET https://dummyjson.com/products/search?q=laptop`
-- `GET https://dummyjson.com/products/category/smartphones`
+- `GET /api/products?limit=12&offset=0`
+- `GET /api/products?search=laptop`
+- `GET /api/products?category=smartphones`
+- `GET /api/products/:slug`
 
 ---
 
@@ -173,7 +172,7 @@ const ProductSchema = z.object({
 | 2.5 | **Remove Item**      | Trash/delete button. Removes item. Shows confirmation or just removes with undo toast |
 | 2.6 | **Cart Summary**     | Subtotal, shipping estimate, discount (if coupon), total. Updates in real-time |
 | 2.7 | **Cart Badge**       | Header cart icon shows item count badge (e.g., "3")                     |
-| 2.8 | **Persist Cart**     | Cart survives page refresh (localStorage)                                |
+| 2.8 | **Persist Cart**     | Authenticated cart survives page refresh through the API; guest cart may use localStorage until sign-in |
 | 2.9 | **Empty Cart State** | Illustration + "Your cart is empty" + "Continue Shopping" button        |
 | 2.10| **Optimistic Updates** | When adding/removing, UI updates immediately before server confirms  |
 
@@ -181,7 +180,7 @@ const ProductSchema = z.object({
 
 | Concern                  | Technology         | How                                                                 |
 |--------------------------|--------------------|----------------------------------------------------------------------|
-| Cart state (items, quantities) | **Zustand** | Primary store. Persisted with `zustand/middleware/persist` to localStorage |
+| Cart state (items, quantities) | **Zustand + TanStack Query** | Zustand handles immediate UI state; the Express API persists authenticated carts |
 | Add/Remove/Update mutations | **TanStack Query** | `useMutation` for each action. `onMutate` for optimistic updates |
 | Cart total calculation   | **Zustand**        | Derived state via `get()` or a selector                              |
 | Toast notifications      | **React**          | Simple toast component or `react-hot-toast`                          |
@@ -192,7 +191,7 @@ const ProductSchema = z.object({
 
 ```typescript
 interface CartItem {
-  productId: number;
+  variantId: string;
   title: string;
   price: number;
   thumbnail: string;
@@ -202,9 +201,9 @@ interface CartItem {
 
 interface CartStore {
   items: CartItem[];
-  addItem: (product: Product) => void;
-  removeItem: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
+  addItem: (item: CartItem) => void;
+  removeItem: (variantId: string) => void;
+  updateQuantity: (variantId: string, quantity: number) => void;
   clearCart: () => void;
   totalItems: () => number;
   totalPrice: () => number;
@@ -215,8 +214,9 @@ interface CartStore {
 
 ```typescript
 const addToCartMutation = useMutation({
-  mutationFn: (product: Product) => api.cart.add(product),
-  onMutate: async (product) => {
+  mutationFn: (item: CartItem) =>
+    api.cart.add({ variantId: item.variantId, quantity: item.quantity }),
+  onMutate: async (item) => {
     // Cancel outgoing refetches
     await queryClient.cancelQueries({ queryKey: ['cart'] });
     // Snapshot previous value
@@ -224,11 +224,11 @@ const addToCartMutation = useMutation({
     // Optimistically update
     queryClient.setQueryData(['cart'], (old: Cart) => ({
       ...old,
-      items: [...old.items, { ...product, quantity: 1 }],
+      items: [...old.items, item],
     }));
     return { previousCart };
   },
-  onError: (_err, _product, context) => {
+  onError: (_err, _item, context) => {
     // Rollback on error
     queryClient.setQueryData(['cart'], context?.previousCart);
   },
@@ -240,36 +240,16 @@ const addToCartMutation = useMutation({
 
 #### API Source
 
-→ **MSW** (mocked)
+→ **Express + Prisma**, authenticated for customer carts
 
-```typescript
-// src/mocks/handlers/cart.ts
-import { http, HttpResponse } from 'msw';
-
-let cart: CartItem[] = [];
-
-export const cartHandlers = [
-  http.get('/api/cart', () => {
-    return HttpResponse.json({ items: cart, total: calculateTotal(cart) });
-  }),
-
-  http.post('/api/cart/add', async ({ request }) => {
-    const body = await request.json();
-    // add logic...
-    return HttpResponse.json({ success: true, cart });
-  }),
-
-  http.delete('/api/cart/:productId', ({ params }) => {
-    // remove logic...
-    return HttpResponse.json({ success: true, cart });
-  }),
-
-  http.patch('/api/cart/:productId', async ({ params, request }) => {
-    // update quantity logic...
-    return HttpResponse.json({ success: true, cart });
-  }),
-];
+```text
+GET    /api/cart
+POST   /api/cart/items              body: { variantId, quantity }
+PATCH  /api/cart/items/:variantId   body: { quantity }
+DELETE /api/cart/items/:variantId
 ```
+
+The service derives prices and totals from current server data, validates stock, and scopes every cart query to the authenticated user. The client may update optimistically, but the server response is authoritative.
 
 ---
 
@@ -334,38 +314,15 @@ const checkoutSchema = z.object({
 
 #### API Source
 
-→ **MSW** (mocked)
+→ **Express + Prisma**
 
-```typescript
-// Checkout handler
-http.post('/api/checkout', async ({ request }) => {
-  const body = await request.json();
-
-  // Simulate payment failure 10% of the time
-  if (Math.random() < 0.1) {
-    return HttpResponse.json(
-      { error: 'Payment declined. Please try another card.' },
-      { status: 402 }
-    );
-  }
-
-  const orderId = `ORD-${Date.now()}`;
-  return HttpResponse.json({
-    success: true,
-    orderId,
-    estimatedDelivery: '2025-02-15',
-  });
-});
-
-// Coupon handler
-http.post('/api/coupon/validate', async ({ request }) => {
-  const { code } = await request.json();
-  if (code === 'SAVE10') {
-    return HttpResponse.json({ valid: true, discount: 10, type: 'percent' });
-  }
-  return HttpResponse.json({ valid: false, error: 'Invalid coupon' }, { status: 400 });
-});
+```text
+POST /api/coupons/validate  body: { code, cartItems }
+POST /api/orders            header: Idempotency-Key: <unique-key>
+GET  /api/orders/:id
 ```
+
+The order endpoint recalculates prices, discounts, shipping, tax, and stock on the server. It creates the order and decrements inventory in one Prisma transaction. Card data must be handled by a payment provider later; the API accepts only a provider token or test payment method, never raw card number, expiry, or CVV.
 
 ---
 
@@ -380,7 +337,7 @@ http.post('/api/coupon/validate', async ({ request }) => {
 | 4.3 | **Form Validation**  | Email format, password min 8 chars, passwords match. Real-time inline errors |
 | 4.4 | **Auth State**       | Track: is user logged in? User profile data (name, email, avatar, role) |
 | 4.5 | **Protected Routes** | Checkout, Admin, Profile pages redirect to login if not authenticated  |
-| 4.6 | **Session Persistence** | Stay logged in after page refresh (localStorage token)              |
+| 4.6 | **Session Persistence** | Stay logged in after page refresh through a rotating HttpOnly refresh cookie |
 | 4.7 | **Logout**           | Clears auth state, redirects to home                                    |
 | 4.8 | **Error States**     | Wrong password → "Invalid credentials". Email exists → "Email already registered" |
 | 4.9 | **Loading States**   | Disable submit button + show spinner during API call                   |
@@ -390,11 +347,11 @@ http.post('/api/coupon/validate', async ({ request }) => {
 
 | Concern                  | Technology                | How                                                                 |
 |--------------------------|---------------------------|----------------------------------------------------------------------|
-| Auth state (user, token, role) | **Zustand** or **Redux Toolkit** | Global auth store                                      |
+| Auth state (user, token, role) | **Zustand** | Global user/session UI state; refresh is handled by the API cookie |
 | Login/Signup mutations   | **TanStack Query**        | `useMutation` for POST /api/auth/login                                |
 | Form validation          | **Zod** + **React Hook Form** | Login and signup schemas                                     |
-| Protected routes         | **React Router**          | Custom `<ProtectedRoute>` wrapper component                          |
-| Token storage            | **Zustand persist**       | Store JWT in localStorage                                             |
+| Protected routes         | **Next.js App Router**    | Server/API authorization plus client navigation guards for UX          |
+| Token storage            | **HttpOnly refresh cookie** | Keep access token in memory where possible; never persist tokens in localStorage |
 | UI                       | **AI Perfect Pixel**      | Login/signup page designs                                             |
 
 #### Zustand Auth Store
@@ -441,31 +398,19 @@ const signupSchema = z.object({
 
 #### API Source
 
-→ **MSW** (mocked)
+→ **Express + Prisma + bcrypt + JWT**
 
-```typescript
-const users = [
-  { id: 1, email: 'user@test.com', password: 'Password1', name: 'John', role: 'user' },
-  { id: 2, email: 'admin@test.com', password: 'Admin123', name: 'Admin', role: 'admin' },
-];
-
-http.post('/api/auth/login', async ({ request }) => {
-  const { email, password } = await request.json();
-  const user = users.find(u => u.email === email && u.password === password);
-
-  if (!user) {
-    return HttpResponse.json(
-      { error: 'Invalid email or password' },
-      { status: 401 }
-    );
-  }
-
-  return HttpResponse.json({
-    user: { id: user.id, name: user.name, email: user.email, role: user.role },
-    token: 'fake-jwt-token-' + Date.now(),
-  });
-});
+```text
+POST /api/auth/register
+POST /api/auth/login       → access token response + HttpOnly refresh cookie
+POST /api/auth/refresh     → rotate refresh token and issue new access token
+POST /api/auth/logout      → revoke refresh token and clear cookie
+GET  /api/auth/me
+POST /api/auth/forgot-password
+POST /api/auth/reset-password
 ```
+
+The server normalizes the email, compares the password with `bcrypt.compare`, signs JWTs with separate secrets and claims (`sub`, `role`, `jti`, `iat`, `exp`), and never returns the password hash. Refresh-token records must be revocable and tied to a user/session/device. Password reset tokens must be single-use, short-lived, hashed at rest, and delivered through an email provider when that feature becomes real.
 
 ---
 
@@ -494,7 +439,7 @@ http.post('/api/auth/login', async ({ request }) => {
 | Product CRUD             | **TanStack Query**        | `useMutation` for create/update/delete                                |
 | Product table state (sort, page, search) | **Zustand** | Table filter state                                      |
 | Form validation (Add/Edit) | **Zod** + **React Hook Form** | Product schema                                           |
-| Complex state (normalized products, orders) | **Redux Toolkit** | `createSlice` + `createEntityAdapter` (good place to practice) |
+| Complex server state (products, orders) | **TanStack Query** | Cache and invalidate server resources; do not duplicate database state in Redux |
 | Confirmation dialogs     | **React**                 | Custom modal component                                                |
 | UI                       | **AI Perfect Pixel**      | Dashboard layout, tables, modals                                      |
 
@@ -515,16 +460,16 @@ const adminProductSchema = z.object({
 
 #### API Source
 
-→ **MSW** (mocked)
+→ **Express + Prisma**, protected by JWT authentication and an admin role middleware
 
-```typescript
-http.post('/api/admin/products', async ({ request }) => {
-  const body = await request.json();
-  const newProduct = { id: Date.now(), ...body };
-  products.push(newProduct); // add to in-memory array
-  return HttpResponse.json(newProduct, { status: 201 });
-});
+```text
+GET    /api/admin/dashboard
+POST   /api/admin/products
+PATCH  /api/admin/products/:id
+DELETE /api/admin/products/:id
+PATCH  /api/admin/orders/:id/status
+GET    /api/admin/customers
+PATCH  /api/admin/reviews/:id/moderation
+```
 
-http.put('/api/admin/products/:id', async ({ params, request }) => {
-  const body = await request.json();
-  // update in-memory array...
+Admin mutations must validate input, record `createdBy`/audit information where relevant, use soft deletion for products referenced by historical orders, and return the updated resource. Destructive actions require confirmation in the UI and authorization in the API.

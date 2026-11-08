@@ -40,13 +40,14 @@
 
 - Use Zustand for cart, wishlist, theme, and shared interaction state.
 - Use TanStack Query for async product, category, order, and dashboard data.
-- Use mock data or MSW at the start of the project instead of introducing a live backend prematurely.
+- Use the Express API with PostgreSQL and Prisma as the source of truth for persisted data. Seed data is acceptable for development, but browser-only mocks must not replace API behavior.
 - Keep product and order shapes consistent across pages to avoid UI drift.
 
 ## API and Persistence
 
-- The current project scope does not require a production API layer. Use mock data or local API simulation until the project explicitly expands.
-- If a real backend is added later, update `project-overview.md`, `architecture-context.md`, and this file before implementing it.
+- The project API layer is Node.js + Express + PostgreSQL + Prisma. Keep database access in the server boundary and expose validated REST endpoints to the Next.js app.
+- Authentication uses bcrypt for password hashes, short-lived JWT access tokens, and rotating HttpOnly refresh-token cookies. Never put JWTs, database URLs, or signing secrets in local storage or client bundles.
+- Use Prisma migrations and deterministic seed data. Use transactions for checkout, inventory, order creation, coupon redemption, and token rotation.
 - For browser-side persistence, prefer simple local storage strategies only for lightweight UI state such as cart or wishlist if needed.
 
 ## File Organization

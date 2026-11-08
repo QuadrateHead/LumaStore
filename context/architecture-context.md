@@ -12,7 +12,8 @@
 | Forms & Validation | React Hook Form + Zod | Checkout, login, register, review, and product forms |
 | Styling | Tailwind CSS (v4) | Layout, spacing, components, responsive behavior |
 | Icons | Lucide React / SVG Icon element | Buttons, status indicators, and utility icons |
-| Data Layer | Mock API / MSW / Server Actions | Initial product, customer, and order data without a live backend |
+| Data Layer | Node.js + Express + PostgreSQL + Prisma | REST API, persistence, migrations, and transactional commerce operations |
+| Authentication | bcrypt + JWT | Password hashing, short-lived access tokens, and rotating refresh-token sessions |
 | Deployment | Next.js build target (Node / Vercel / standalone) | Full-stack deployment for local and hosted environments |
 
 ## Architectural Goals
@@ -21,11 +22,12 @@
 - Keep customer-facing and admin-facing pages modular and easy to navigate.
 - Use Zustand for client-side state that is shared globally across the app.
 - Use TanStack Query for all server-like data access and async flows.
-- Treat the API as a mock or future backend integration, not a hard-coded UI-only implementation.
+- Treat the Express API as the source of truth for persisted product, customer, cart, order, coupon, review, and admin data.
+- Keep database access and secrets inside the backend; the Next.js client communicates through typed REST requests.
 
 ## Invariants
 
-- No real payment gateway or live checkout integration is allowed unless this file and `project-overview.md` are updated to explicitly include it.
+- No real payment gateway or live checkout integration is allowed unless this file and `project-overview.md` are updated to explicitly include it. Checkout must use a provider token or test payment method, never raw card data.
 - Product and order data should be modeled consistently and validated before UI rendering.
 - Storefront pages should remain distinct from admin pages so access control and user roles stay clear.
 - Shopping cart and wishlist state should remain globally accessible and persistent through browser storage if needed.
@@ -121,7 +123,7 @@ Use TanStack Query for:
 ## Invariant Checklist
 
 - Storefront and admin flows remain separate and clearly scoped.
-- No real payment or backend secrets are introduced without explicit specification updates.
+- No real payment secrets are introduced without explicit specification updates; backend secrets belong in environment variables and never in the client bundle.
 - All forms follow Zod validation rules.
 - Product and order data is consistently shaped across list and detail views.
 - UI states are implemented deliberately rather than as afterthoughts.

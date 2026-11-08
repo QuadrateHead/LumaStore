@@ -37,10 +37,16 @@
 
 ## Current Goal
 
-- Begin Phase 2: Core Data Layer, Zustand Global Stores, and API/MSW integration.
+- Finish the Prisma database setup and create/review the initial migration before connecting the schema to Neon.
 
 ## Completed
 
+- Hardened the Prisma data model with variant/product consistency for order items, order idempotency keys, immutable product/variant snapshots, review aggregates, explicit delete behavior, query indexes, deterministic seed data, and Neon pooled/direct connection configuration. Migration SQL and database validation constraints are still pending.
+- Updated the Prisma cart model so each cart item references its selected product variant, deriving the product through the variant instead of storing a duplicate product relation.
+- Kept the API source imports as `.ts` by configuring the server TypeScript project with `allowImportingTsExtensions` and `noEmit`, and isolated `server/` from the frontend root TypeScript project; both server and frontend type checks pass.
+- Resolved the server TypeScript configuration conflict by removing declaration-only/no-emit settings from the runnable API build and using Node ESM-compatible `.js` import specifiers; `server` diagnostics and `npm run build` now pass.
+- Converted the initial Express server entry point to strict TypeScript: fixed ESM import resolution by using emitted `.js` import paths, added a server-specific `tsconfig.json`, added `build`/`start` scripts, and switched development reloads to `tsx watch`; server type-checking now passes without diagnostics.
+- Replaced the planned MSW/DummyJSON data layer with a Node.js + Express + PostgreSQL + Prisma backend blueprint; documented bcrypt/JWT sessions, refresh-token rotation, API contracts, authorization, rate limits, transactions, idempotent checkout, migrations, seeding, logging, and environment-secret requirements.
 - Added GitHub Pages deployment through GitHub Actions: the workflow builds a Next.js static export with the repository base path, uploads the `out/` artifact, and deploys it using the Pages environment; dynamic App Router routes now declare static sample parameters required by static export.
 - Verified the GitHub Pages build mode with `GITHUB_ACTIONS=true` and `/LumaStore` base path: lint and TypeScript pass, and the static export successfully prerenders 40 routes into `out/`.
 - Fixed GitHub Pages console 404s reported from the deployed catalog: all six category slugs used by the storefront are now included in static generation, and the favicon metadata now includes the repository base path so `/LumaStore/favicon.svg` resolves correctly.
@@ -120,7 +126,9 @@
 
 ## Open Questions
 
-- None at this time.
+- Which deployment target and managed PostgreSQL provider should be used for the API?
+- Which payment provider should be integrated later, if any? Until decided, checkout must use a test payment method/provider token and never raw card data.
+- Should the Express API live in a top-level `server/` folder or in a separate repository/package?
 
 ## Notes
 
