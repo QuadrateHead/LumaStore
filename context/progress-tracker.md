@@ -37,11 +37,11 @@
 
 ## Current Goal
 
-- Finish the Prisma database setup and create/review the initial migration before connecting the schema to Neon.
+- Implement API persistence against the migrated Neon schema.
 
 ## Completed
 
-- Hardened the Prisma data model with variant/product consistency for order items, order idempotency keys, immutable product/variant snapshots, review aggregates, explicit delete behavior, query indexes, deterministic seed data, and Neon pooled/direct connection configuration. Migration SQL and database validation constraints are still pending.
+- Hardened the Prisma data model with variant/product consistency for order items, order idempotency keys, product/variant snapshots, review aggregates, explicit delete behavior, query indexes, and Neon pooled/direct connection configuration. Added PostgreSQL validation constraints and deterministic seed data; applied both migrations to Neon and confirmed the database is up to date. The seed script has not been run.
 - Updated the Prisma cart model so each cart item references its selected product variant, deriving the product through the variant instead of storing a duplicate product relation.
 - Kept the API source imports as `.ts` by configuring the server TypeScript project with `allowImportingTsExtensions` and `noEmit`, and isolated `server/` from the frontend root TypeScript project; both server and frontend type checks pass.
 - Resolved the server TypeScript configuration conflict by removing declaration-only/no-emit settings from the runnable API build and using Node ESM-compatible `.js` import specifiers; `server` diagnostics and `npm run build` now pass.
@@ -126,7 +126,7 @@
 
 ## Open Questions
 
-- Which deployment target and managed PostgreSQL provider should be used for the API?
+- Should the development seed catalog be inserted into the current Neon branch?
 - Which payment provider should be integrated later, if any? Until decided, checkout must use a test payment method/provider token and never raw card data.
 - Should the Express API live in a top-level `server/` folder or in a separate repository/package?
 
