@@ -15,6 +15,9 @@ dist-ssr
 .next
 out
 
+# Project context and design references
+context/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
