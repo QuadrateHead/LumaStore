@@ -42,6 +42,8 @@
 ## Completed
 
 - Hardened the Prisma data model with variant/product consistency for order items, order idempotency keys, product/variant snapshots, review aggregates, explicit delete behavior, query indexes, and Neon pooled/direct connection configuration. Added PostgreSQL validation constraints and deterministic seed data; applied both migrations to Neon and confirmed the database is up to date. The seed script has not been run.
+- Imported the DummyJSON product catalog into the Postgres schema via the Prisma seed script, mapping API fields onto the actual DB columns and preserving only valid product data. The migration logs the schema gaps explicitly and leaves user seed import for the next phase.
+- Restricted the seed to LumaStore-relevant tech categories only (for example laptops, smartphones, tablets, mobile accessories, and wearable tech), and cleared prior dummy-seed rows before re-import so non-tech DummyJSON categories are not persisted.
 - Updated the Prisma cart model so each cart item references its selected product variant, deriving the product through the variant instead of storing a duplicate product relation.
 - Kept the API source imports as `.ts` by configuring the server TypeScript project with `allowImportingTsExtensions` and `noEmit`, and isolated `server/` from the frontend root TypeScript project; both server and frontend type checks pass.
 - Resolved the server TypeScript configuration conflict by removing declaration-only/no-emit settings from the runnable API build and using Node ESM-compatible `.js` import specifiers; `server` diagnostics and `npm run build` now pass.
@@ -126,9 +128,9 @@
 
 ## Open Questions
 
-- Should the development seed catalog be inserted into the current Neon branch?
 - Which payment provider should be integrated later, if any? Until decided, checkout must use a test payment method/provider token and never raw card data.
 - Should the Express API live in a top-level `server/` folder or in a separate repository/package?
+- When user-data import is scheduled, should it reuse the existing DummyJSON auth profile schema or a custom LumaStore profile model?
 
 ## Notes
 
