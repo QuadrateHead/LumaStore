@@ -13,11 +13,11 @@ export const prisma = new PrismaClient({
   log: NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
 });
 
-export const connectDB = () => {
-   prisma.$connect();
-   console.log("DB is connected")
+export const connectDB = async (): Promise<void> => {
+  await prisma.$connect();
+  console.log("DB is connected");
 };
-export const disconnectDB = () => {
-   prisma.$disconnect();
-   console.log("DB is disconnected")
+export const disconnectDB = async (): Promise<void> => {
+  await prisma.$disconnect();
+  console.log("DB is disconnected");
 };

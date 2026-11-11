@@ -41,6 +41,9 @@
 
 ## Completed
 
+- Moved product catalog query and API-to-card mapping into the products feature screen; the App Router page now only composes that screen.
+- Connected catalog page navigation to API pagination: page-specific query keys and requests, server-reported product totals/page counts, and dynamically sized pagination controls.
+- Made API startup wait for Prisma database connection and report connection failures without starting the HTTP listener.
 - Linked the HomePage “Shop new arrivals” hero CTA to the products catalog.
 - Anchored product-card Add to cart buttons to a consistent bottom position by making shared cards full-height flex columns with a growing content section.
 - Added a root TanStack Query provider and connected the catalog query to the products API with response validation, product-card mapping, loading/error/empty states, and a configurable API CORS allowlist.

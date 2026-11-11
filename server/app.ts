@@ -31,10 +31,18 @@ app.use('/api/orders/', ordersRouter);
 app.use('/api/coupons/', couponsRouter);
 app.use('/api/admin/', adminRouter);
 
-connectDB();
+async function startServer(): Promise<void> {
+   try {
+      await connectDB();
+      app.listen(PORT, () => {
+         console.log(`LumaStore backend is running on http://localhost:${PORT}`);
+      });
+   } catch (error) {
+      console.error('Failed to connect to the database:', error);
+      process.exit(1);
+   }
+}
 
-app.listen(PORT, () => {
-   console.log(`LumaStore backend is running on http://localhost:${PORT}`);
-});
+void startServer();
 
 export default app;

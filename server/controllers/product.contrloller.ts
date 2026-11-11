@@ -15,13 +15,27 @@ export const getAllProducts = async (
     }
     const { skip, limit } = parsedQuery.data;
 
-    const products = await prisma.product.findMany({
-      where: { isActive: true },
-      orderBy: { createdAt: "desc" },
-      skip,
-      take: limit,
+    const where = { isActive: true };
+    const [products, total] = await Promise.all([
+      prisma.product.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.product.count({ where }),
+    ]);
+
+    res.json({
+      products,
+      pagination: {
+        page: Math.floor(skip / limit) + 1,
+        limit,
+        total,
+        pageCount: Math.ceil(total / limit),
+        hasNextPage: skip + products.length < total,
+      },
     });
-    res.json({ products });
   } catch (error) {
     next(error);
   }
