@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { prisma } from "../lib/db.ts";
 import { productListQuerySchema } from "../schemas/queries.schema.ts";
 
+/** Return the requested page of active products with pagination metadata. */
 export const getAllProducts = async (
   req: Request,
   res: Response,
@@ -19,7 +20,7 @@ export const getAllProducts = async (
     const [products, total] = await Promise.all([
       prisma.product.findMany({
         where,
-        orderBy: { createdAt: "desc" },
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
         skip,
         take: limit,
       }),
@@ -41,6 +42,7 @@ export const getAllProducts = async (
   }
 };
 
+/** Return one active product identified by its unique slug. */
 export const getProduct = async (
   req: Request,
   res: Response,

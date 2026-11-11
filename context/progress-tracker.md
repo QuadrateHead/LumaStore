@@ -41,6 +41,7 @@
 
 ## Completed
 
+- Stabilized product pagination ordering with a unique id tie-breaker, bounded the visible page-button window while retaining previous/next navigation, and added page recovery/clamping for empty or stale results.
 - Moved product catalog query and API-to-card mapping into the products feature screen; the App Router page now only composes that screen.
 - Connected catalog page navigation to API pagination: page-specific query keys and requests, server-reported product totals/page counts, and dynamically sized pagination controls.
 - Made API startup wait for Prisma database connection and report connection failures without starting the HTTP listener.

@@ -50,6 +50,7 @@ const filterOptions = [
   { label: 'Out of stock', key: 'out-of-stock' },
 ]
 
+/** Render the storefront catalog, including product data and pagination states. */
 export function CatalogScreen() {
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [activeColor, setActiveColor] = useState('Black')
@@ -74,6 +75,10 @@ export function CatalogScreen() {
     staleTime: 5 * 60 * 1000,
   })
 
+  if (data && activePage > Math.max(1, data.pagination.pageCount)) {
+    setActivePage(Math.max(1, data.pagination.pageCount))
+  }
+
   const apiProducts = data?.products ?? []
   const products: ProductCardProps[] = apiProducts.map((product) => ({
     name: product.title,
@@ -87,10 +92,12 @@ export function CatalogScreen() {
     document.title = 'All Products — LumaStore'
   }, [])
 
+  /** Update one selected catalog filter. */
   const setFilter = (key: string, checked: boolean) => {
     setSelectedFilters((current) => ({ ...current, [key]: checked }))
   }
 
+  /** Clear all selected filters and price bounds. */
   const clearFilters = () => {
     setSelectedFilters({})
     setPriceRange({ min: '', max: '' })
@@ -235,11 +242,18 @@ export function CatalogScreen() {
                 <ProductGrid products={products} imageHeight={150} />
               )}
 
-              {(data?.pagination.pageCount ?? 0) > 1 ? (
+              {activePage > 1 ? (
+                <div className='mt-5 flex justify-center'>
+                  <Button variant='ghost' size='sm' onClick={() => setActivePage(1)}>
+                    Back to first page
+                  </Button>
+                </div>
+              ) : null}
+              {(data?.pagination.pageCount ?? 0) > 1 || activePage > 1 ? (
                 <Pagination
                   ariaLabel='Catalog pagination'
                   activePage={activePage}
-                  pageCount={data?.pagination.pageCount ?? 1}
+                  pageCount={Math.max(data?.pagination.pageCount ?? 0, activePage, 1)}
                   onPageChange={setActivePage}
                 />
               ) : null}
