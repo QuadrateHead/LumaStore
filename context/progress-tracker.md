@@ -41,9 +41,12 @@
 
 ## Completed
 
+- Linked the HomePage “Shop new arrivals” hero CTA to the products catalog.
+- Anchored product-card Add to cart buttons to a consistent bottom position by making shared cards full-height flex columns with a growing content section.
+- Added a root TanStack Query provider and connected the catalog query to the products API with response validation, product-card mapping, loading/error/empty states, and a configurable API CORS allowlist.
 - Hardened the Prisma data model with variant/product consistency for order items, order idempotency keys, product/variant snapshots, review aggregates, explicit delete behavior, query indexes, and Neon pooled/direct connection configuration. Added PostgreSQL validation constraints and deterministic seed data; applied both migrations to Neon and confirmed the database is up to date. The seed script has not been run.
-- Imported the DummyJSON product catalog into the Postgres schema via the Prisma seed script, mapping API fields onto the actual DB columns and preserving only valid product data. The migration logs the schema gaps explicitly and leaves user seed import for the next phase.
-- Restricted the seed to LumaStore-relevant tech categories only (for example laptops, smartphones, tablets, mobile accessories, and wearable tech), and cleared prior dummy-seed rows before re-import so non-tech DummyJSON categories are not persisted.
+- Implemented and validated the DummyJSON product import in the Prisma seed script, mapping API fields onto the actual DB columns and logging known schema gaps. The seed runs successfully against the configured Postgres database and currently imports only LumaStore-relevant tech categories. User seed import remains for the next phase.
+- Restricted the product seed to LumaStore-relevant tech categories only (for example laptops, smartphones, tablets, mobile accessories, and smart wearable tech), and clears existing dummy-seed rows before import so non-tech DummyJSON categories are not persisted.
 - Updated the Prisma cart model so each cart item references its selected product variant, deriving the product through the variant instead of storing a duplicate product relation.
 - Kept the API source imports as `.ts` by configuring the server TypeScript project with `allowImportingTsExtensions` and `noEmit`, and isolated `server/` from the frontend root TypeScript project; both server and frontend type checks pass.
 - Resolved the server TypeScript configuration conflict by removing declaration-only/no-emit settings from the runnable API build and using Node ESM-compatible `.js` import specifiers; `server` diagnostics and `npm run build` now pass.

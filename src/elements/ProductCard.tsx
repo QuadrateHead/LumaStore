@@ -31,7 +31,7 @@ export function ProductCard({
   imageHeight = 140,
 }: ProductCardProps) {
   return (
-    <article className='overflow-hidden rounded-[var(--radius)] border border-border bg-surface'>
+    <article className='flex h-full flex-col overflow-hidden rounded-[var(--radius)] border border-border bg-surface'>
       <div className='relative' style={{ height: imageHeight }}>
         <Link
           href='/product'
@@ -59,7 +59,7 @@ export function ProductCard({
           />
         ) : null}
       </div>
-      <div className='px-4 pb-4 pt-[14px]'>
+      <div className='flex flex-1 flex-col px-4 pb-4 pt-[14px]'>
         {brand ? <div className='mb-0.5 text-[11px] leading-[1.6] text-text-muted'>{brand}</div> : null}
         <Link href='/product' className='mb-1.5 block text-sm font-bold leading-[1.6] hover:text-primary'>
           {name}
@@ -78,7 +78,7 @@ export function ProductCard({
             </small>
           ) : null}
         </div>
-        <Button size='sm' className='w-full cursor-pointer border-0'>Add to cart</Button>
+        <Button size='sm' className='mt-auto w-full cursor-pointer border-0'>Add to cart</Button>
       </div>
     </article>
   )

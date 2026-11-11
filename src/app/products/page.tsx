@@ -13,30 +13,15 @@ import { ProductFilterBlock } from '@/components/ProductFilterBlock'
 import { ProductFilterSidebar } from '@/components/ProductFilterSidebar'
 import { ProductGrid } from '@/components/ProductGrid'
 import { Button } from '@/elements'
-import type { IconName } from '@/elements'
+import type { ProductCardProps } from '@/elements'
 
-type CatalogProduct = {
-  name: string
-  brand: string
-  price: string
-  originalPrice?: string
-  rating: string
-  badge?: string
-  badgePosition?: 'left' | 'right'
-  imageIcon: IconName
-}
+import { useQuery } from '@tanstack/react-query'
+import { fetchAllProducts } from '@/api/productFetch'
 
-const products: CatalogProduct[] = [
-  { name: 'WH-1000XM5 headphones', brand: 'Sony', price: '$349', originalPrice: '$399', rating: '4.8 (1,204)', badge: '-20%', imageIcon: 'headphones' },
-  { name: 'K2 mechanical keyboard', brand: 'Keychron', price: '$129', rating: '4.7 (398)', imageIcon: 'keyboard' },
-  { name: 'Galaxy Watch 6', brand: 'Samsung', price: '$249', rating: '4.6 (512)', imageIcon: 'watch' },
-  { name: 'MX Master 3S mouse', brand: 'Logitech', price: '$76', originalPrice: '$89', rating: '4.9 (1,204)', badge: '-15%', imageIcon: 'mouse' },
-  { name: '27″ 4K monitor', brand: 'LumaStore', price: '$329', rating: '4.5 (167)', imageIcon: 'monitor' },
-  { name: 'Everyday backpack 20L', brand: 'Anker', price: '$68', rating: '4.7 (289)', imageIcon: 'backpack' },
-  { name: 'PowerCore 20K charger', brand: 'Anker', price: '$39', rating: '4.8 (632)', imageIcon: 'charger' },
-  { name: '4K webcam', brand: 'LumaStore', price: '$69', rating: '4.6 (215)', imageIcon: 'webcam' },
-  { name: 'MagSafe charging stand', brand: 'Apple', price: '$49', rating: '4.4 (94)', badge: 'New', badgePosition: 'right', imageIcon: 'phone' },
-]
+const currencyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+})
 
 const categories = [
   { name: 'Audio', count: '128' },
@@ -71,7 +56,29 @@ export default function CatalogPage() {
     Audio: true,
     'In stock': true,
   })
+
   const [priceRange, setPriceRange] = useState({ min: '', max: '' })
+
+  const {
+    data: apiProducts = [],
+    isPending,
+    isError,
+    error,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: ['products'],
+    queryFn: fetchAllProducts,
+    staleTime: 5 * 60 * 1000,
+  })
+
+  const products: ProductCardProps[] = apiProducts.map((product) => ({
+    name: product.title,
+    brand: product.brand ?? undefined,
+    price: currencyFormatter.format(product.price),
+    rating: `${product.rating.toFixed(1)} (${product.reviewCount.toLocaleString()})`,
+  }))
+
 
   useEffect(() => {
     document.title = 'All Products — LumaStore'
@@ -100,7 +107,13 @@ export default function CatalogPage() {
           <div className='mb-6 flex flex-wrap items-end justify-between gap-4'>
             <div>
               <h1 className='mb-1 text-[28px] font-extrabold tracking-[-0.02em]'>All products</h1>
-              <div className='text-[13px] text-text-muted'>128 products found</div>
+              <div className='text-[13px] text-text-muted'>
+                {isPending
+                  ? 'Loading products...'
+                  : isError
+                    ? 'Products could not be loaded'
+                    : `${products.length} products loaded`}
+              </div>
             </div>
             <Button
               variant='ghost'
@@ -174,7 +187,9 @@ export default function CatalogPage() {
             <div className='min-w-0'>
               <div className='mb-5 flex flex-wrap items-center justify-between gap-3'>
                 <div className='flex items-center gap-2.5'>
-                  <span className='text-[13px] text-text-muted'>Showing 1–9 of 128</span>
+                  <span className='text-[13px] text-text-muted'>
+                    {isPending ? 'Loading products...' : `Showing ${products.length} products`}
+                  </span>
                 </div>
                 <select
                   aria-label='Sort products'
@@ -189,7 +204,31 @@ export default function CatalogPage() {
                 </select>
               </div>
 
-              <ProductGrid products={products} imageHeight={150} />
+              {isPending ? (
+                <p role='status' className='py-8 text-center text-sm text-text-muted'>
+                  Loading products...
+                </p>
+              ) : isError ? (
+                <div role='alert' className='py-8 text-center'>
+                  <p className='mb-3 text-sm text-text-muted'>
+                    {error instanceof Error ? error.message : 'Could not load products.'}
+                  </p>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    disabled={isFetching}
+                    onClick={() => void refetch()}
+                  >
+                    {isFetching ? 'Retrying...' : 'Retry'}
+                  </Button>
+                </div>
+              ) : products.length === 0 ? (
+                <p className='py-8 text-center text-sm text-text-muted'>
+                  No products are available right now.
+                </p>
+              ) : (
+                <ProductGrid products={products} imageHeight={150} />
+              )}
 
               <Pagination
                 ariaLabel='Catalog pagination'

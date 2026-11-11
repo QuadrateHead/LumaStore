@@ -1,5 +1,7 @@
 import express, { urlencoded } from 'express';
-import { PORT } from './config/env.ts';
+import cors from 'cors';
+import { CLIENT_ORIGIN, NODE_ENV, PORT } from './config/env.ts';
+import { connectDB } from './lib/db.ts'
 
 import authRouter from './routes/auth.routes.ts';
 import productsRouter from './routes/products.routes.ts';
@@ -10,6 +12,10 @@ import adminRouter from './routes/admin.routes.ts';
 
 
 const app = express();
+
+app.use(cors({
+   origin: CLIENT_ORIGIN ?? (NODE_ENV === 'production' ? false : 'http://localhost:3000'),
+}));
 
 app.get('/', (req, res) => {
    res.send('Welcome to the Luma Backend');
@@ -24,6 +30,8 @@ app.use('/api/cart/', cartRouter);
 app.use('/api/orders/', ordersRouter);
 app.use('/api/coupons/', couponsRouter);
 app.use('/api/admin/', adminRouter);
+
+connectDB();
 
 app.listen(PORT, () => {
    console.log(`LumaStore backend is running on http://localhost:${PORT}`);
