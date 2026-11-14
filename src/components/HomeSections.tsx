@@ -66,7 +66,12 @@ export function HeroSection() {
             Premium audio, keyboards, and workspace essentials, chosen for people who notice the details.
           </p>
           <div className='mb-[22px] flex flex-wrap gap-3'>
-            <Button className='px-[22px] py-3 text-sm'>Shop new arrivals</Button>
+            <Link
+              href='/products'
+              className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius)] border border-transparent bg-primary px-[22px] py-3 text-sm font-bold leading-[1.6] text-on-primary transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg'
+            >
+              Shop new arrivals
+            </Link>
             <Button variant='ghost'>See today's deals</Button>
           </div>
           <p className='mb-0 text-[13px] text-text-muted'>

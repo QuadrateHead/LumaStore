@@ -23,6 +23,8 @@ export default function HomePage() {
     }
   }, [])
 
+  
+
   return (
     <div className='min-h-screen leading-[1.6]'>
       <Header />

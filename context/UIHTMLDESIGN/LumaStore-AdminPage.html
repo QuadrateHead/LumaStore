@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Admin — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.icon{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9px;font-weight:700;font-size:13px;padding:8px 14px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-danger{background:var(--danger);color:#fff}
+
+.shell{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+.side{background:var(--surface);border-right:1px solid var(--border);padding-top:24px;padding-bottom:24px;padding-left:16px;padding-right:16px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em;padding-left:10px;padding-right:10px;margin-bottom:2px}
+.side small{color:var(--text-muted);font-size:12px;padding-left:10px;margin-bottom:18px}
+.nav-btn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;border:none;background:none;color:var(--text-muted);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-align:left;width:100%}
+.nav-btn:hover{color:var(--text)}
+.nav-btn.active{background:var(--surface-2);color:var(--text)}
+.nav-btn.active .icon{color:var(--primary)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:4px}
+
+.main{min-width:0;padding-top:28px;padding-bottom:64px;padding-left:32px;padding-right:32px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.top h1{font-size:28px;font-weight:800;letter-spacing:-0.02em}
+.top-right{display:flex;align-items:center;gap:12px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);cursor:pointer;color:var(--text)}
+.av{width:34px;height:34px;border-radius:99px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.view{display:none}.view.active{display:block}
+
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.kpi .num{font-size:24px;font-weight:800}
+.kpi .label{font-size:13px;color:var(--text-muted)}
+.kpi.warn .num{color:var(--accent)}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:20px}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.panel-head h2{font-size:16px}
+.cols{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:stretch}
+.seg{display:flex;gap:4px;background:var(--surface-2);border-radius:9px;padding:3px}
+.seg button{border:none;background:none;color:var(--text-muted);font-family:inherit;font-size:12px;font-weight:700;padding:6px 12px;border-radius:7px;cursor:pointer}
+.seg button.active{background:var(--surface);color:var(--text)}
+#chart{width:100%;height:220px}
+#chart text{fill:var(--text-muted);font-size:11px;font-family:inherit}
+#chart .bar{fill:var(--primary)}#chart .bar:last-of-type{fill:var(--accent)}
+#chart line{stroke:var(--border)}
+
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);white-space:nowrap}
+th{font-size:13px;color:var(--text-muted);font-weight:700}
+tr:last-child td{border-bottom:none}
+.pname{display:flex;align-items:center;gap:12px;font-weight:700}
+.thumb{width:36px;height:36px;border-radius:8px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted)}
+.badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;display:inline-block}
+.b-ok{background:rgba(22,163,74,.14);color:var(--success)}
+.b-info{background:rgba(79,70,229,.14);color:var(--primary)}
+.b-warn{background:rgba(245,158,11,.16);color:var(--accent)}
+.b-mute{background:var(--surface-2);color:var(--text-muted)}
+.b-bad{background:rgba(220,38,38,.14);color:var(--danger)}
+.stock-list{display:flex;flex-direction:column;gap:14px;list-style:none;padding:0}
+.stock-list li{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.stock-list span{color:var(--text-muted);font-size:13px}
+
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.field{border:1px solid var(--border);border-radius:9px;padding:9px 12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:13px}
+input.field{flex:1;min-width:200px}
+.row-actions{display:flex;gap:8px}
+.empty{display:none;text-align:center;color:var(--text-muted);font-size:14px;padding-top:36px;padding-bottom:20px}
+.hint{font-size:12px;color:var(--text-muted);margin-top:10px}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:24px;z-index:30}
+.modal.show{display:flex}
+.dialog{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:400px;width:100%}
+.dialog h3{font-size:17px;margin-bottom:8px}
+.dialog p{font-size:14px;color:var(--text-muted);margin-bottom:20px}
+.dialog .row-actions{justify-content:flex-end}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--text);color:var(--bg);font-size:13px;font-weight:700;padding:11px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:40}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:1000px){.cols{grid-template-columns:1fr}}
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;border-right:none;border-bottom:1px solid var(--border);padding-top:14px;padding-bottom:14px}
+  .side small,.side-foot{display:none}
+  .logo{margin-bottom:0;width:100%}
+  .nav-btn{width:auto}
+  .main{padding-left:24px;padding-right:24px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="logo" href="LumaStore___Upgrade_your_everyday_tech__1_.html">LumaStore</a>
+    <small>Admin</small>
+    <button class="nav-btn active" data-view="overview"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Overview</button>
+    <button class="nav-btn" data-view="products"><svg class="icon" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Products</button>
+    <button class="nav-btn" data-view="orders"><svg class="icon" viewBox="0 0 24 24"><path d="M4 20V9a2 2 0 0 1 2-2h1l1-3h8l1 3h1a2 2 0 0 1 2 2v11"/><path d="M4 20h16"/></svg>Orders</button>
+    <div class="side-foot"><a class="nav-btn" href="LumaStore___Upgrade_your_everyday_tech__1_.html"><svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>Back to store</a></div>
+  </aside>
+
+  <main class="main">
+    <div class="top">
+      <h1 id="title">Overview</h1>
+      <div class="top-right">
+        <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+        <div class="av" title="Admin">AD</div>
+      </div>
+    </div>
+
+    <section class="view active" id="overview">
+      <div class="kpis">
+        <div class="kpi"><div class="num">$24,580</div><div class="label">Total revenue</div></div>
+        <div class="kpi"><div class="num">312</div><div class="label">Total orders</div></div>
+        <div class="kpi"><div class="num">1,240</div><div class="label">Customers</div></div>
+        <div class="kpi"><div class="num">1,806</div><div class="label">Products in stock</div></div>
+        <div class="kpi warn"><div class="num" id="kpi-low">3</div><div class="label">Low stock products</div></div>
+        <div class="kpi warn"><div class="num" id="kpi-pending">18</div><div class="label">Pending orders</div></div>
+      </div>
+      <div class="cols">
+          <div class="panel">
+            <div class="panel-head"><h2>Sales</h2>
+              <div class="seg" id="range"><button data-r="today">Today</button><button class="active" data-r="7">7 days</button><button data-r="30">30 days</button><button data-r="year">This year</button></div>
+            </div>
+            <svg id="chart" viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="Sales chart"></svg>
+          </div>
+        <div class="panel"><div class="panel-head"><h2>Low stock</h2></div><ul class="stock-list" id="low"></ul></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>Recent orders</h2><button class="btn btn-ghost" data-go="orders">View all</button></div>
+        <div class="table-wrap"><table id="recent"></table></div>
+      </div>
+    </section>
+
+    <section class="view" id="products">
+      <div class="panel">
+        <div class="filters">
+          <input class="field" id="p-q" placeholder="Search products or SKU" aria-label="Search products">
+          <select class="field" id="p-status" aria-label="Filter by status"><option value="">All statuses</option><option>Published</option><option>Draft</option><option>Out of stock</option><option>Archived</option></select>
+          <a class="btn btn-primary" href="LumaStore-AdminProductFormPage.html">+ Add product</a>
+        </div>
+        <div class="table-wrap"><table id="p-table"></table></div>
+        <div class="empty" id="p-empty">No products match. Clear the search or status filter.</div>
+      </div>
+    </section>
+
+    <section class="view" id="orders">
+      <div class="panel">
+        <div class="filters">
+          <select class="field" id="o-status" aria-label="Filter by status"><option value="">All statuses</option><option>New</option><option>Paid</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select>
+        </div>
+        <div class="table-wrap"><table id="o-table"></table></div>
+        <div class="empty" id="o-empty">No orders with this status.</div>
+        <p class="hint">Rules: an order can't ship before it's paid, can't be delivered before it ships, and cancelled orders are locked.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+  <div class="dialog"><h3 id="m-title">Delete product?</h3><p id="m-text"></p>
+    <div class="row-actions"><button class="btn btn-ghost" id="m-cancel">Cancel</button><button class="btn btn-danger" id="m-ok">Delete</button></div></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const ICO='<svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="1.6"/><path d="M2 16l5-5 4 4 5-6 6 7"/></svg>';
+let products=[
+ {id:1,n:'Sony WH-1000XM5',sku:'AUD-1001',c:'Audio',p:349,s:2,st:'Published'},
+ {id:2,n:'Keychron K2 Keyboard',sku:'KEY-2040',c:'Keyboards',p:129,s:3,st:'Published'},
+ {id:3,n:'Logitech MX Master 3S',sku:'DSK-3012',c:'Desk setup',p:76,s:48,st:'Published'},
+ {id:4,n:'Galaxy Watch 6',sku:'WAT-4007',c:'Smart watches',p:249,s:0,st:'Out of stock'},
+ {id:5,n:'27" 4K Monitor',sku:'DSK-3055',c:'Desk setup',p:329,s:4,st:'Published'},
+ {id:6,n:'Everyday Backpack 20L',sku:'BAG-5003',c:'Bags',p:68,s:61,st:'Draft'},
+ {id:7,n:'PowerCore 20K Charger',sku:'PHN-6021',c:'Phone accessories',p:39,s:120,st:'Published'},
+ {id:8,n:'4K Webcam',sku:'DSK-3078',c:'Desk setup',p:69,s:35,st:'Archived'}
+];
+let orders=[
+ {id:'LUMA-10483',u:'Jordan Casey',d:'Oct 3',t:680.40,pay:'Paid',s:'New'},
+ {id:'LUMA-10482',u:'Jordan Casey',d:'Mar 12',t:342.02,pay:'Paid',s:'Shipped'},
+ {id:'LUMA-10481',u:'Priya M.',d:'Mar 11',t:129,pay:'Pending',s:'New'},
+ {id:'LUMA-10480',u:'Daniel R.',d:'Mar 11',t:76,pay:'Paid',s:'Processing'},
+ {id:'LUMA-10479',u:'Sam O.',d:'Mar 10',t:349,pay:'Paid',s:'Delivered'},
+ {id:'LUMA-10478',u:'Amara K.',d:'Mar 9',t:249,pay:'Refunded',s:'Cancelled'}
+];
+const SALES={today:[['9',120],['12',340],['15',210],['18',480],['21',150]],
+ 7:[['Mon',620],['Tue',840],['Wed',510],['Thu',930],['Fri',1180],['Sat',760],['Sun',690]],
+ 30:[['W1',3900],['W2',4600],['W3',4100],['W4',5200]],
+ year:[['Jan',1800],['Feb',2100],['Mar',2600],['Apr',2300],['May',2900],['Jun',3300],['Jul',3100],['Aug',3500],['Sep',3800],['Oct',1200]]};
+const money=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+const badge=s=>'<span class="badge '+({Published:'b-ok',Draft:'b-mute',Archived:'b-mute','Out of stock':'b-bad',New:'b-warn',Paid:'b-ok',Pending:'b-warn',Refunded:'b-mute',Processing:'b-warn',Shipped:'b-info',Delivered:'b-ok',Cancelled:'b-bad'}[s]||'b-mute')+'">'+s+'</span>';
+let toastT;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200)}
+
+function chart(r){
+  const d=SALES[r],max=Math.max(...d.map(x=>x[1])),w=600/d.length,bw=Math.min(w*.55,48);
+  let h='<line x1="0" x2="600" y1="190" y2="190"/>';
+  d.forEach((x,i)=>{const bh=x[1]/max*160,cx=i*w+w/2;
+    h+='<rect class="bar" rx="4" x="'+(cx-bw/2)+'" y="'+(190-bh)+'" width="'+bw+'" height="'+bh+'"><title>'+x[0]+': '+money(x[1])+'</title></rect><text x="'+cx+'" y="210" text-anchor="middle">'+x[0]+'</text>'});
+  $('chart').innerHTML=h;
+}
+function ordersTable(list,withAction){
+  return '<tr><th>Order</th><th>Customer</th><th>Date</th><th>Payment</th><th>Status</th><th>Total</th>'+(withAction?'<th>Update status</th>':'')+'</tr>'+
+  list.map(o=>'<tr><td><a href="LumaStore-OrderDetailsPage.html?id='+o.id+'" style="font-weight:700;color:var(--primary)">#'+o.id+'</a></td><td>'+o.u+'</td><td>'+o.d+'</td><td>'+badge(o.pay)+'</td><td>'+badge(o.s)+'</td><td style="font-weight:700">'+money(o.t)+'</td>'+
+  (withAction?'<td><select class="field" data-oid="'+o.id+'" '+(o.s==='Cancelled'?'disabled':'')+' aria-label="Update status for '+o.id+'">'+['New','Processing','Shipped','Delivered','Cancelled'].map(s=>'<option'+(s===o.s?' selected':'')+'>'+s+'</option>').join('')+'</select></td>':'')+'</tr>').join('');
+}
+function renderOrders(){
+  const f=$('o-status').value,l=orders.filter(o=>!f||o.s===f);
+  $('o-table').innerHTML=ordersTable(l,true);$('o-table').style.display=l.length?'':'none';$('o-empty').style.display=l.length?'none':'block';
+  $('recent').innerHTML=ordersTable(orders.slice(0,5),false);
+  $('kpi-pending').textContent=orders.filter(o=>o.s==='New'||o.s==='Processing').length+17;
+}
+function renderProducts(){
+  const q=$('p-q').value.trim().toLowerCase(),f=$('p-status').value;
+  const l=products.filter(p=>(!f||p.st===f)&&(!q||(p.n+p.sku).toLowerCase().includes(q)));
+  $('p-table').innerHTML='<tr><th>Product</th><th>SKU</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr>'+
+  l.map(p=>'<tr><td><div class="pname"><span class="thumb">'+ICO+'</span>'+p.n+'</div></td><td>'+p.sku+'</td><td>'+p.c+'</td><td>'+money(p.p)+'</td><td'+(p.s<=5?' style="color:var(--danger);font-weight:700"':'')+'>'+p.s+'</td><td>'+badge(p.st)+'</td><td><div class="row-actions"><button class="btn btn-ghost" data-edit="'+p.id+'">Edit</button><button class="btn btn-ghost" data-del="'+p.id+'">Delete</button></div></td></tr>').join('');
+  $('p-table').style.display=l.length?'':'none';$('p-empty').style.display=l.length?'none':'block';
+  const low=products.filter(p=>p.s>0&&p.s<=5);
+  $('low').innerHTML=low.map(p=>'<li><strong>'+p.n+'</strong><span>'+p.s+' left</span></li>').join('')||'<li><span>All products are well stocked.</span></li>';
+  $('kpi-low').textContent=low.length;
+}
+function show(v){
+  document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===v));
+  document.querySelectorAll('.nav-btn[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  $('title').textContent=v[0].toUpperCase()+v.slice(1);window.scrollTo(0,0);
+}
+document.querySelectorAll('.nav-btn[data-view]').forEach(b=>b.onclick=()=>show(b.dataset.view));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
+$('range').onclick=e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#range button').forEach(x=>x.classList.toggle('active',x===b));chart(b.dataset.r)};
+$('p-q').oninput=$('p-status').onchange=renderProducts;
+$('o-status').onchange=renderOrders;
+
+$('o-table').onchange=e=>{
+  const sel=e.target.closest('select');if(!sel)return;
+  const o=orders.find(x=>x.id===sel.dataset.oid),n=sel.value;
+  if(n==='Shipped'&&o.pay!=='Paid'){toast("Can't ship an unpaid order");sel.value=o.s;return}
+  if(n==='Delivered'&&o.s!=='Shipped'){toast('Mark it shipped before delivered');sel.value=o.s;return}
+  o.s=n;renderOrders();toast('Order '+o.id+' marked '+n);
+};
+let delId=null;
+$('p-table').onclick=e=>{
+  const d=e.target.closest('[data-del]'),ed=e.target.closest('[data-edit]');
+  if(ed){location.href='LumaStore-AdminProductFormPage.html?id='+ed.dataset.edit;return}
+  if(!d)return;
+  const p=products.find(x=>x.id==d.dataset.del);delId=p.id;
+  $('m-text').textContent=p.n+' will be removed from the catalog. This can\'t be undone.';
+  $('modal').classList.add('show');$('m-cancel').focus();
+};
+$('m-cancel').onclick=()=>$('modal').classList.remove('show');
+$('m-ok').onclick=()=>{products=products.filter(p=>p.id!==delId);$('modal').classList.remove('show');renderProducts();toast('Product deleted')};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('modal').classList.remove('show')});
+chart(7);renderOrders();renderProducts();
+{const h=location.hash.slice(1);if(['overview','products','orders'].includes(h))show(h)}
+</script>
+</body>
+</html>

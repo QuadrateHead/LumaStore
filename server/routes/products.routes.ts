@@ -1,13 +1,9 @@
 import { Router } from 'express';
-
+import {getAllProducts, getProduct} from '../controllers/product.contrloller.ts'
 const productsRouter = Router();
 
-productsRouter.get('/', (req,res) => {
-    res.send({title: 'GET all products'});
-});
-productsRouter.get('/:slug', (req,res) => {
-    res.send({title: 'GET product details'});
-});
+productsRouter.get('/', getAllProducts);
+productsRouter.get('/:slug', getProduct);
 
 
 export default productsRouter;

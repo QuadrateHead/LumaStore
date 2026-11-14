@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FAQ — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em;flex-shrink:0}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nav-right::-webkit-scrollbar{display:none}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+/* Side gutter comes from .wrap — this wrapper sets only top/bottom padding */
+.page-wrap{padding-top:28px;padding-bottom:64px}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.breadcrumb a:hover{color:var(--primary)}
+.page-head{max-width:64ch;margin-bottom:40px}
+.page-head h1{font-size:36px;font-weight:800;letter-spacing:-0.02em;line-height:1.15;margin-bottom:12px}
+.page-head p{color:var(--text-muted);font-size:16px}
+
+.faq-layout{display:grid;grid-template-columns:200px 1fr;gap:36px;align-items:start}
+.faq-nav{display:flex;flex-direction:column;gap:2px;position:sticky;top:88px}
+.faq-nav a{padding:9px 12px;border-radius:9px;font-size:14px;font-weight:700;color:var(--text-muted)}
+.faq-nav a:hover{color:var(--text)}
+
+.faq-group{margin-bottom:40px;scroll-margin-top:88px}
+.faq-group h2{font-size:19px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px}
+.faq-group .group-sub{font-size:13px;color:var(--text-muted);margin-bottom:14px}
+
+details{border-bottom:1px solid var(--border);padding:16px 0}
+details:first-of-type{border-top:1px solid var(--border)}
+summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
+summary::-webkit-details-marker{display:none}
+.chev{flex-shrink:0;color:var(--primary);font-size:20px;line-height:1;transition:transform .15s}
+details[open] .chev{transform:rotate(45deg)}
+details p{margin-top:10px;color:var(--text-muted);font-size:14px;max-width:68ch}
+
+.cta{background:var(--primary);color:var(--on-primary);border-radius:20px;padding:40px 44px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:8px}
+.cta h3{font-size:24px;letter-spacing:-0.02em;max-width:30ch}
+.cta .btn{background:var(--accent);color:var(--on-accent)}
+
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.foot-col a:hover,.foot-col a[aria-current]{color:var(--primary)}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:860px){
+  .nav-links,.search{display:none}
+  .page-head h1{font-size:28px}
+  .faq-layout{grid-template-columns:1fr}
+  .faq-nav{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .cta{padding:28px 24px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+    <nav class="nav-links">
+      <a href="LumaStore-CatalogPage.html">New arrivals</a>
+      <a href="LumaStore-CatalogPage.html">Best sellers</a>
+      <a href="LumaStore-CatalogPage.html">Categories</a>
+      <a href="LumaStore-CatalogPage.html">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <label class="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search products">
+      </label>
+      <a class="icon-btn" href="LumaStore-WishlistPage.html" aria-label="Wishlist">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg>
+      </a>
+      <a class="icon-btn" href="LumaStore___Cart_Page.html" aria-label="Cart">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+        <span class="badge">2</span>
+      </a>
+      <a class="btn btn-primary btn-sm" href="LumaStore-LoginPage.html">Sign in</a>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap page-wrap">
+    <div class="breadcrumb"><a href="LumaStore___Upgrade_your_everyday_tech__1_.html">Home</a> / FAQ</div>
+
+    <div class="page-head">
+      <h1>Frequently asked questions</h1>
+      <p>Quick answers about delivery, returns, coupons, and payment. Can't find yours? Contact us and we'll help.</p>
+    </div>
+
+    <div class="faq-layout">
+      <nav class="faq-nav">
+        <a href="#delivery">Delivery</a>
+        <a href="#returns">Returns</a>
+        <a href="#payment">Coupons &amp; payment</a>
+        <a href="#products">Products</a>
+        <a href="#account">Account</a>
+      </nav>
+
+      <div>
+        <section class="faq-group" id="delivery">
+          <h2>Delivery</h2>
+          <p class="group-sub">Shipping times, tracking, and delivery options.</p>
+
+          <details open>
+            <summary>How long does delivery take?<span class="chev">+</span></summary>
+            <p>Standard delivery takes 3–5 business days, express 1–2 business days, and pickup point 2–3 business days. Delivery time starts once your order ships, which is usually within one business day of ordering.</p>
+          </details>
+          <details>
+            <summary>How can I track my order?<span class="chev">+</span></summary>
+            <p>Sign in, open Account, then Order history, and select View details on the order. You'll also get a tracking link by email once the order ships.</p>
+          </details>
+          <details>
+            <summary>Do you ship internationally?<span class="chev">+</span></summary>
+            <p>We currently ship within the countries listed at checkout. If your country isn't listed, contact us and we'll let you know if it can be arranged.</p>
+          </details>
+        </section>
+
+        <section class="faq-group" id="returns">
+          <h2>Returns</h2>
+          <p class="group-sub">Return windows, refunds, and damaged items.</p>
+
+          <details>
+            <summary>Can I return a product?<span class="chev">+</span></summary>
+            <p>Yes. You have 30 days from delivery to return unused items in their original packaging. See the Shipping and returns page for the full steps.</p>
+          </details>
+          <details>
+            <summary>When will I get my refund?<span class="chev">+</span></summary>
+            <p>We refund to your original payment method within 5–7 business days after the returned item reaches our warehouse.</p>
+          </details>
+          <details>
+            <summary>What if my item arrived damaged?<span class="chev">+</span></summary>
+            <p>Email support@lumastore.com within 7 days of delivery with your order number and photos of the item and packaging. We'll send a replacement or a full refund, including shipping.</p>
+          </details>
+        </section>
+
+        <section class="faq-group" id="payment">
+          <h2>Coupons &amp; payment</h2>
+          <p class="group-sub">Discount codes and accepted payment methods.</p>
+
+          <details>
+            <summary>How do coupons work?<span class="chev">+</span></summary>
+            <p>Enter your code in the coupon box on the cart page and select Apply. One coupon can be used per order. Try WELCOME10 for 10% off your first order, or FREESHIP for free shipping.</p>
+          </details>
+          <details>
+            <summary>What payment methods are accepted?<span class="chev">+</span></summary>
+            <p>We accept Visa, Mastercard, and American Express. Payments are encrypted, and we never store your full card number.</p>
+          </details>
+          <details>
+            <summary>Why was my coupon rejected?<span class="chev">+</span></summary>
+            <p>The code may have expired, already been used, or not met the order's minimum amount. Check the terms shown next to the code, or contact us if it still looks wrong.</p>
+          </details>
+        </section>
+
+        <section class="faq-group" id="products">
+          <h2>Products</h2>
+          <p class="group-sub">Warranty, stock, and product details.</p>
+
+          <details>
+            <summary>Do products come with a warranty?<span class="chev">+</span></summary>
+            <p>Most products include a manufacturer warranty of 1–2 years. The exact length is listed under Specifications on each product page.</p>
+          </details>
+          <details>
+            <summary>What if an item is out of stock?<span class="chev">+</span></summary>
+            <p>Add it to your wishlist and select Notify me. We'll email you as soon as it's back in stock.</p>
+          </details>
+        </section>
+
+        <section class="faq-group" id="account">
+          <h2>Account</h2>
+          <p class="group-sub">Signing in, orders, and your profile.</p>
+
+          <details>
+            <summary>Do I need an account to place an order?<span class="chev">+</span></summary>
+            <p>No, you can check out as a guest. Creating an account lets you track orders, save addresses, and build a wishlist.</p>
+          </details>
+          <details>
+            <summary>How do I reset my password?<span class="chev">+</span></summary>
+            <p>Select Forgot password on the sign-in page and enter your email. We'll send a link to set a new password.</p>
+          </details>
+        </section>
+
+        <div class="cta">
+          <h3>Didn't find your answer?</h3>
+          <a class="btn" href="LumaStore-ContactPage.html">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Shop</h4><a href="LumaStore-CatalogPage.html">New arrivals</a><a href="LumaStore-CatalogPage.html">Best sellers</a><a href="LumaStore-CatalogPage.html">Deals</a></div>
+        <div class="foot-col"><h4>Company</h4><a href="LumaStore-AboutPage.html">About</a><a href="LumaStore-ContactPage.html">Contact</a></div>
+        <div class="foot-col"><h4>Support</h4><a href="LumaStore-ShippingReturnsPage.html">Shipping and returns</a><a href="LumaStore-FaqPage.html" aria-current="page">FAQ</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet &amp; Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

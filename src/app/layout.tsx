@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 
+import { Providers } from './providers'
 import '../styles/tailwind.css'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
@@ -38,7 +39,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }

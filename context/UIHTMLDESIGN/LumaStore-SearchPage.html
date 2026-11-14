@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Search — LumaStore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F6;
+  --text:#18181B; --text-muted:#71717A; --border:#E4E4E7;
+  --primary:#4F46E5; --primary-hover:#4338CA; --on-primary:#FFFFFF;
+  --accent:#F59E0B; --on-accent:#78350F;
+  --success:#16A34A; --danger:#DC2626;
+  --radius:12px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+    --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+    --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+    --accent:#FBBF24; --on-accent:#451A03;
+    --success:#22C55E; --danger:#EF4444;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F14; --surface:#1B1B24; --surface-2:#232330;
+  --text:#F4F4F5; --text-muted:#A1A1AA; --border:#2C2C36;
+  --primary:#6366F1; --primary-hover:#818CF8; --on-primary:#0F0F14;
+  --accent:#FBBF24; --on-accent:#451A03;
+  --success:#22C55E; --danger:#EF4444;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,0px) 0 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em;flex-shrink:0}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;width:200px}
+.search input{border:none;background:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:inherit}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--primary);color:var(--on-primary);font-size:10px;font-weight:700;border-radius:99px;width:17px;height:17px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);font-weight:700;font-size:14px;padding:12px 22px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+.theme-toggle{width:38px;height:38px;border-radius:99px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+.breadcrumb{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.breadcrumb a:hover{color:var(--primary)}
+footer{border-top:1px solid var(--border);padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.foot-brand p{color:var(--text-muted);font-size:14px;max-width:34ch;margin-top:10px}
+.foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot-col h4{font-size:13px;margin-bottom:12px}
+.foot-col a{display:block;font-size:14px;color:var(--text-muted);margin-bottom:8px}
+.foot-col a:hover{color:var(--primary)}
+.foot-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media (max-width:860px){.nav-links,.search{display:none}}
+
+/* Side gutter comes from .wrap — this wrapper sets only top/bottom padding */
+.page-wrap{padding-top:28px;padding-bottom:64px}
+.sr-head{margin-bottom:24px}
+.sr-head h1{font-size:28px;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;overflow-wrap:anywhere}
+.pc-count{font-size:13px;color:var(--text-muted)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:99px;padding:6px 14px;font-size:13px;font-weight:700}
+.chip:hover{border-color:var(--primary);color:var(--primary)}
+.shop-layout{display:grid;grid-template-columns:240px 1fr;gap:36px;align-items:start}
+.filters{display:flex;flex-direction:column;gap:22px;position:sticky;top:88px}
+.filter-block{border-bottom:1px solid var(--border);padding-bottom:18px}
+.filter-title{font-weight:700;font-size:13px;margin-bottom:12px}
+.filter-list{display:flex;flex-direction:column;gap:9px}
+.filter-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-muted);cursor:pointer}
+.filter-item input{accent-color:var(--primary);width:15px;height:15px}
+.price-inputs{display:flex;align-items:center;gap:8px}
+.price-inputs input{width:100%;border:1px solid var(--border);border-radius:9px;padding:8px 10px;background:var(--surface);color:var(--text);font-family:inherit;font-size:13px}
+.price-inputs span{color:var(--text-muted);font-size:13px}
+.clear-filters{font-size:13px;font-weight:700;color:var(--primary);cursor:pointer;background:none;border:none;font-family:inherit;padding:0;text-align:left}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.select{border:1px solid var(--border);border-radius:9px;padding:9px 12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:13px}
+.filter-toggle{display:none}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.p-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.p-card .imgph{height:150px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);position:relative}
+.p-card .imgph .icon{width:34px;height:34px}
+.p-card .sale{position:absolute;top:10px;left:10px;background:var(--accent);color:var(--on-accent);font-size:11px;font-weight:700;padding:3px 8px;border-radius:7px}
+.p-card .body{padding:14px 16px 16px}
+.p-card .brand{font-size:11px;color:var(--text-muted);margin-bottom:2px}
+.p-card .name{font-weight:700;font-size:14px;display:block;margin-bottom:6px}
+.p-card .rating{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.p-card .rating svg{width:12px;height:12px;color:var(--accent)}
+.p-card .price{font-size:16px;font-weight:800;margin-bottom:12px}
+.p-card .price small{font-size:12px;color:var(--text-muted);text-decoration:line-through;font-weight:500;margin-left:4px}
+.p-card .btn{width:100%}
+.empty{display:none;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:56px 20px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
+.empty .icon{width:44px;height:44px;color:var(--text-muted)}
+.empty h2{font-size:20px;letter-spacing:-0.02em;overflow-wrap:anywhere}
+.empty p{color:var(--text-muted);font-size:14px}
+.empty .chips{justify-content:center;margin-top:4px}
+@media (max-width:860px){
+  .shop-layout{grid-template-columns:1fr}
+  .filters{position:static;border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:none}
+  .filters.open{display:flex}
+  .filter-toggle{display:inline-flex}
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+    <nav class="nav-links">
+      <a href="LumaStore-CatalogPage.html">New arrivals</a>
+      <a href="LumaStore-CatalogPage.html">Best sellers</a>
+      <a href="LumaStore-CategoryPage.html">Categories</a>
+      <a href="LumaStore-CatalogPage.html">Deals</a>
+    </nav>
+    <div class="nav-right">
+      <form class="search" action="LumaStore-SearchPage.html" method="get" role="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" name="q" id="hdr-q" placeholder="Search products" aria-label="Search products">
+      </form>
+      <a class="icon-btn" href="LumaStore-WishlistPage.html" aria-label="Wishlist"><svg class="icon" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5c-2.3 4.5-9.3 9-9.3 9z"/></svg></a>
+      <a class="icon-btn" href="LumaStore___Cart_Page.html" aria-label="Cart"><svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg><span class="badge">2</span></a>
+      <a class="btn btn-primary btn-sm" href="LumaStore-LoginPage.html">Sign in</a>
+      <button class="theme-toggle" onclick="const r=document.documentElement,c=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',c?'light':'dark');this.textContent=c?'☾':'☀'" aria-label="Toggle theme">☾</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap page-wrap">
+    <div class="breadcrumb"><a href="LumaStore___Upgrade_your_everyday_tech__1_.html">Home</a> / Search</div>
+    <div class="sr-head">
+      <h1 id="sr-title">Search results</h1>
+      <div class="pc-count" id="sr-count" role="status" aria-live="polite"></div>
+      <div class="chips" id="popular"><span class="pc-count" style="align-self:center">Popular:</span>
+        <a class="chip" href="LumaStore-SearchPage.html?q=headphones">headphones</a>
+        <a class="chip" href="LumaStore-SearchPage.html?q=keyboard">keyboard</a>
+        <a class="chip" href="LumaStore-SearchPage.html?q=monitor">monitor</a>
+        <a class="chip" href="LumaStore-SearchPage.html?q=charger">charger</a>
+      </div>
+    </div>
+
+    <div class="shop-layout" id="results-layout">
+      <aside class="filters" id="filters">
+        <div class="filter-block"><div class="filter-title">Price</div>
+          <div class="price-inputs"><input type="number" id="pmin" min="0" placeholder="Min" aria-label="Minimum price"><span>—</span><input type="number" id="pmax" min="0" placeholder="Max" aria-label="Maximum price"></div></div>
+        <div class="filter-block"><div class="filter-title">Brand</div><div class="filter-list" id="brands"></div></div>
+        <div class="filter-block"><div class="filter-title">Rating</div>
+          <div class="filter-list"><label class="filter-item"><input type="checkbox" id="r4"> 4 stars &amp; up</label></div></div>
+        <button class="clear-filters" id="clear">Clear all filters</button>
+      </aside>
+      <div>
+        <div class="toolbar">
+          <button class="btn btn-ghost btn-sm filter-toggle" onclick="document.getElementById('filters').classList.toggle('open')">Filters</button>
+          <select class="select" id="sort" aria-label="Sort products" style="margin-left:auto">
+            <option value="rel">Best match</option><option value="asc">Price: Low to High</option><option value="desc">Price: High to Low</option><option value="rate">Best rated</option>
+          </select>
+        </div>
+        <div class="grid-3" id="grid"></div>
+      </div>
+    </div>
+
+    <div class="empty" id="empty">
+      <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <h2 id="empty-title">No products found</h2>
+      <p>Check the spelling, or try a more general term.</p>
+      <p>Try searching for:</p>
+      <div class="chips">
+        <a class="chip" href="LumaStore-SearchPage.html?q=desk">desk</a>
+        <a class="chip" href="LumaStore-SearchPage.html?q=keyboard">keyboard</a>
+        <a class="chip" href="LumaStore-SearchPage.html?q=headphones">headphones</a>
+      </div>
+      <a class="btn btn-primary btn-sm" href="LumaStore-CatalogPage.html" style="margin-top:8px">Browse all products</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="LumaStore___Upgrade_your_everyday_tech__1_.html" class="logo">LumaStore</a>
+        <p>Premium tech and workspace essentials for people who care about the details.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Shop</h4><a href="LumaStore-CatalogPage.html">New arrivals</a><a href="LumaStore-CatalogPage.html">Best sellers</a><a href="LumaStore-CatalogPage.html">Deals</a></div>
+        <div class="foot-col"><h4>Company</h4><a href="LumaStore-AboutPage.html">About</a><a href="LumaStore-ContactPage.html">Contact</a></div>
+        <div class="foot-col"><h4>Support</h4><a href="LumaStore-ShippingReturnsPage.html">Shipping and returns</a><a href="LumaStore-FaqPage.html">FAQ</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LumaStore. All rights reserved.</span>
+      <span>Midnight Violet &amp; Gold — light / dark</span>
+    </div>
+  </div>
+</footer>
+<script>
+
+const ICON = {
+  hp:'<path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/>',
+  bud:'<circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><path d="M8 9V5M16 9V5"/>',
+  spk:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>',
+  mic:'<rect x="8" y="3" width="8" height="12" rx="4"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+  kb:'<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
+  mouse:'<rect x="6" y="3" width="12" height="18" rx="6"/><path d="M12 3v6"/>',
+  mon:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+  cam:'<rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="12" cy="12" r="3.5"/>',
+  chg:'<rect x="1" y="7" width="13" height="9" rx="1"/><path d="M14 10h4l3 3v3h-7z"/>'
+};
+const P = [
+  {b:'Sony',n:'WH-1000XM5 headphones',p:349,o:399,r:4.8,c:1204,i:'hp',t:'headphones audio wireless noise cancelling'},
+  {b:'Samsung',n:'Galaxy Buds2 Pro',p:149,r:4.5,c:391,i:'bud',t:'earbuds headphones audio wireless'},
+  {b:'Anker',n:'Soundcore Space One',p:89,r:4.4,c:276,i:'hp',t:'headphones audio wireless'},
+  {b:'Anker',n:'Soundcore Motion+ speaker',p:99,r:4.6,c:842,i:'spk',t:'speaker audio bluetooth'},
+  {b:'Sony',n:'SRS-XB100 speaker',p:59,r:4.6,c:718,i:'spk',t:'speaker audio bluetooth'},
+  {b:'Logitech',n:'Yeti USB microphone',p:79,o:99,r:4.7,c:563,i:'mic',t:'microphone audio usb'},
+  {b:'Keychron',n:'K2 mechanical keyboard',p:129,r:4.7,c:398,i:'kb',t:'keyboard wireless desk setup'},
+  {b:'Logitech',n:'MX Master 3S mouse',p:76,o:89,r:4.9,c:1204,i:'mouse',t:'mouse wireless desk setup'},
+  {b:'LumaStore',n:'27″ 4K monitor',p:329,r:4.5,c:167,i:'mon',t:'monitor display desk setup'},
+  {b:'LumaStore',n:'4K webcam',p:69,r:4.6,c:215,i:'cam',t:'webcam camera desk setup'},
+  {b:'Anker',n:'PowerCore 20K charger',p:39,r:4.8,c:632,i:'chg',t:'charger power bank phone accessories'}
+];
+const STAR='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.38L17.8 20 12 16.9 6.2 20l1.3-6.35L3 9.27l6.1-1.01z"/></svg>';
+const $=id=>document.getElementById(id);
+const q=(new URLSearchParams(location.search).get('q')||'').trim();
+$('hdr-q').value=q;
+const words=q.toLowerCase().split(/\s+/).filter(Boolean);
+const matches=P.filter(x=>{const h=(x.b+' '+x.n+' '+x.t).toLowerCase();return words.length&&words.every(w=>h.includes(w));});
+
+$('brands').innerHTML=[...new Set(matches.map(x=>x.b))].sort().map(b=>'<label class="filter-item"><input type="checkbox" value="'+b+'"> '+b+'</label>').join('');
+
+function card(x){
+  const off=x.o?Math.round((1-x.p/x.o)*100):0;
+  return '<div class="p-card"><div class="imgph">'+(off?'<span class="sale">-'+off+'%</span>':'')+'<svg class="icon" viewBox="0 0 24 24">'+ICON[x.i]+'</svg></div><div class="body"><div class="brand">'+x.b+'</div><span class="name">'+x.n+'</span><div class="rating">'+STAR+x.r+' ('+x.c.toLocaleString('en-US')+')</div><div class="price">$'+x.p+(x.o?'<small>$'+x.o+'</small>':'')+'</div><button class="btn btn-primary btn-sm">Add to cart</button></div></div>';
+}
+function render(){
+  const brands=[...document.querySelectorAll('#brands input:checked')].map(i=>i.value);
+  const min=parseFloat($('pmin').value)||0, max=parseFloat($('pmax').value)||Infinity;
+  let list=matches.filter(x=>(!brands.length||brands.includes(x.b))&&x.p>=min&&x.p<=max&&(!$('r4').checked||x.r>=4));
+  const s=$('sort').value;
+  if(s==='asc')list=list.slice().sort((a,b)=>a.p-b.p);
+  if(s==='desc')list=list.slice().sort((a,b)=>b.p-a.p);
+  if(s==='rate')list=list.slice().sort((a,b)=>b.r-a.r);
+  $('grid').innerHTML=list.map(card).join('');
+  $('sr-count').textContent=list.length+(list.length===1?' product found':' products found');
+  if(!matches.length) return;
+  if(!list.length) $('grid').innerHTML='<p class="pc-count" style="grid-column:1/-1">No products match these filters. Clear filters to see all '+matches.length+' results.</p>';
+}
+if(!q){
+  $('sr-title').textContent='Search products';
+  $('sr-count').textContent='Type a product name or brand in the search bar.';
+  $('results-layout').style.display='none';
+} else {
+  $('sr-title').textContent='Search results for \u201C'+q+'\u201D';
+  document.title='Search: '+q+' — LumaStore';
+}
+if(q&&!matches.length){
+  $('results-layout').style.display='none';
+  $('popular').style.display='none';
+  $('sr-count').textContent='0 products found';
+  $('empty').style.display='flex';
+  $('empty-title').textContent='No products found for \u201C'+q+'\u201D.';
+} else if(q){ render(); }
+document.querySelectorAll('#filters input,#sort').forEach(el=>el.addEventListener('input',render));
+$('clear').addEventListener('click',()=>{
+  document.querySelectorAll('#filters input[type=checkbox]').forEach(c=>c.checked=false);
+  $('pmin').value='';$('pmax').value='';$('sort').value='rel';render();
+});
+
+</script>
+</body>
+</html>
